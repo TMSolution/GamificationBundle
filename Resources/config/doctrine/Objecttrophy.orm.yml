@@ -1,6 +1,6 @@
-TMSolution\GamificationBundle\Entity\Usertrophy:
+TMSolution\GamificationBundle\Entity\Objecttrophy:
     type: entity
-    table: usertrophy
+    table: objecttrophy
     indexes:
         fk_usertrophy_trophy1_idx:
             columns:
@@ -24,7 +24,7 @@ TMSolution\GamificationBundle\Entity\Usertrophy:
             comment: ''
     manyToOne:
         objectid:
-            targetEntity: Object
+            targetEntity: Objectinstance
             cascade: {  }
             mappedBy: null
             inversedBy: null

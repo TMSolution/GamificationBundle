@@ -24,7 +24,7 @@ TMSolution\GamificationBundle\Entity\Eventlog:
             comment: ''
     manyToOne:
         objectid:
-            targetEntity: Object
+            targetEntity: Objectinstance
             cascade: {  }
             mappedBy: null
             inversedBy: null

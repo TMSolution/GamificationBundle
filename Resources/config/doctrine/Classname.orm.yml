@@ -1,6 +1,6 @@
-TMSolution\GamificationBundle\Entity\Class:
+TMSolution\GamificationBundle\Entity\Classname:
     type: entity
-    table: class
+    table: classname
     id:
         id:
             type: bigint

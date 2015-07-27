@@ -5,12 +5,12 @@ namespace TMSolution\GamificationBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Eventcounter
+ * Objecttrophy
  *
- * @ORM\Table(name="eventcounter", indexes={@ORM\Index(name="fk_usereventcounter_event1_idx", columns={"eventid"}), @ORM\Index(name="fk_eventcounter_object1_idx", columns={"objectid"})})
+ * @ORM\Table(name="objecttrophy", indexes={@ORM\Index(name="fk_usertrophy_trophy1_idx", columns={"trophyid"}), @ORM\Index(name="fk_usertrophy_object1_idx", columns={"objectid"})})
  * @ORM\Entity
  */
-class Eventcounter
+class Objecttrophy
 {
     /**
      * @var integer
@@ -22,11 +22,11 @@ class Eventcounter
     private $id;
 
     /**
-     * @var float
+     * @var \DateTime
      *
-     * @ORM\Column(name="counter", type="float", precision=10, scale=0, nullable=true)
+     * @ORM\Column(name="date", type="datetime", nullable=true)
      */
-    private $counter;
+    private $date;
 
     /**
      * @var \TMSolution\GamificationBundle\Entity\Objectinstance
@@ -39,14 +39,14 @@ class Eventcounter
     private $objectid;
 
     /**
-     * @var \TMSolution\GamificationBundle\Entity\Event
+     * @var \TMSolution\GamificationBundle\Entity\Trophy
      *
-     * @ORM\ManyToOne(targetEntity="TMSolution\GamificationBundle\Entity\Event")
+     * @ORM\ManyToOne(targetEntity="TMSolution\GamificationBundle\Entity\Trophy")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="eventid", referencedColumnName="id")
+     *   @ORM\JoinColumn(name="trophyid", referencedColumnName="id")
      * })
      */
-    private $eventid;
+    private $trophyid;
 
 
 }
