@@ -1,0 +1,40 @@
+TMSolution\GamificationBundle\Entity\Trophy:
+    type: entity
+    table: trophy
+    indexes:
+        fk_trophy_trophycategory1_idx:
+            columns:
+                - trophycategoryid
+    id:
+        id:
+            type: bigint
+            nullable: false
+            unsigned: false
+            comment: ''
+            id: true
+            generator:
+                strategy: IDENTITY
+    fields:
+        name:
+            type: string
+            nullable: false
+            length: 255
+            fixed: false
+            comment: ''
+        image:
+            type: string
+            nullable: true
+            length: 255
+            fixed: false
+            comment: ''
+    manyToOne:
+        trophycategoryid:
+            targetEntity: Trophycategory
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                trophycategoryid:
+                    referencedColumnName: id
+            orphanRemoval: false
+    lifecycleCallbacks: {  }

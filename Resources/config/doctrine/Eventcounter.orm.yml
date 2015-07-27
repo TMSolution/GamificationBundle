@@ -1,0 +1,46 @@
+TMSolution\GamificationBundle\Entity\Eventcounter:
+    type: entity
+    table: eventcounter
+    indexes:
+        fk_usereventcounter_event1_idx:
+            columns:
+                - eventid
+        fk_eventcounter_object1_idx:
+            columns:
+                - objectid
+    id:
+        id:
+            type: bigint
+            nullable: false
+            unsigned: false
+            comment: ''
+            id: true
+            generator:
+                strategy: IDENTITY
+    fields:
+        counter:
+            type: float
+            nullable: true
+            precision: 10
+            scale: 0
+            comment: ''
+    manyToOne:
+        objectid:
+            targetEntity: Object
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                objectid:
+                    referencedColumnName: id
+            orphanRemoval: false
+        eventid:
+            targetEntity: Event
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                eventid:
+                    referencedColumnName: id
+            orphanRemoval: false
+    lifecycleCallbacks: {  }

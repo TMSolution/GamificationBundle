@@ -5,12 +5,12 @@ namespace TMSolution\GamificationBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * User
+ * Class
  *
- * @ORM\Table(name="user")
+ * @ORM\Table(name="class")
  * @ORM\Entity
  */
-class User
+class Classname
 {
     /**
      * @var integer
@@ -24,7 +24,7 @@ class User
     /**
      * @var string
      *
-     * @ORM\Column(name="name", type="string", length=255, nullable=false)
+     * @ORM\Column(name="name", type="string", length=255, nullable=true)
      */
     private $name;
 

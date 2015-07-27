@@ -1,0 +1,44 @@
+TMSolution\GamificationBundle\Entity\Usertrophy:
+    type: entity
+    table: usertrophy
+    indexes:
+        fk_usertrophy_trophy1_idx:
+            columns:
+                - trophyid
+        fk_usertrophy_object1_idx:
+            columns:
+                - objectid
+    id:
+        id:
+            type: bigint
+            nullable: false
+            unsigned: false
+            comment: ''
+            id: true
+            generator:
+                strategy: IDENTITY
+    fields:
+        date:
+            type: datetime
+            nullable: true
+            comment: ''
+    manyToOne:
+        objectid:
+            targetEntity: Object
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                objectid:
+                    referencedColumnName: id
+            orphanRemoval: false
+        trophyid:
+            targetEntity: Trophy
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                trophyid:
+                    referencedColumnName: id
+            orphanRemoval: false
+    lifecycleCallbacks: {  }
