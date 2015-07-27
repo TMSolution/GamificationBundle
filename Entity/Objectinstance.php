@@ -39,4 +39,60 @@ class Objectinstance
     private $classid;
 
 
+
+    /**
+     * Get id
+     *
+     * @return integer 
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set objectidentity
+     *
+     * @param integer $objectidentity
+     * @return Objectinstance
+     */
+    public function setObjectidentity($objectidentity)
+    {
+        $this->objectidentity = $objectidentity;
+
+        return $this;
+    }
+
+    /**
+     * Get objectidentity
+     *
+     * @return integer 
+     */
+    public function getObjectidentity()
+    {
+        return $this->objectidentity;
+    }
+
+    /**
+     * Set classid
+     *
+     * @param \TMSolution\GamificationBundle\Entity\Classname $classid
+     * @return Objectinstance
+     */
+    public function setClassid(\TMSolution\GamificationBundle\Entity\Classname $classid = null)
+    {
+        $this->classid = $classid;
+
+        return $this;
+    }
+
+    /**
+     * Get classid
+     *
+     * @return \TMSolution\GamificationBundle\Entity\Classname 
+     */
+    public function getClassid()
+    {
+        return $this->classid;
+    }
 }

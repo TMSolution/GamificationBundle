@@ -39,4 +39,60 @@ class Rule
     private $trophyid;
 
 
+
+    /**
+     * Get id
+     *
+     * @return integer 
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set name
+     *
+     * @param string $name
+     * @return Rule
+     */
+    public function setName($name)
+    {
+        $this->name = $name;
+
+        return $this;
+    }
+
+    /**
+     * Get name
+     *
+     * @return string 
+     */
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    /**
+     * Set trophyid
+     *
+     * @param \TMSolution\GamificationBundle\Entity\Trophy $trophyid
+     * @return Rule
+     */
+    public function setTrophyid(\TMSolution\GamificationBundle\Entity\Trophy $trophyid = null)
+    {
+        $this->trophyid = $trophyid;
+
+        return $this;
+    }
+
+    /**
+     * Get trophyid
+     *
+     * @return \TMSolution\GamificationBundle\Entity\Trophy 
+     */
+    public function getTrophyid()
+    {
+        return $this->trophyid;
+    }
 }

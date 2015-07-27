@@ -49,4 +49,83 @@ class Objecttrophy
     private $trophyid;
 
 
+
+    /**
+     * Get id
+     *
+     * @return integer 
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set date
+     *
+     * @param \DateTime $date
+     * @return Objecttrophy
+     */
+    public function setDate($date)
+    {
+        $this->date = $date;
+
+        return $this;
+    }
+
+    /**
+     * Get date
+     *
+     * @return \DateTime 
+     */
+    public function getDate()
+    {
+        return $this->date;
+    }
+
+    /**
+     * Set objectid
+     *
+     * @param \TMSolution\GamificationBundle\Entity\Objectinstance $objectid
+     * @return Objecttrophy
+     */
+    public function setObjectid(\TMSolution\GamificationBundle\Entity\Objectinstance $objectid = null)
+    {
+        $this->objectid = $objectid;
+
+        return $this;
+    }
+
+    /**
+     * Get objectid
+     *
+     * @return \TMSolution\GamificationBundle\Entity\Objectinstance 
+     */
+    public function getObjectid()
+    {
+        return $this->objectid;
+    }
+
+    /**
+     * Set trophyid
+     *
+     * @param \TMSolution\GamificationBundle\Entity\Trophy $trophyid
+     * @return Objecttrophy
+     */
+    public function setTrophyid(\TMSolution\GamificationBundle\Entity\Trophy $trophyid = null)
+    {
+        $this->trophyid = $trophyid;
+
+        return $this;
+    }
+
+    /**
+     * Get trophyid
+     *
+     * @return \TMSolution\GamificationBundle\Entity\Trophy 
+     */
+    public function getTrophyid()
+    {
+        return $this->trophyid;
+    }
 }

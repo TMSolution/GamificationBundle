@@ -49,4 +49,83 @@ class Eventlog
     private $eventid;
 
 
+
+    /**
+     * Get id
+     *
+     * @return integer 
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set date
+     *
+     * @param \DateTime $date
+     * @return Eventlog
+     */
+    public function setDate($date)
+    {
+        $this->date = $date;
+
+        return $this;
+    }
+
+    /**
+     * Get date
+     *
+     * @return \DateTime 
+     */
+    public function getDate()
+    {
+        return $this->date;
+    }
+
+    /**
+     * Set objectid
+     *
+     * @param \TMSolution\GamificationBundle\Entity\Objectinstance $objectid
+     * @return Eventlog
+     */
+    public function setObjectid(\TMSolution\GamificationBundle\Entity\Objectinstance $objectid = null)
+    {
+        $this->objectid = $objectid;
+
+        return $this;
+    }
+
+    /**
+     * Get objectid
+     *
+     * @return \TMSolution\GamificationBundle\Entity\Objectinstance 
+     */
+    public function getObjectid()
+    {
+        return $this->objectid;
+    }
+
+    /**
+     * Set eventid
+     *
+     * @param \TMSolution\GamificationBundle\Entity\Event $eventid
+     * @return Eventlog
+     */
+    public function setEventid(\TMSolution\GamificationBundle\Entity\Event $eventid = null)
+    {
+        $this->eventid = $eventid;
+
+        return $this;
+    }
+
+    /**
+     * Get eventid
+     *
+     * @return \TMSolution\GamificationBundle\Entity\Event 
+     */
+    public function getEventid()
+    {
+        return $this->eventid;
+    }
 }
