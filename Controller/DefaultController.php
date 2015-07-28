@@ -2,12 +2,23 @@
 
 namespace TMSolution\GamificationBundle\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Core\BaseBundle\Controller\DefaultController as BaseController;
+//use TMSolution\BaseBundle\Model\Model;
+use Core\BaseBundle\Model\Model;
 
-class DefaultController extends Controller
+
+class DefaultController extends BaseController
 {
-    public function indexAction($name)
+    public function checkAction($objectIdentity, $classId)
     {
-        return $this->render('TMSolutionGamificationBundle:Default:index.html.twig', array('name' => $name));
+        $model = $this->getModel('TMSolution\GamificationBundle\Entity\Objectinstance');
+      
+        $model->getInstance($objectIdentity, $classId);
+        
     }
 }
+
+
+//dwie metody, check i create w modelu
+//check - musi sprawdzac czy obiekt istnieje w objectinstance, zwrotka true false jesli istnieje
+//create - wykorzystuje check do sprawdzenia czy klasa istnieje, jak nie istnieje to eby wytwarzala obiekt nowy
