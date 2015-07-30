@@ -1,4 +1,0 @@
-services:
-    gamification.events:
-        class: TMSolution\GamificationBundle\Service\EventService
-        arguments: [@service_container]

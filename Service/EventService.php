@@ -70,6 +70,7 @@ class EventService {
 
     public function checkRule() {
 
+        return true;
 //sprawdzic regule - jest w encji
     }
 
