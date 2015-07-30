@@ -19,31 +19,31 @@ class Trophy
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
-    private $id;
+    protected $id;
 
     /**
      * @var string
      *
      * @ORM\Column(name="name", type="string", length=255, nullable=false)
      */
-    private $name;
+    protected $name;
 
     /**
      * @var string
      *
      * @ORM\Column(name="image", type="string", length=255, nullable=true)
      */
-    private $image;
+    protected $image;
 
     /**
      * @var \TMSolution\GamificationBundle\Entity\Trophycategory
      *
-     * @ORM\ManyToOne(targetEntity="TMSolution\GamificationBundle\Entity\Trophycategory")
+     * @ORM\ManyToOne(targetEntity="TMSolution\GamificationBundle\Entity\Trophycategory", cascade={"persist"})
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="trophycategoryid", referencedColumnName="id")
      * })
      */
-    private $trophycategoryid;
+    protected $trophycategoryid;
 
 
 

@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Eventcounter
  *
- * @ORM\Table(name="eventcounter", indexes={@ORM\Index(name="fk_usereventcounter_event1_idx", columns={"eventid"}), @ORM\Index(name="fk_eventcounter_object1_idx", columns={"objectid"})})
+ * @ORM\Table(name="eventcounter", indexes={@ORM\Index(name="fk_usereventcounter_event1_idx", columns={"eventid"}), @ORM\Index(name="fk_eventcounter_object1_idx", columns={"objectinstanceid"})})
  * @ORM\Entity
  */
 class Eventcounter
@@ -19,24 +19,24 @@ class Eventcounter
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
-    private $id;
+    protected $id;
 
     /**
      * @var float
      *
      * @ORM\Column(name="counter", type="float", precision=10, scale=0, nullable=true)
      */
-    private $counter;
+    protected $counter;
 
-    /**
+   /**
      * @var \TMSolution\GamificationBundle\Entity\Objectinstance
      *
      * @ORM\ManyToOne(targetEntity="TMSolution\GamificationBundle\Entity\Objectinstance")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="objectid", referencedColumnName="id")
+     *   @ORM\JoinColumn(name="objectinstanceid", referencedColumnName="id")
      * })
      */
-    private $objectid;
+    protected $objectInstanceId;
 
     /**
      * @var \TMSolution\GamificationBundle\Entity\Event
@@ -46,7 +46,7 @@ class Eventcounter
      *   @ORM\JoinColumn(name="eventid", referencedColumnName="id")
      * })
      */
-    private $eventid;
+    protected $eventid;
 
 
 
@@ -84,26 +84,26 @@ class Eventcounter
     }
 
     /**
-     * Set objectid
+     * Set objectinstanceid
      *
-     * @param \TMSolution\GamificationBundle\Entity\Objectinstance $objectid
+     * @param \TMSolution\GamificationBundle\Entity\Objectinstance $objectinstanceid
      * @return Eventcounter
      */
-    public function setObjectid(\TMSolution\GamificationBundle\Entity\Objectinstance $objectid = null)
+    public function setObjectInstanceId(\TMSolution\GamificationBundle\Entity\Objectinstance $objectinstanceid = null)
     {
-        $this->objectid = $objectid;
+        $this->objectInstanceId = $objectinstanceid;
 
         return $this;
     }
 
     /**
-     * Get objectid
+     * Get objectinstanceid
      *
      * @return \TMSolution\GamificationBundle\Entity\Objectinstance 
      */
-    public function getObjectid()
+    public function getObjectInstanceId()
     {
-        return $this->objectid;
+        return $this->objectInstanceId;
     }
 
     /**

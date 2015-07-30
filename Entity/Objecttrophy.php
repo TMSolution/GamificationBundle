@@ -19,14 +19,14 @@ class Objecttrophy
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
-    private $id;
+    protected $id;
 
     /**
      * @var \DateTime
      *
      * @ORM\Column(name="date", type="datetime", nullable=true)
      */
-    private $date;
+    protected $date;
 
     /**
      * @var \TMSolution\GamificationBundle\Entity\Objectinstance
@@ -36,7 +36,7 @@ class Objecttrophy
      *   @ORM\JoinColumn(name="objectid", referencedColumnName="id")
      * })
      */
-    private $objectid;
+    protected $objectid;
 
     /**
      * @var \TMSolution\GamificationBundle\Entity\Trophy
@@ -46,7 +46,7 @@ class Objecttrophy
      *   @ORM\JoinColumn(name="trophyid", referencedColumnName="id")
      * })
      */
-    private $trophyid;
+    protected $trophyid;
 
 
 

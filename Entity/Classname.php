@@ -19,14 +19,14 @@ class Classname
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
-    private $id;
+    protected $id;
 
     /**
      * @var string
      *
      * @ORM\Column(name="name", type="string", length=255, nullable=true)
      */
-    private $name;
+    protected $name;
 
 
 
@@ -40,6 +40,19 @@ class Classname
         return $this->id;
     }
 
+     /**
+     * Set id
+     *
+     * @param integer $id
+     * @return Classname
+     */
+    public function setId($id)
+    {
+        $this->id = $id;
+
+        return $this;
+    }
+    
     /**
      * Set name
      *

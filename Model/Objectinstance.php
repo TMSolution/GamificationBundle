@@ -18,9 +18,11 @@ use TMSolution\GamificationBundle\Entity\Objectinstance as EntityObjectInstance;
 
 class Objectinstance extends \Core\BaseBundle\Model\Model {
 
+    
+    
+    // check if the instance exists
     public function checkInstance($objectIdentity, $classId) {
 
-        //return $this->getRepository(['objectidentity'=>$objectidentity,'name' => $name])->findOneBy() != null;
 
         try {
             return $this->findOneBy(['objectidentity' => $objectIdentity, 'classid' => $classId]);
@@ -29,6 +31,7 @@ class Objectinstance extends \Core\BaseBundle\Model\Model {
         }
     }
 
+    // get the instance
     public function getInstance($objectIdentity, $classId) {
         $objectInstance = $this->checkInstance($objectIdentity, $classId);
         if (!$objectInstance) {
@@ -38,6 +41,8 @@ class Objectinstance extends \Core\BaseBundle\Model\Model {
         return $objectInstance;
     }
 
+    
+    //create new instance object if it doesn't exist
     public function createInstance($objectIdentity, $classId) {
         //wytworzenie encji TMSolution\GamificationBundle\Model
         $classNameModel = $this->container->get('model_factory')->getModel('TMSolution\GamificationBundle\Entity\Classname');

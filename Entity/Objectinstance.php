@@ -19,14 +19,14 @@ class Objectinstance
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
-    private $id;
+    protected $id;
 
     /**
      * @var integer
      *
      * @ORM\Column(name="objectidentity", type="bigint", nullable=true)
      */
-    private $objectidentity;
+    protected $objectidentity;
 
     /**
      * @var \TMSolution\GamificationBundle\Entity\Classname
@@ -36,7 +36,7 @@ class Objectinstance
      *   @ORM\JoinColumn(name="classid", referencedColumnName="id")
      * })
      */
-    private $classid;
+    protected $classid;
 
 
 

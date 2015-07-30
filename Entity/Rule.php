@@ -19,14 +19,14 @@ class Rule
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
-    private $id;
+    protected $id;
 
     /**
      * @var string
      *
      * @ORM\Column(name="name", type="string", length=255, nullable=true)
      */
-    private $name;
+    protected $name;
 
     /**
      * @var \TMSolution\GamificationBundle\Entity\Trophy
@@ -36,7 +36,7 @@ class Rule
      *   @ORM\JoinColumn(name="trophyid", referencedColumnName="id")
      * })
      */
-    private $trophyid;
+    protected $trophyid;
 
 
 

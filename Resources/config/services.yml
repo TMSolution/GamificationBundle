@@ -1,4 +1,4 @@
 services:
-#    tm_solution_gamification.example:
-#        class: TMSolution\GamificationBundle\Example
-#        arguments: [@service_id, "plain_value", %parameter%]
+    gamification.events:
+        class: TMSolution\GamificationBundle\Service\EventService
+        arguments: [@service_container]
