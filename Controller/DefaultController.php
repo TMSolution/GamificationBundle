@@ -6,6 +6,11 @@ use Core\BaseBundle\Controller\DefaultController as BaseController;
 use Core\BaseBundle\Model\Model;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Config\Definition\Exception\Exception;
+use Hoa\Ruler\Ruler;
+use Hoa\Ruler\Context;
+use TMSolution\GamificationBundle\Entity\Objecttrophy;
+
 
 class DefaultController extends BaseController {
 
@@ -27,15 +32,61 @@ class DefaultController extends BaseController {
     }
 
     public function addTrophyAction($objectInstanceId, $trophyId) {
+//  do testu listenerexception
+//       try{
+//           throw new Exception();
+//       } catch (Exception $ex) {
+//           throw $ex;
+//       }
 
         $objectInstanceModel = $this->getModel('TMSolution\GamificationBundle\Entity\Objectinstance');
-        $objectInstance = $objectInstanceModel->findOneBy(['objectidentity'=>$objectInstanceId]);
+        $objectInstance = $objectInstanceModel->findOneBy(['objectidentity' => $objectInstanceId]);
         $trophyInstanceModel = $this->getModel('TMSolution\GamificationBundle\Entity\Trophy');
-        $trophy = $trophyInstanceModel->findOneBy(['id'=>$trophyId]);
+        $trophy = $trophyInstanceModel->findOneBy(['id' => $trophyId]);
         $eventService = $this->get('gamification.events');
         $result = $eventService->addObjectTrophy($objectInstance, $trophy);
         //dump($result);exit();
+
+
         return new \Symfony\Component\HttpFoundation\Response("dodano nagrode");
+    }
+
+    public function checkRuleAction($objectId) {
+        $objectTrophyModel = $this->getModel('TMSolution\GamificationBundle\Entity\Objecttrophy');
+        $array = ['objectid' => $objectId];
+        $objectTrophyInstance = $objectTrophyModel->findBy($array);
+        $count = count($objectTrophyInstance);
+        //dump($count);exit;
+
+        $ruleModel = $this->getModel('TMSolution\GamificationBundle\Entity\Rule');
+        $ruleRecord = $ruleModel->findBy(['id' => 1]);
+        $rule = $ruleRecord[0]->getName();
+
+        $ruler = new Ruler();
+        $context = new Context();
+        $context['points'] = $count;
+
+        $result = $ruler->assert($rule, $context);
+
+        if ($result) {
+            $objectInstanceModel = $this->getModel('TMSolution\GamificationBundle\Entity\Objectinstance');
+            $objectInstanceArray = $objectInstanceModel->findBy(['id'=>$objectId]);
+            $objectInstance = $objectInstanceArray[0];
+            //dump($objectInstance);exit;
+            
+            $newObjectTrophy = new Objecttrophy();
+            $newObjectTrophy->setDate(new \DateTime('NOW'));
+            $newObjectTrophy->setObjectid($objectInstance);
+
+            $trophyModel = $this->getModel('TMSolution\GamificationBundle\Entity\Trophy');
+            $trophyArray = $trophyModel->findBy(['id' => 2]);
+            $trophy = $trophyArray[0];
+            $newObjectTrophy->setTrophyid($trophy);
+            
+            $objectTrophyModel->create($newObjectTrophy, true);
+            
+            return new Response("operation complete");
+        }
     }
 
 }
