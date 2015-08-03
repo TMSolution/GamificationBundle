@@ -17,3 +17,7 @@ tm_solution_gamification_addTrophy1:
 tm_solution_gamification_checkRule:
     path:     /gamification/checkRule/{objectId}
     defaults: { _controller: TMSolutionGamificationBundle:Default:checkRule }
+
+tm_solution_gamification_checkobject:
+    path:     /gamification/checkObject/{id}
+    defaults: { _controller: TMSolutionGamificationBundle:API:checkobject }

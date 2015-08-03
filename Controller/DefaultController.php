@@ -51,6 +51,8 @@ class DefaultController extends BaseController {
         return new \Symfony\Component\HttpFoundation\Response("dodano nagrode");
     }
 
+    //@ToDo: do przeanalizowania i napisania
+    //
     public function checkRuleAction($objectId) {
         $objectTrophyModel = $this->getModel('TMSolution\GamificationBundle\Entity\Objecttrophy');
         $array = ['objectid' => $objectId];

@@ -25,7 +25,7 @@ class GamificationResponseListener {
         
         $response = $event->getResponse();
         $answer = new Response();
-        $answer->setContent('My response says: ' . $response->getContent());
+        $answer->setContent($response->getContent());
         $event->setResponse($answer);
     }
 

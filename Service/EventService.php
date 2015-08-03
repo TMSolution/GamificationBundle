@@ -108,7 +108,7 @@ class EventService {
      * The result is an array, which is the result obtained from the database.
      * 
      * @param object $objectInstance
-     * @param object $trop$trophyCategory
+     * @param object $troptrophyCategory
      * @return array $result
      */
     public function getObjectTrophies($objectInstance, $trophyCategory = null) {
