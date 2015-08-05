@@ -2,12 +2,11 @@
 
 namespace TMSolution\GamificationBundle\Controller;
 
-use Core\BaseBundle\Controller\DefaultController as BaseController;
-use Symfony\Component\HttpFoundation\JsonResponse;
 use BeSimple\SoapBundle\ServiceDefinition\Annotation as Soap;
-use Core\SecurityBundle\Annotations\Permissions;
-use Symfony\Component\Security\Acl\Permission\MaskBuilder;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\DependencyInjection\ContainerAware;
 use TMSolution\GamificationBundle\Service\EventService;
+use Core\BaseBundle\Controller\DefaultController as BaseController;
 
 class APIController extends BaseController {
 
@@ -15,40 +14,45 @@ class APIController extends BaseController {
      * @Soap\Method("test")
      * @Soap\Param("paramId", phpType = "int")
      * @Soap\Result(phpType = "string")
-     * @Permissions(rights={MaskBuilder::MASK_MASTER})
      */
     public function testAction($paramId) {
 
-        return "test";
+        return "dfdfd";
     }
 
-    //method for checking who is who
-    public function checkobjectAction($id) {
+    /**
+     * @Soap\Method("hello")
+     * @Soap\Param("paramId", phpType = "int")
+     * @Soap\Result(phpType = "string")
+     */
+    public function helloAction($paramId) {
 
-        $objectloginModel = $this->getModel('TMSolution\GamificationBundle\Entity\Objecttrophy');
-        $result = $objectloginModel->findBy(['id' => $id]);
-        $objectInstance = $result[0]->getObjectid()->getId();
+        return "dupa i cycki";
+    }
+
+    //get object trophies
+
+    /**
+     * A SOAP method that returns an array of objects, type Objecttrophy, that - 
+     * if exist - represent the user's collected trophies. Otherwise, the null
+     *  is returned.
+     * 
+     * @Soap\Method("checkObjectTrophy")
+     * @Soap\Param("objectTypeId", phpType = "int")
+     * @Soap\Param("objectIdentity", phpType = "int")
+     * @Soap\Result(phpType= "array")
+     * 
+     */
+    public function checkObjectTrophyAction($objectTypeId, $objectIdentity) {
+
+        $objectInstanceModel = $this->getModel('TMSolution\GamificationBundle\Entity\Objectinstance');
+        $objectInstance = $objectInstanceModel->getInstance($objectIdentity, $objectTypeId);
         $eventService = $this->get('gamification.events');
-        $res = $eventService->getObjectTrophies($objectInstance);
-        dump($res);
-        exit;
-        return $res;
-    }
 
-    //the same like getobjectTrophies
-    //argument: objectIdentity
-    public function infowsdlAction($objectIdentity) {
+        $result = $eventService->getObjectTrophies($objectInstance);
+        dump($result);exit;
 
-        //jakis staly parametr
-        $trophyCategory = 1;
-
-        $objectTrophyModel = $this->container->get('model_factory')
-                ->getModel('TMSolution\GamificationBundle\Entity\Objecttrophy');
-        if ($trophyCategory != null) {
-            $result = $objectTrophyModel->findBy(['objectid' => $objectIdentity, 'trophyid' => $trophyCategory]);
-        }
-
-        return $result;
+        return new Response($result);
     }
 
 }

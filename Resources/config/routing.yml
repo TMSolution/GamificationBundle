@@ -21,3 +21,11 @@ tm_solution_gamification_checkRule:
 tm_solution_gamification_checkobject:
     path:     /gamification/checkObject/{id}
     defaults: { _controller: TMSolutionGamificationBundle:API:checkobject }
+    
+tm_solution_gamification_testsoap:
+    path:     /soaptest
+    defaults: { _controller: TMSolutionGamificationBundle:Default:testSoap }
+    
+tm_solution_gamification_soap_checkObjectTrophy:
+    path:     /gamification/soapcheckobjecttrophy/{objectTypeId}/{objectIdentity}
+    defaults: { _controller: TMSolutionGamificationBundle:API:checkObjectTrophy }    

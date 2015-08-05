@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Rule
  *
- * @ORM\Table(name="rule", indexes={@ORM\Index(name="fk_rule_trophy1_idx", columns={"trophyid"})})
+ * @ORM\Table(name="rule")
  * @ORM\Entity
  */
 class Rule

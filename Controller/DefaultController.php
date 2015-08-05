@@ -10,9 +10,9 @@ use Symfony\Component\Config\Definition\Exception\Exception;
 use Hoa\Ruler\Ruler;
 use Hoa\Ruler\Context;
 use TMSolution\GamificationBundle\Entity\Objecttrophy;
+use TMSolution\GamificationBundle\Service\EventService;
 
-
-class DefaultController extends BaseController {
+class DefaultController extends /*\Symfony\Component\DependencyInjection\ContainerAware*/BaseController {
 
     public function checkAction($objectIdentity, $classId) {
         $eventService = $this->get('gamification.events');
@@ -26,9 +26,13 @@ class DefaultController extends BaseController {
     }
 
     public function checkTrophyAction($objectInstance, $trophyCategory = null) {
-        $eventService = $this->get('gamification.events');
-        $result = $eventService->getObjectTrophies($objectInstance, $trophyCategory);
-        return new \Symfony\Component\HttpFoundation\Response("sprawdzono istnienie nagrody");
+        echo "przed sleepem";
+        return new Response("lslsl");
+//        sleep(5);
+//        echo" po sleepie jestem akcja check trophy ";
+//        $eventService = $this->get('gamification.events');
+//        $result = $eventService->getObjectTrophies($objectInstance, $trophyCategory);
+//        return new \Symfony\Component\HttpFoundation\Response("sprawdzono istnienie nagrody");
     }
 
     public function addTrophyAction($objectInstanceId, $trophyId) {
@@ -72,10 +76,10 @@ class DefaultController extends BaseController {
 
         if ($result) {
             $objectInstanceModel = $this->getModel('TMSolution\GamificationBundle\Entity\Objectinstance');
-            $objectInstanceArray = $objectInstanceModel->findBy(['id'=>$objectId]);
+            $objectInstanceArray = $objectInstanceModel->findBy(['id' => $objectId]);
             $objectInstance = $objectInstanceArray[0];
             //dump($objectInstance);exit;
-            
+
             $newObjectTrophy = new Objecttrophy();
             $newObjectTrophy->setDate(new \DateTime('NOW'));
             $newObjectTrophy->setObjectid($objectInstance);
@@ -84,11 +88,36 @@ class DefaultController extends BaseController {
             $trophyArray = $trophyModel->findBy(['id' => 2]);
             $trophy = $trophyArray[0];
             $newObjectTrophy->setTrophyid($trophy);
-            
+
             $objectTrophyModel->create($newObjectTrophy, true);
-            
+
             return new Response("operation complete");
         }
+    }
+
+    public function testSoapAction() {
+
+
+      
+        
+        $objSoapClient = new \SoapClient("http://localhost/rulestest/rulestest/web/app_dev.php/ws/GamificationAPI?wsdl");
+        // dump($objSoapClient);
+//        //;
+        try {
+            $result = $objSoapClient->test(1);
+               $result2 = $objSoapClient->hello(1);
+            
+            
+        } catch (\Exception $ex) {
+            
+         
+         die("hello");
+        }
+        echo $result;
+        echo $result2;
+       die("Do widzenia");
+        
+        
     }
 
 }

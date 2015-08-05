@@ -7,10 +7,10 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Objecttrophy
  *
- * @ORM\Table(name="objecttrophy", indexes={@ORM\Index(name="fk_usertrophy_trophy1_idx", columns={"trophyid"}), @ORM\Index(name="fk_usertrophy_object1_idx", columns={"objectid"})})
+ * @ORM\Table(name="objecttrophy")
  * @ORM\Entity
  */
-class Objecttrophy
+class Objecttrophy implements \JsonSerializable
 {
     /**
      * @var integer
@@ -127,5 +127,14 @@ class Objecttrophy
     public function getTrophyid()
     {
         return $this->trophyid;
+    }
+    
+    public function jsonSerialize() {
+        return [
+            'id' =>$this->getId(),
+            'date' => $this->getDate(),
+            'objectid' => $this->getObjectid(),
+            'trophyid' => $this->getTrophyid()
+        ];
     }
 }

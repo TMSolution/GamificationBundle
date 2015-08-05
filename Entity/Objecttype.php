@@ -5,13 +5,13 @@ namespace TMSolution\GamificationBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Classname
+ * Objecttype
  *
- * @ORM\Table(name="classname")
+ * @ORM\Table(name="objecttype")
  * @ORM\Entity
  */
-class Classname
-{
+class Objecttype implements \JsonSerializable {
+
     /**
      * @var integer
      *
@@ -28,39 +28,34 @@ class Classname
      */
     protected $name;
 
-
-
     /**
      * Get id
      *
      * @return integer 
      */
-    public function getId()
-    {
+    public function getId() {
         return $this->id;
     }
 
-     /**
+    /**
      * Set id
      *
      * @param integer $id
-     * @return Classname
+     * @return Objecttype
      */
-    public function setId($id)
-    {
+    public function setId($id) {
         $this->id = $id;
 
         return $this;
     }
-    
+
     /**
      * Set name
      *
      * @param string $name
-     * @return Classname
+     * @return Objecttype
      */
-    public function setName($name)
-    {
+    public function setName($name) {
         $this->name = $name;
 
         return $this;
@@ -71,8 +66,15 @@ class Classname
      *
      * @return string 
      */
-    public function getName()
-    {
+    public function getName() {
         return $this->name;
     }
+
+    public function jsonSerialize() {
+        return [
+            'id' => $this->getId(),
+            'name' => $this->getName()
+        ];
+    }
+
 }

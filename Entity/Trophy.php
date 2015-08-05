@@ -7,11 +7,11 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Trophy
  *
- * @ORM\Table(name="trophy", indexes={@ORM\Index(name="fk_trophy_trophycategory1_idx", columns={"trophycategoryid"})})
+ * @ORM\Table(name="trophy")
  * @ORM\Entity
  */
-class Trophy
-{
+class Trophy implements \JsonSerializable {
+
     /**
      * @var integer
      *
@@ -45,15 +45,12 @@ class Trophy
      */
     protected $trophycategoryid;
 
-
-
     /**
      * Get id
      *
      * @return integer 
      */
-    public function getId()
-    {
+    public function getId() {
         return $this->id;
     }
 
@@ -63,8 +60,7 @@ class Trophy
      * @param string $name
      * @return Trophy
      */
-    public function setName($name)
-    {
+    public function setName($name) {
         $this->name = $name;
 
         return $this;
@@ -75,8 +71,7 @@ class Trophy
      *
      * @return string 
      */
-    public function getName()
-    {
+    public function getName() {
         return $this->name;
     }
 
@@ -86,8 +81,7 @@ class Trophy
      * @param string $image
      * @return Trophy
      */
-    public function setImage($image)
-    {
+    public function setImage($image) {
         $this->image = $image;
 
         return $this;
@@ -98,8 +92,7 @@ class Trophy
      *
      * @return string 
      */
-    public function getImage()
-    {
+    public function getImage() {
         return $this->image;
     }
 
@@ -109,8 +102,7 @@ class Trophy
      * @param \TMSolution\GamificationBundle\Entity\Trophycategory $trophycategoryid
      * @return Trophy
      */
-    public function setTrophycategoryid(\TMSolution\GamificationBundle\Entity\Trophycategory $trophycategoryid = null)
-    {
+    public function setTrophycategoryid(\TMSolution\GamificationBundle\Entity\Trophycategory $trophycategoryid = null) {
         $this->trophycategoryid = $trophycategoryid;
 
         return $this;
@@ -121,8 +113,17 @@ class Trophy
      *
      * @return \TMSolution\GamificationBundle\Entity\Trophycategory 
      */
-    public function getTrophycategoryid()
-    {
+    public function getTrophycategoryid() {
         return $this->trophycategoryid;
     }
+
+    public function jsonSerialize() {
+        return [
+            'id' => $this->getId(),
+            'name' => $this->getName(),
+            'image' => $this->getImage(),
+            'trophycategoryid' => $this->getTrophycategoryid()
+        ];
+    }
+
 }

@@ -83,7 +83,7 @@ class EventService {
      * @param object $trophy
      * @return Objecttrophy $objectTrophy
      */
-    public function addObjectTrophy($objectInstance, $trophy) {
+    public function addObjectTrophy($objectTypeId, $trophy) {
 
         if ($objectInstance && $trophy) {
 
