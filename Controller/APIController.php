@@ -6,9 +6,9 @@ use BeSimple\SoapBundle\ServiceDefinition\Annotation as Soap;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\DependencyInjection\ContainerAware;
 use TMSolution\GamificationBundle\Service\EventService;
-use Core\BaseBundle\Controller\DefaultController as BaseController;
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
-class APIController extends BaseController {
+class APIController extends Controller {
 
     /**
      * @Soap\Method("test")
@@ -45,12 +45,17 @@ class APIController extends BaseController {
      */
     public function checkObjectTrophyAction($objectTypeId, $objectIdentity) {
 
-        $objectInstanceModel = $this->getModel('TMSolution\GamificationBundle\Entity\Objectinstance');
+        $objectInstanceMo = $this->get('model_factory');
+        $objectInstanceModel = $objectInstanceMo->getModel('TMSolution\GamificationBundle\Entity\Objectinstance');
+
         $objectInstance = $objectInstanceModel->getInstance($objectIdentity, $objectTypeId);
+       
         $eventService = $this->get('gamification.events');
 
+
         $result = $eventService->getObjectTrophies($objectInstance);
-        dump($result);exit;
+        dump($result);
+        exit;
 
         return new Response($result);
     }

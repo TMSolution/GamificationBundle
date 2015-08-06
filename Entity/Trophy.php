@@ -40,10 +40,10 @@ class Trophy implements \JsonSerializable {
      *
      * @ORM\ManyToOne(targetEntity="TMSolution\GamificationBundle\Entity\Trophycategory", cascade={"persist"})
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="trophycategoryid", referencedColumnName="id")
+     *   @ORM\JoinColumn(name="trophycategory", referencedColumnName="id")
      * })
      */
-    protected $trophycategoryid;
+    protected $trophycategory;
 
     /**
      * Get id
@@ -97,24 +97,24 @@ class Trophy implements \JsonSerializable {
     }
 
     /**
-     * Set trophycategoryid
+     * Set trophycategory
      *
-     * @param \TMSolution\GamificationBundle\Entity\Trophycategory $trophycategoryid
+     * @param \TMSolution\GamificationBundle\Entity\Trophycategory $trophycategory
      * @return Trophy
      */
-    public function setTrophycategoryid(\TMSolution\GamificationBundle\Entity\Trophycategory $trophycategoryid = null) {
-        $this->trophycategoryid = $trophycategoryid;
+    public function setTrophycategory(\TMSolution\GamificationBundle\Entity\Trophycategory $trophycategory = null) {
+        $this->trophycategory = $trophycategory;
 
         return $this;
     }
 
     /**
-     * Get trophycategoryid
+     * Get trophycategory
      *
      * @return \TMSolution\GamificationBundle\Entity\Trophycategory 
      */
-    public function getTrophycategoryid() {
-        return $this->trophycategoryid;
+    public function getTrophycategory() {
+        return $this->trophycategory;
     }
 
     public function jsonSerialize() {
@@ -122,7 +122,7 @@ class Trophy implements \JsonSerializable {
             'id' => $this->getId(),
             'name' => $this->getName(),
             'image' => $this->getImage(),
-            'trophycategoryid' => $this->getTrophycategoryid()
+            'trophycategory' => $this->getTrophycategory()
         ];
     }
 

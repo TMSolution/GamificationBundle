@@ -33,20 +33,20 @@ class Eventlog
      *
      * @ORM\ManyToOne(targetEntity="TMSolution\GamificationBundle\Entity\Objectinstance")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="objectinstanceid", referencedColumnName="id")
+     *   @ORM\JoinColumn(name="objectinstance", referencedColumnName="id")
      * })
      */
-    protected $objectInstanceId;
+    protected $objectInstance;
 
     /**
      * @var \TMSolution\GamificationBundle\Entity\Event
      *
      * @ORM\ManyToOne(targetEntity="TMSolution\GamificationBundle\Entity\Event")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="eventid", referencedColumnName="id")
+     *   @ORM\JoinColumn(name="event", referencedColumnName="id")
      * })
      */
-    protected $eventid;
+    protected $event;
 
 
 
@@ -84,48 +84,48 @@ class Eventlog
     }
 
     /**
-     * Set objectinstanceid
+     * Set objectinstance
      *
-     * @param \TMSolution\GamificationBundle\Entity\Objectinstance $objectinstanceid
+     * @param \TMSolution\GamificationBundle\Entity\Objectinstance $objectinstance
      * @return Eventlog
      */
-    public function setObjectInstanceId(\TMSolution\GamificationBundle\Entity\Objectinstance $objectinstanceid)
+    public function setObjectInstance(\TMSolution\GamificationBundle\Entity\Objectinstance $objectinstance)
     {
-        $this->objectInstanceId = $objectinstanceid;
+        $this->objectInstance = $objectinstance;
 
         return $this;
     }
 
     /**
-     * Get objectinstanceid
+     * Get objectinstance
      *
      * @return \TMSolution\GamificationBundle\Entity\Objectinstance 
      */
-    public function getObjectInstanceId()
+    public function getObjectInstance()
     {
-        return $this->objectInstanceId;
+        return $this->objectInstance;
     }
 
     /**
-     * Set eventid
+     * Set event
      *
-     * @param \TMSolution\GamificationBundle\Entity\Event $eventid
+     * @param \TMSolution\GamificationBundle\Entity\Event $event
      * @return Eventlog
      */
-    public function setEventid(\TMSolution\GamificationBundle\Entity\Event $eventid = null)
+    public function setEvent(\TMSolution\GamificationBundle\Entity\Event $event = null)
     {
-        $this->eventid = $eventid;
+        $this->event = $event;
 
         return $this;
     }
 
     /**
-     * Get eventid
+     * Get event
      *
      * @return \TMSolution\GamificationBundle\Entity\Event 
      */
-    public function getEventid()
+    public function getEvent()
     {
-        return $this->eventid;
+        return $this->event;
     }
 }

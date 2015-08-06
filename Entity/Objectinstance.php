@@ -33,10 +33,10 @@ class Objectinstance implements \JsonSerializable {
      *
      * @ORM\ManyToOne(targetEntity="TMSolution\GamificationBundle\Entity\Objecttype")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="objecttypeid", referencedColumnName="id")
+     *   @ORM\JoinColumn(name="objecttype", referencedColumnName="id")
      * })
      */
-    protected $objecttypeid;
+    protected $objecttype;
 
     /**
      * Get id
@@ -69,31 +69,31 @@ class Objectinstance implements \JsonSerializable {
     }
 
     /**
-     * Set objectypeid
+     * Set objectype
      *
-     * @param \TMSolution\GamificationBundle\Entity\Objecttype $objectypeid
+     * @param \TMSolution\GamificationBundle\Entity\Objecttype $objectype
      * @return Objectinstance
      */
-    public function setObjecttypeid(\TMSolution\GamificationBundle\Entity\Objecttype $objecttypeid = null) {
-        $this->objecttypeid = $objecttypeid;
+    public function setObjecttype(\TMSolution\GamificationBundle\Entity\Objecttype $objecttype = null) {
+        $this->objecttype = $objecttype;
 
         return $this;
     }
 
     /**
-     * Get objecttypeid
+     * Get objecttype
      *
      * @return \TMSolution\GamificationBundle\Entity\Objecttype 
      */
-    public function getObjecttypeid() {
-        return $this->objecttypeid;
+    public function getObjecttype() {
+        return $this->objecttype;
     }
 
     public function jsonSerialize() {
         return [
             'id' => $this->getId(),
             'objectidentity' => $this->getObjectidentity(),
-            'objecttypeid' => $this->getObjecttypeid()
+            'objecttype' => $this->getObjecttype()
         ];
     }
 

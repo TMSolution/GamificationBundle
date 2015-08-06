@@ -50,8 +50,8 @@ class EventService {
 
             $eventLogModel = $this->container->get('model_factory')->getModel('TMSolution\GamificationBundle\Entity\Eventlog');
             $eventLogEntity = new Eventlog();
-            $eventLogEntity->setEventid($event);
-            $eventLogEntity->setObjectInstanceId($objectInstance);
+            $eventLogEntity->setEvent($event);
+            $eventLogEntity->setObjectInstance($objectInstance);
             $eventLogEntity->setDate(new \DateTime('NOW'));
             $eventLogModel->create($eventLogEntity, true);
 
@@ -61,8 +61,8 @@ class EventService {
             } catch (\Exception $ex) {
                 $eventCounterEntity = new Eventcounter();
             }
-            $eventCounterEntity->setEventid($event);
-            $eventCounterEntity->setObjectInstanceId($objectInstance);
+            $eventCounterEntity->setEvent($event);
+            $eventCounterEntity->setObjectInstance($objectInstance);
             $eventCounterEntity->setCounter($eventCounterEntity->getCounter() + 1);
             $eventCounterModel->update($eventCounterEntity, true);
         }
@@ -83,17 +83,17 @@ class EventService {
      * @param object $trophy
      * @return Objecttrophy $objectTrophy
      */
-    public function addObjectTrophy($objectTypeId, $trophy) {
+    public function addObjectTrophy($objectType, $trophy) {
 
-        if ($objectInstance && $trophy) {
+        if ($objectType && $trophy) {
 
             $objectTrophyModel = $this->container->get('model_factory')
                     ->getModel('TMSolution\GamificationBundle\Entity\Objecttrophy');
 
             $objectTrophy = new Objecttrophy();
             $objectTrophy->setDate(new \DateTime('NOW'));
-            $objectTrophy->setObjectid($objectInstance);
-            $objectTrophy->setTrophyid($trophy);
+            $objectTrophy->setObject($objectType);
+            $objectTrophy->setTrophy($trophy);
 
             $objectTrophyModel->create($objectTrophy, true);
 
@@ -115,9 +115,9 @@ class EventService {
         $objectTrophyModel = $this->container->get('model_factory')
                 ->getModel('TMSolution\GamificationBundle\Entity\Objecttrophy');
         if ($trophyCategory != null) {
-            $result = $objectTrophyModel->findBy(['objectid' => $objectInstance, 'trophyid' => $trophyCategory]);
+            $result = $objectTrophyModel->findBy(['object' => $objectInstance, 'trophy' => $trophyCategory]);
         } else {
-            $result = $objectTrophyModel->findBy(['objectid' => $objectInstance]);
+            $result = $objectTrophyModel->findBy(['object' => $objectInstance]);
         }
 
         return $result;

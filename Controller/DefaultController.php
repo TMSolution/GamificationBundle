@@ -2,8 +2,7 @@
 
 namespace TMSolution\GamificationBundle\Controller;
 
-use Core\BaseBundle\Controller\DefaultController as BaseController;
-use Core\BaseBundle\Model\Model;
+use Core\ModelBundle\Model\Model;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Config\Definition\Exception\Exception;
@@ -11,8 +10,9 @@ use Hoa\Ruler\Ruler;
 use Hoa\Ruler\Context;
 use TMSolution\GamificationBundle\Entity\Objecttrophy;
 use TMSolution\GamificationBundle\Service\EventService;
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
-class DefaultController extends /*\Symfony\Component\DependencyInjection\ContainerAware*/BaseController {
+class DefaultController extends Controller {
 
     public function checkAction($objectIdentity, $classId) {
         $eventService = $this->get('gamification.events');
@@ -42,10 +42,12 @@ class DefaultController extends /*\Symfony\Component\DependencyInjection\Contain
 //       } catch (Exception $ex) {
 //           throw $ex;
 //       }
-
-        $objectInstanceModel = $this->getModel('TMSolution\GamificationBundle\Entity\Objectinstance');
+        $objectInstanceMo = $this->get('model_factory');
+        $objectInstanceModel = $objectInstanceMo->getModel('TMSolution\GamificationBundle\Entity\Objectinstance');
         $objectInstance = $objectInstanceModel->findOneBy(['objectidentity' => $objectInstanceId]);
-        $trophyInstanceModel = $this->getModel('TMSolution\GamificationBundle\Entity\Trophy');
+        
+        $trophyInstanceMo = $this->get('model_factory');
+        $trophyInstanceModel = $trophyInstanceMo->getModel('TMSolution\GamificationBundle\Entity\Trophy');
         $trophy = $trophyInstanceModel->findOneBy(['id' => $trophyId]);
         $eventService = $this->get('gamification.events');
         $result = $eventService->addObjectTrophy($objectInstance, $trophy);
@@ -58,13 +60,15 @@ class DefaultController extends /*\Symfony\Component\DependencyInjection\Contain
     //@ToDo: do przeanalizowania i napisania
     //
     public function checkRuleAction($objectId) {
-        $objectTrophyModel = $this->getModel('TMSolution\GamificationBundle\Entity\Objecttrophy');
-        $array = ['objectid' => $objectId];
+        $model = $this->get('model_factory');
+        $objectTrophyModel = $model->getModel('TMSolution\GamificationBundle\Entity\Objecttrophy');
+        $array = ['object' => $objectId];
         $objectTrophyInstance = $objectTrophyModel->findBy($array);
         $count = count($objectTrophyInstance);
+        
         //dump($count);exit;
-
-        $ruleModel = $this->getModel('TMSolution\GamificationBundle\Entity\Rule');
+        $ruleMo = $this->get('model_factory');
+        $ruleModel = $ruleMo->getModel('TMSolution\GamificationBundle\Entity\Rule');
         $ruleRecord = $ruleModel->findBy(['id' => 1]);
         $rule = $ruleRecord[0]->getName();
 
@@ -73,24 +77,27 @@ class DefaultController extends /*\Symfony\Component\DependencyInjection\Contain
         $context['points'] = $count;
 
         $result = $ruler->assert($rule, $context);
-
+        
         if ($result) {
-            $objectInstanceModel = $this->getModel('TMSolution\GamificationBundle\Entity\Objectinstance');
+            $objectInstanceMo = $this->get('model_factory');        
+            $objectInstanceModel = $objectInstanceMo->getModel('TMSolution\GamificationBundle\Entity\Objectinstance');
             $objectInstanceArray = $objectInstanceModel->findBy(['id' => $objectId]);
             $objectInstance = $objectInstanceArray[0];
-            //dump($objectInstance);exit;
-
+            
             $newObjectTrophy = new Objecttrophy();
             $newObjectTrophy->setDate(new \DateTime('NOW'));
-            $newObjectTrophy->setObjectid($objectInstance);
+            $newObjectTrophy->setObject($objectInstance);
+            
 
-            $trophyModel = $this->getModel('TMSolution\GamificationBundle\Entity\Trophy');
+            $trophyMo = $this->get('model_factory');
+            $trophyModel = $trophyMo->getModel('TMSolution\GamificationBundle\Entity\Trophy');
+   
             $trophyArray = $trophyModel->findBy(['id' => 2]);
             $trophy = $trophyArray[0];
-            $newObjectTrophy->setTrophyid($trophy);
+            $newObjectTrophy->setTrophy($trophy);
 
             $objectTrophyModel->create($newObjectTrophy, true);
-
+                     
             return new Response("operation complete");
         }
     }
@@ -98,26 +105,22 @@ class DefaultController extends /*\Symfony\Component\DependencyInjection\Contain
     public function testSoapAction() {
 
 
-      
-        
+
+
         $objSoapClient = new \SoapClient("http://localhost/rulestest/rulestest/web/app_dev.php/ws/GamificationAPI?wsdl");
         // dump($objSoapClient);
 //        //;
         try {
             $result = $objSoapClient->test(1);
-               $result2 = $objSoapClient->hello(1);
-            
-            
+            $result2 = $objSoapClient->hello(1);
         } catch (\Exception $ex) {
-            
-         
-         die("hello");
+
+
+            die("hello");
         }
         echo $result;
         echo $result2;
-       die("Do widzenia");
-        
-        
+        die("Do widzenia");
     }
 
 }

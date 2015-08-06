@@ -74,25 +74,25 @@ class Event
     }
 
     /**
-     * Set eventcategoryid
+     * Set eventcategory
      *
-     * @param \TMSolution\GamificationBundle\Entity\Eventcategory $eventcategoryid
+     * @param \TMSolution\GamificationBundle\Entity\Eventcategory $eventcategory
      * @return Event
      */
-    public function setEventcategoryid(\TMSolution\GamificationBundle\Entity\Eventcategory $eventcategoryid = null)
+    public function setEventcategory(\TMSolution\GamificationBundle\Entity\Eventcategory $eventcategory = null)
     {
-        $this->eventcategoryid = $eventcategoryid;
+        $this->eventcategory = $eventcategory;
 
         return $this;
     }
 
     /**
-     * Get eventcategoryid
+     * Get eventcategory
      *
      * @return \TMSolution\GamificationBundle\Entity\Eventcategory 
      */
-    public function getEventcategoryid()
+    public function getEventcategory()
     {
-        return $this->eventcategoryid;
+        return $this->eventcategory;
     }
 }

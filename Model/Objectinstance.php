@@ -16,39 +16,39 @@ namespace TMSolution\GamificationBundle\Model;
 
 use TMSolution\GamificationBundle\Entity\Objectinstance as EntityObjectInstance;
 
-class Objectinstance extends \Core\BaseBundle\Model\Model {
+class Objectinstance extends \Core\ModelBundle\Model\Model {
 
     
     
     // check if the instance exists
-    public function checkInstance($objectIdentity, $objectTypeId) {
+    public function checkInstance($objectIdentity, $objectType) {
 
 
         try {
-            return $this->findOneBy(['objectidentity' => $objectIdentity, 'objecttypeid' => $objectTypeId]);
+            return $this->findOneBy(['objectidentity' => $objectIdentity, 'objecttype' => $objectType]);
         } catch (\Exception $ex) {
             return false;
         }
     }
 
     // get the instance
-    public function getInstance($objectIdentity, $objectTypeId) {
-        $objectInstance = $this->checkInstance($objectIdentity, $objectTypeId);
+    public function getInstance($objectIdentity, $objectType) {
+        $objectInstance = $this->checkInstance($objectIdentity, $objectType);
         if (!$objectInstance) {
             //create object
-            $objectInstance = $this->createInstance($objectIdentity, $objectTypeId);
+            $objectInstance = $this->createInstance($objectIdentity, $objectType);
         }
         return $objectInstance;
     }
 
     
     //create new instance object if it doesn't exist
-    public function createInstance($objectIdentity, $objectTypeId) {
+    public function createInstance($objectIdentity, $objectType) {
         //wytworzenie encji TMSolution\GamificationBundle\Model
         $classNameModel = $this->container->get('model_factory')->getModel('TMSolution\GamificationBundle\Entity\Objecttype');
-        $classNameObject = $classNameModel->findOneById($objectTypeId);
+        $classNameObject = $classNameModel->findOneById($objectType);
         $entityObjectInstance = new EntityObjectInstance();
-        $entityObjectInstance->setObjecttypeid($classNameObject);
+        $entityObjectInstance->setObjecttype($classNameObject);
         $entityObjectInstance->setObjectidentity($objectIdentity);
         return $this->create($entityObjectInstance, true);
     }

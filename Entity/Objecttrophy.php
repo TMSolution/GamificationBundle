@@ -33,20 +33,20 @@ class Objecttrophy implements \JsonSerializable
      *
      * @ORM\ManyToOne(targetEntity="TMSolution\GamificationBundle\Entity\Objectinstance")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="objectid", referencedColumnName="id")
+     *   @ORM\JoinColumn(name="object", referencedColumnName="id")
      * })
      */
-    protected $objectid;
+    protected $object;
 
     /**
      * @var \TMSolution\GamificationBundle\Entity\Trophy
      *
      * @ORM\ManyToOne(targetEntity="TMSolution\GamificationBundle\Entity\Trophy")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="trophyid", referencedColumnName="id")
+     *   @ORM\JoinColumn(name="trophy", referencedColumnName="id")
      * })
      */
-    protected $trophyid;
+    protected $trophy;
 
 
 
@@ -84,57 +84,57 @@ class Objecttrophy implements \JsonSerializable
     }
 
     /**
-     * Set objectid
+     * Set object
      *
-     * @param \TMSolution\GamificationBundle\Entity\Objectinstance $objectid
+     * @param \TMSolution\GamificationBundle\Entity\Objectinstance $object
      * @return Objecttrophy
      */
-    public function setObjectid(\TMSolution\GamificationBundle\Entity\Objectinstance $objectid = null)
+    public function setObject(\TMSolution\GamificationBundle\Entity\Objectinstance $object = null)
     {
-        $this->objectid = $objectid;
+        $this->object = $object;
 
         return $this;
     }
 
     /**
-     * Get objectid
+     * Get object
      *
      * @return \TMSolution\GamificationBundle\Entity\Objectinstance 
      */
-    public function getObjectid()
+    public function getObject()
     {
-        return $this->objectid;
+        return $this->object;
     }
 
     /**
-     * Set trophyid
+     * Set trophy
      *
-     * @param \TMSolution\GamificationBundle\Entity\Trophy $trophyid
+     * @param \TMSolution\GamificationBundle\Entity\Trophy $trophy
      * @return Objecttrophy
      */
-    public function setTrophyid(\TMSolution\GamificationBundle\Entity\Trophy $trophyid = null)
+    public function setTrophy(\TMSolution\GamificationBundle\Entity\Trophy $trophy = null)
     {
-        $this->trophyid = $trophyid;
+        $this->trophy = $trophy;
 
         return $this;
     }
 
     /**
-     * Get trophyid
+     * Get trophy
      *
      * @return \TMSolution\GamificationBundle\Entity\Trophy 
      */
-    public function getTrophyid()
+    public function getTrophy()
     {
-        return $this->trophyid;
+        return $this->trophy;
     }
     
     public function jsonSerialize() {
         return [
             'id' =>$this->getId(),
             'date' => $this->getDate(),
-            'objectid' => $this->getObjectid(),
-            'trophyid' => $this->getTrophyid()
+            'object' => $this->getObject(),
+            'trophy' => $this->getTrophy()
         ];
     }
 }

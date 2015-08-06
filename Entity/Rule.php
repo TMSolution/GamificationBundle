@@ -33,10 +33,10 @@ class Rule
      *
      * @ORM\ManyToOne(targetEntity="TMSolution\GamificationBundle\Entity\Trophy")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="trophyid", referencedColumnName="id")
+     *   @ORM\JoinColumn(name="trophy", referencedColumnName="id")
      * })
      */
-    protected $trophyid;
+    protected $trophy;
 
 
 
@@ -74,25 +74,25 @@ class Rule
     }
 
     /**
-     * Set trophyid
+     * Set trophy
      *
-     * @param \TMSolution\GamificationBundle\Entity\Trophy $trophyid
+     * @param \TMSolution\GamificationBundle\Entity\Trophy $trophy
      * @return Rule
      */
-    public function setTrophyid(\TMSolution\GamificationBundle\Entity\Trophy $trophyid = null)
+    public function setTrophy(\TMSolution\GamificationBundle\Entity\Trophy $trophy = null)
     {
-        $this->trophyid = $trophyid;
+        $this->trophy = $trophy;
 
         return $this;
     }
 
     /**
-     * Get trophyid
+     * Get trophy
      *
      * @return \TMSolution\GamificationBundle\Entity\Trophy 
      */
-    public function getTrophyid()
+    public function getTrophy()
     {
-        return $this->trophyid;
+        return $this->trophy;
     }
 }
