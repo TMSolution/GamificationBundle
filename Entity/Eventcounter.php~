@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Eventcounter
  *
- * @ORM\Table(name="eventcounter", indexes={@ORM\Index(name="fk_usereventcounter_event1_idx", columns={"eventid"}), @ORM\Index(name="fk_eventcounter_object1_idx", columns={"objectid"})})
+ * @ORM\Table(name="eventcounter")
  * @ORM\Entity
  */
 class Eventcounter
@@ -19,34 +19,113 @@ class Eventcounter
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
-    private $id;
+    protected $id;
 
     /**
      * @var float
      *
      * @ORM\Column(name="counter", type="float", precision=10, scale=0, nullable=true)
      */
-    private $counter;
+    protected $counter;
 
-    /**
+   /**
      * @var \TMSolution\GamificationBundle\Entity\Objectinstance
      *
      * @ORM\ManyToOne(targetEntity="TMSolution\GamificationBundle\Entity\Objectinstance")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="objectid", referencedColumnName="id")
+     *   @ORM\JoinColumn(name="objectinstance", referencedColumnName="id")
      * })
      */
-    private $objectid;
+    protected $objectInstance;
 
     /**
      * @var \TMSolution\GamificationBundle\Entity\Event
      *
      * @ORM\ManyToOne(targetEntity="TMSolution\GamificationBundle\Entity\Event")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="eventid", referencedColumnName="id")
+     *   @ORM\JoinColumn(name="event", referencedColumnName="id")
      * })
      */
-    private $eventid;
+    protected $event;
 
 
+
+    /**
+     * Get id
+     *
+     * @return integer 
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set counter
+     *
+     * @param float $counter
+     * @return Eventcounter
+     */
+    public function setCounter($counter)
+    {
+        $this->counter = $counter;
+
+        return $this;
+    }
+
+    /**
+     * Get counter
+     *
+     * @return float 
+     */
+    public function getCounter()
+    {
+        return $this->counter;
+    }
+
+    /**
+     * Set objectinstance
+     *
+     * @param \TMSolution\GamificationBundle\Entity\Objectinstance $objectinstance
+     * @return Eventcounter
+     */
+    public function setObjectInstance(\TMSolution\GamificationBundle\Entity\Objectinstance $objectinstanceid = null)
+    {
+        $this->objectInstance = $objectinstance;
+
+        return $this;
+    }
+
+    /**
+     * Get objectinstance
+     *
+     * @return \TMSolution\GamificationBundle\Entity\Objectinstance 
+     */
+    public function getObjectInstance()
+    {
+        return $this->objectInstance;
+    }
+
+    /**
+     * Set event
+     *
+     * @param \TMSolution\GamificationBundle\Entity\Event $event
+     * @return Eventcounter
+     */
+    public function setEvent(\TMSolution\GamificationBundle\Entity\Event $event = null)
+    {
+        $this->event = $event;
+
+        return $this;
+    }
+
+    /**
+     * Get event
+     *
+     * @return \TMSolution\GamificationBundle\Entity\Event 
+     */
+    public function getEvent()
+    {
+        return $this->event;
+    }
 }

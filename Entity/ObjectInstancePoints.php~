@@ -1,0 +1,82 @@
+<?php
+
+namespace TMSolution\GamificationBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * ObjectInstancePoints
+ *
+ * @ORM\Table()
+ * @ORM\Entity
+ */
+class ObjectInstancePoints {
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    private $id;
+
+    /**
+     * @var integer
+     * 
+     * @ORM\Column(name="objectid", type="integer", nullable=false)
+     */
+    protected $objectid;
+
+    /**
+     * @var integer
+     * 
+     * @ORM\Column(name="overall1", type="integer", nullable=false)
+     */
+    protected $overall1;
+
+    /**
+     * @var integer
+     * 
+     * @ORM\Column(name="oneusedTrophy", type="integer", nullable=false)
+     */
+    protected $oneusedTrophy;
+
+    /**
+     * @var integer
+     * 
+     * @ORM\Column(name="oneusedPoints", type="integer", nullable=false)
+     */
+    protected $oneusedPoints;
+
+    /**
+     * @var integer
+     * 
+     * @ORM\Column(name="overall2", type="integer", nullable=false)
+     */
+    protected $overall2;
+
+    /**
+     * @var integer
+     * 
+     * @ORM\Column(name="cyclicTrophy", type="integer", nullable=false)
+     */
+    protected $cyclicTrophy;
+
+    /**
+     * @var integer
+     * 
+     * @ORM\Column(name="cyclicPoints", type="integer", nullable=false)
+     */
+    protected $cyclicPoints;
+
+    /**
+     * Get id
+     *
+     * @return integer 
+     */
+    public function getId() {
+        return $this->id;
+    }
+
+}

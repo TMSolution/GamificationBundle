@@ -7,10 +7,10 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Objecttrophy
  *
- * @ORM\Table(name="objecttrophy", indexes={@ORM\Index(name="fk_usertrophy_trophy1_idx", columns={"trophyid"}), @ORM\Index(name="fk_usertrophy_object1_idx", columns={"objectid"})})
+ * @ORM\Table(name="objecttrophy")
  * @ORM\Entity
  */
-class Objecttrophy
+class Objecttrophy implements \JsonSerializable
 {
     /**
      * @var integer
@@ -19,34 +19,122 @@ class Objecttrophy
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
-    private $id;
+    protected $id;
 
     /**
      * @var \DateTime
      *
      * @ORM\Column(name="date", type="datetime", nullable=true)
      */
-    private $date;
+    protected $date;
 
     /**
      * @var \TMSolution\GamificationBundle\Entity\Objectinstance
      *
      * @ORM\ManyToOne(targetEntity="TMSolution\GamificationBundle\Entity\Objectinstance")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="objectid", referencedColumnName="id")
+     *   @ORM\JoinColumn(name="object", referencedColumnName="id")
      * })
      */
-    private $objectid;
+    protected $object;
 
     /**
      * @var \TMSolution\GamificationBundle\Entity\Trophy
      *
      * @ORM\ManyToOne(targetEntity="TMSolution\GamificationBundle\Entity\Trophy")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="trophyid", referencedColumnName="id")
+     *   @ORM\JoinColumn(name="trophy", referencedColumnName="id")
      * })
      */
-    private $trophyid;
+    protected $trophy;
 
 
+
+    /**
+     * Get id
+     *
+     * @return integer 
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set date
+     *
+     * @param \DateTime $date
+     * @return Objecttrophy
+     */
+    public function setDate($date)
+    {
+        $this->date = $date;
+
+        return $this;
+    }
+
+    /**
+     * Get date
+     *
+     * @return \DateTime 
+     */
+    public function getDate()
+    {
+        return $this->date;
+    }
+
+    /**
+     * Set object
+     *
+     * @param \TMSolution\GamificationBundle\Entity\Objectinstance $object
+     * @return Objecttrophy
+     */
+    public function setObject(\TMSolution\GamificationBundle\Entity\Objectinstance $object = null)
+    {
+        $this->object = $object;
+
+        return $this;
+    }
+
+    /**
+     * Get object
+     *
+     * @return \TMSolution\GamificationBundle\Entity\Objectinstance 
+     */
+    public function getObject()
+    {
+        return $this->object;
+    }
+
+    /**
+     * Set trophy
+     *
+     * @param \TMSolution\GamificationBundle\Entity\Trophy $trophy
+     * @return Objecttrophy
+     */
+    public function setTrophy(\TMSolution\GamificationBundle\Entity\Trophy $trophy = null)
+    {
+        $this->trophy = $trophy;
+
+        return $this;
+    }
+
+    /**
+     * Get trophy
+     *
+     * @return \TMSolution\GamificationBundle\Entity\Trophy 
+     */
+    public function getTrophy()
+    {
+        return $this->trophy;
+    }
+    
+    public function jsonSerialize() {
+        return [
+            'id' =>$this->getId(),
+            'date' => $this->getDate(),
+            'object' => $this->getObject(),
+            'trophy' => $this->getTrophy()
+        ];
+    }
 }

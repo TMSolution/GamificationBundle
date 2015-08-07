@@ -5,13 +5,13 @@ namespace TMSolution\GamificationBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Eventcategory
+ * Trophytype
  *
- * @ORM\Table(name="eventcategory")
+ * @ORM\Table(name="trophytype")
  * @ORM\Entity
  */
-class Eventcategory
-{
+class Trophytype implements \JsonSerializable {
+
     /**
      * @var integer
      *
@@ -24,19 +24,16 @@ class Eventcategory
     /**
      * @var string
      *
-     * @ORM\Column(name="name", type="string", length=255, nullable=true)
+     * @ORM\Column(name="name", type="string", length=255, nullable=false)
      */
     protected $name;
-
-
 
     /**
      * Get id
      *
      * @return integer 
      */
-    public function getId()
-    {
+    public function getId() {
         return $this->id;
     }
 
@@ -44,10 +41,9 @@ class Eventcategory
      * Set name
      *
      * @param string $name
-     * @return Eventcategory
+     * @return Trophytype
      */
-    public function setName($name)
-    {
+    public function setName($name) {
         $this->name = $name;
 
         return $this;
@@ -58,8 +54,15 @@ class Eventcategory
      *
      * @return string 
      */
-    public function getName()
-    {
+    public function getName() {
         return $this->name;
     }
+
+    public function jsonSerialize() {
+        return [
+            'id' => $this->getId(),
+            'name' => $this->getName(),
+        ];
+    }
+
 }

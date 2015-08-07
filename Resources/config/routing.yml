@@ -29,3 +29,8 @@ tm_solution_gamification_testsoap:
 tm_solution_gamification_soap_checkObjectTrophy:
     path:     /gamification/soapcheckobjecttrophy/{objectTypeId}/{objectIdentity}
     defaults: { _controller: TMSolutionGamificationBundle:API:checkObjectTrophy }    
+    
+
+tm_solution_gamification_soap_ruletest:
+    path:     /gamification/ruletest/{objectInstanceId}/{trophyId}/{ruleId}
+    defaults: { _controller: TMSolutionGamificationBundle:Default:ruletest }   

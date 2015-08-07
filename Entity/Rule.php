@@ -10,8 +10,8 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table(name="rule")
  * @ORM\Entity
  */
-class Rule
-{
+class Rule {
+
     /**
      * @var integer
      *
@@ -38,15 +38,33 @@ class Rule
      */
     protected $trophy;
 
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="context", type="string", length=255, nullable=false)
+     */
+    protected $context;
 
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="operator", type="string", length=255, nullable=false)
+     */
+    protected $operator;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="value", type="string", length=255, nullable=false)
+     */
+    protected $value;
 
     /**
      * Get id
      *
      * @return integer 
      */
-    public function getId()
-    {
+    public function getId() {
         return $this->id;
     }
 
@@ -56,8 +74,7 @@ class Rule
      * @param string $name
      * @return Rule
      */
-    public function setName($name)
-    {
+    public function setName($name) {
         $this->name = $name;
 
         return $this;
@@ -68,8 +85,7 @@ class Rule
      *
      * @return string 
      */
-    public function getName()
-    {
+    public function getName() {
         return $this->name;
     }
 
@@ -79,8 +95,7 @@ class Rule
      * @param \TMSolution\GamificationBundle\Entity\Trophy $trophy
      * @return Rule
      */
-    public function setTrophy(\TMSolution\GamificationBundle\Entity\Trophy $trophy = null)
-    {
+    public function setTrophy(\TMSolution\GamificationBundle\Entity\Trophy $trophy = null) {
         $this->trophy = $trophy;
 
         return $this;
@@ -91,8 +106,83 @@ class Rule
      *
      * @return \TMSolution\GamificationBundle\Entity\Trophy 
      */
-    public function getTrophy()
-    {
+    public function getTrophy() {
         return $this->trophy;
+    }
+
+    /**
+     * Set operator
+     *
+     * @param string $operator
+     * @return Rule
+     */
+    public function setRule($operator) {
+        $this->operator = $operator;
+
+        return $this;
+    }
+
+    /**
+     * Get operator
+     *
+     * @return string 
+     */
+    public function getOperator() {
+        return $this->operator;
+    }
+
+    /**
+     * Set context
+     *
+     * @param string $context
+     * @return Rule
+     */
+    public function setContext($context) {
+        $this->context = $context;
+
+        return $this;
+    }
+
+    /**
+     * Get context
+     *
+     * @return string 
+     */
+    public function getContext() {
+        return $this->context;
+    }
+
+    /**
+     * Set value
+     *
+     * @param string $value
+     * @return Rule
+     */
+    public function setValue($value) {
+        $this->value = $value;
+
+        return $this;
+    }
+
+    /**
+     * Get value
+     *
+     * @return string 
+     */
+    public function getValue() {
+        return $this->value;
+    }
+
+    /**
+     * Set operator
+     *
+     * @param string $operator
+     * @return Rule
+     */
+    public function setOperator($operator)
+    {
+        $this->operator = $operator;
+
+        return $this;
     }
 }

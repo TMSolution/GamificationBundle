@@ -95,4 +95,27 @@ class Event
     {
         return $this->eventcategory;
     }
+
+    /**
+     * Set eventcategoryid
+     *
+     * @param \TMSolution\GamificationBundle\Entity\Eventcategory $eventcategoryid
+     * @return Event
+     */
+    public function setEventcategoryid(\TMSolution\GamificationBundle\Entity\Eventcategory $eventcategoryid = null)
+    {
+        $this->eventcategoryid = $eventcategoryid;
+
+        return $this;
+    }
+
+    /**
+     * Get eventcategoryid
+     *
+     * @return \TMSolution\GamificationBundle\Entity\Eventcategory 
+     */
+    public function getEventcategoryid()
+    {
+        return $this->eventcategoryid;
+    }
 }

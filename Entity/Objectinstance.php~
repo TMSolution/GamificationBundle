@@ -7,11 +7,11 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Objectinstance
  *
- * @ORM\Table(name="objectinstance", indexes={@ORM\Index(name="fk_object_class1_idx", columns={"classid"})})
+ * @ORM\Table(name="objectinstance")
  * @ORM\Entity
  */
-class Objectinstance
-{
+class Objectinstance implements \JsonSerializable {
+
     /**
      * @var integer
      *
@@ -19,24 +19,82 @@ class Objectinstance
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
-    private $id;
+    protected $id;
 
     /**
      * @var integer
      *
      * @ORM\Column(name="objectidentity", type="bigint", nullable=true)
      */
-    private $objectidentity;
+    protected $objectidentity;
 
     /**
-     * @var \TMSolution\GamificationBundle\Entity\Classname
+     * @var \TMSolution\GamificationBundle\Entity\Objecttype
      *
-     * @ORM\ManyToOne(targetEntity="TMSolution\GamificationBundle\Entity\Classname")
+     * @ORM\ManyToOne(targetEntity="TMSolution\GamificationBundle\Entity\Objecttype")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="classid", referencedColumnName="id")
+     *   @ORM\JoinColumn(name="objecttype", referencedColumnName="id")
      * })
      */
-    private $classid;
+    protected $objecttype;
 
+    /**
+     * Get id
+     *
+     * @return integer 
+     */
+    public function getId() {
+        return $this->id;
+    }
+
+    /**
+     * Set objectidentity
+     *
+     * @param integer $objectidentity
+     * @return Objectinstance
+     */
+    public function setObjectidentity($objectidentity) {
+        $this->objectidentity = $objectidentity;
+
+        return $this;
+    }
+
+    /**
+     * Get objectidentity
+     *
+     * @return integer 
+     */
+    public function getObjectidentity() {
+        return $this->objectidentity;
+    }
+
+    /**
+     * Set objectype
+     *
+     * @param \TMSolution\GamificationBundle\Entity\Objecttype $objectype
+     * @return Objectinstance
+     */
+    public function setObjecttype(\TMSolution\GamificationBundle\Entity\Objecttype $objecttype = null) {
+        $this->objecttype = $objecttype;
+
+        return $this;
+    }
+
+    /**
+     * Get objecttype
+     *
+     * @return \TMSolution\GamificationBundle\Entity\Objecttype 
+     */
+    public function getObjecttype() {
+        return $this->objecttype;
+    }
+
+    public function jsonSerialize() {
+        return [
+            'id' => $this->getId(),
+            'objectidentity' => $this->getObjectidentity(),
+            'objecttype' => $this->getObjecttype()
+        ];
+    }
 
 }

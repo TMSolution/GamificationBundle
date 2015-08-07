@@ -8,6 +8,9 @@ use TMSolution\GamificationBundle\Entity\Objecttrophy;
 use TMSolution\GamificationBundle\Entity\Trophy;
 use TMSolution\GamificationBundle\Entity\Classname;
 use TMSolution\GamificationBundle\Entity\Objectinstance;
+use Core\ModelBundle\Model\Model;
+use Hoa\Ruler\Ruler;
+use Hoa\Ruler\Context;
 
 class EventService {
 
@@ -66,12 +69,6 @@ class EventService {
             $eventCounterEntity->setCounter($eventCounterEntity->getCounter() + 1);
             $eventCounterModel->update($eventCounterEntity, true);
         }
-    } 
-
-    public function checkRule() {
-
-        return true;
-//sprawdzic regule - jest w encji
     }
 
     /**
@@ -121,6 +118,83 @@ class EventService {
         }
 
         return $result;
+    }
+
+    public function checkRule($objectInstanceId, $trophyId, $ruleId) {
+        /* $model = $this->get('model_factory');
+          $objectTrophyModel = $model->getModel('TMSolution\GamificationBundle\Entity\Objecttrophy');
+          $array = ['object' => $objectId];
+          $objectTrophyInstance = $objectTrophyModel->findBy($array);
+          $count = count($objectTrophyInstance);
+
+          //dump($count);exit;
+          $ruleMo = $this->get('model_factory');
+          $ruleModel = $ruleMo->getModel('TMSolution\GamificationBundle\Entity\Rule');
+          $ruleRecord = $ruleModel->findBy(['id' => $ruleId]);
+          $rule = $ruleRecord[0]->getName();
+
+          $ruler = new Ruler();
+          $context = new Context();
+          $context['points'] = $count;
+
+          $result = $ruler->assert($rule, $context);
+
+          if ($result) {
+          $objectInstanceMo = $this->get('model_factory');
+          $objectInstanceModel = $objectInstanceMo->getModel('TMSolution\GamificationBundle\Entity\Objectinstance');
+          $objectInstanceArray = $objectInstanceModel->findBy(['id' => $objectId]);
+          $objectInstance = $objectInstanceArray[0];
+
+          $newObjectTrophy = new Objecttrophy();
+          $newObjectTrophy->setDate(new \DateTime('NOW'));
+          $newObjectTrophy->setObject($objectInstance);
+
+
+          $trophyMo = $this->get('model_factory');
+          $trophyModel = $trophyMo->getModel('TMSolution\GamificationBundle\Entity\Trophy');
+
+          $trophyArray = $trophyModel->findBy(['id' => 2]);
+          $trophy = $trophyArray[0];
+          $newObjectTrophy->setTrophy($trophy);
+
+          $objectTrophyModel->create($newObjectTrophy, true);
+
+          return new Response("operation complete");
+
+          } */
+
+        $model = $this->container->get('model_factory');
+        
+        $objectInstanceModel = $model->getModel('TMSolution\GamificationBundle\Entity\Objectinstance');
+        $objectTrophyModel = $model->getModel('TMSolution\GamificationBundle\Entity\Trophy');
+        //$objectTrophyTypeModel = $model->getModel('TMSolution\GamificationBundle\Entity\Trophytype');
+        $objectRuleModel = $model->getModel('TMSolution\GamificationBundle\Entity\Rule');
+
+        $objectInstance = $objectInstanceModel->findOneById($objectInstanceId);
+        $objectTrophy = $objectTrophyModel->findOneById($trophyId);
+        $objectRule = $objectRuleModel->findOneById($ruleId);
+        $points = 12;
+        //$objectRuleParams = ['context' => $objectRule->getContext(), 'operator' => $objectRule->getOperator(), 'value' => $objectRule->getValue()];
+
+        if ($objectTrophy->getTrophytype()->getId() == 1/* Jednorazowa */) {
+            $rule = $objectRule->getContext() . " " . $objectRule->getOperator() . " " . $objectRule->getValue();
+            $context = new Context();
+            $context[$objectRule->getContext()] = $points;
+            $ruler = new Ruler();
+            $previousAwards;
+            
+            if($ruler->assert($rule, $context) == true){
+                return true;
+            }else{
+                return false;
+            }
+            
+            dump($rule); exit;
+            $objectTrophyInstance = $objectTrophyModel->findBy($array);
+        } elseif ($trophy->trophytype == 2/* Cykliczna */) {
+            
+            
+        }
     }
 
 }

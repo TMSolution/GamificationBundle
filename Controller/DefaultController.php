@@ -122,6 +122,16 @@ class DefaultController extends Controller {
         echo $result2;
         die("Do widzenia");
     }
+    
+    public function ruletestAction($objectInstanceId, $trophyId, $ruleId){
+        
+        $service = $this->get('gamification.events');
+        $res = $service->checkRule($objectInstanceId, $trophyId, $ruleId);
+        
+        
+        
+        return new Response(dump($res));
+    }
 
 }
 
