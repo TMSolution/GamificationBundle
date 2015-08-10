@@ -11,12 +11,15 @@ use TMSolution\GamificationBundle\Entity\Objectinstance;
 use Core\ModelBundle\Model\Model;
 use Hoa\Ruler\Ruler;
 use Hoa\Ruler\Context;
+use Symfony\Component\HttpFoundation\Response;
 
-class EventService {
+class EventService
+{
 
     protected $container;
 
-    public function __construct($container) {
+    public function __construct($container)
+    {
 
         $this->container = $container;
     }
@@ -42,7 +45,8 @@ class EventService {
      * @param integer $classId
      * 
      */
-    public function register($eventId, $objectIdentity, $classId) {
+    public function register($eventId, $objectIdentity, $classId)
+    {
 
         $objectInstanceModel = $this->container->get('model_factory')->getModel('TMSolution\GamificationBundle\Entity\Objectinstance');
         $objectInstance = $objectInstanceModel->getInstance($objectIdentity, $classId);
@@ -80,7 +84,8 @@ class EventService {
      * @param object $trophy
      * @return Objecttrophy $objectTrophy
      */
-    public function addObjectTrophy($objectType, $trophy) {
+    public function addObjectTrophy($objectType, $trophy)
+    {
 
         if ($objectType && $trophy) {
 
@@ -108,7 +113,8 @@ class EventService {
      * @param object $troptrophyCategory
      * @return array $result
      */
-    public function getObjectTrophies($objectInstance, $trophyCategory = null) {
+    public function getObjectTrophies($objectInstance, $trophyCategory = null)
+    {
         $objectTrophyModel = $this->container->get('model_factory')
                 ->getModel('TMSolution\GamificationBundle\Entity\Objecttrophy');
         if ($trophyCategory != null) {
@@ -120,81 +126,53 @@ class EventService {
         return $result;
     }
 
-    public function checkRule($objectInstanceId, $trophyId, $ruleId) {
-        /* $model = $this->get('model_factory');
-          $objectTrophyModel = $model->getModel('TMSolution\GamificationBundle\Entity\Objecttrophy');
-          $array = ['object' => $objectId];
-          $objectTrophyInstance = $objectTrophyModel->findBy($array);
-          $count = count($objectTrophyInstance);
-
-          //dump($count);exit;
-          $ruleMo = $this->get('model_factory');
-          $ruleModel = $ruleMo->getModel('TMSolution\GamificationBundle\Entity\Rule');
-          $ruleRecord = $ruleModel->findBy(['id' => $ruleId]);
-          $rule = $ruleRecord[0]->getName();
-
-          $ruler = new Ruler();
-          $context = new Context();
-          $context['points'] = $count;
-
-          $result = $ruler->assert($rule, $context);
-
-          if ($result) {
-          $objectInstanceMo = $this->get('model_factory');
-          $objectInstanceModel = $objectInstanceMo->getModel('TMSolution\GamificationBundle\Entity\Objectinstance');
-          $objectInstanceArray = $objectInstanceModel->findBy(['id' => $objectId]);
-          $objectInstance = $objectInstanceArray[0];
-
-          $newObjectTrophy = new Objecttrophy();
-          $newObjectTrophy->setDate(new \DateTime('NOW'));
-          $newObjectTrophy->setObject($objectInstance);
-
-
-          $trophyMo = $this->get('model_factory');
-          $trophyModel = $trophyMo->getModel('TMSolution\GamificationBundle\Entity\Trophy');
-
-          $trophyArray = $trophyModel->findBy(['id' => 2]);
-          $trophy = $trophyArray[0];
-          $newObjectTrophy->setTrophy($trophy);
-
-          $objectTrophyModel->create($newObjectTrophy, true);
-
-          return new Response("operation complete");
-
-          } */
-
+    public function checkRule($objectInstanceId, $trophyId, $ruleId)
+    {
         $model = $this->container->get('model_factory');
-        
         $objectInstanceModel = $model->getModel('TMSolution\GamificationBundle\Entity\Objectinstance');
         $objectTrophyModel = $model->getModel('TMSolution\GamificationBundle\Entity\Trophy');
-        //$objectTrophyTypeModel = $model->getModel('TMSolution\GamificationBundle\Entity\Trophytype');
         $objectRuleModel = $model->getModel('TMSolution\GamificationBundle\Entity\Rule');
+        $objectInstancePointsModel = $model->getModel('TMSolution\GamificationBundle\Entity\ObjectInstancePoints');
+
 
         $objectInstance = $objectInstanceModel->findOneById($objectInstanceId);
         $objectTrophy = $objectTrophyModel->findOneById($trophyId);
+
         $objectRule = $objectRuleModel->findOneById($ruleId);
-        $points = 12;
-        //$objectRuleParams = ['context' => $objectRule->getContext(), 'operator' => $objectRule->getOperator(), 'value' => $objectRule->getValue()];
+        $objectPoints = $objectInstancePointsModel->findOneBy(['objectid' => $objectInstanceId]);
+
+        $points = $objectPoints->getOverall1();
 
         if ($objectTrophy->getTrophytype()->getId() == 1/* Jednorazowa */) {
             $rule = $objectRule->getContext() . " " . $objectRule->getOperator() . " " . $objectRule->getValue();
             $context = new Context();
             $context[$objectRule->getContext()] = $points;
             $ruler = new Ruler();
-            $previousAwards;
-            
-            if($ruler->assert($rule, $context) == true){
-                return true;
-            }else{
-                return false;
-            }
-            
-            dump($rule); exit;
-            $objectTrophyInstance = $objectTrophyModel->findBy($array);
-        } elseif ($trophy->trophytype == 2/* Cykliczna */) {
-            
-            
+
+            if ($ruler->assert($rule, $context) == true) {
+                if ($objectPoints->getOneusedTrophy() == 0) {
+                    $var = $objectPoints->setOneusedTrophy(1);
+                    $objectInstancePointsModel->update($var, true);
+                }
+            } else {}
+        } elseif ($objectTrophy->getTrophytype()->getId() == 2/* Cykliczna */) {
+            $rule = $objectRule->getContext() . " " . $objectRule->getOperator() . " " . $objectRule->getValue();
+            $context = new Context();
+            $context[$objectRule->getContext()] = $points;
+            $ruler = new Ruler();
+
+            if ($ruler->assert($rule, $context) == true) {
+                $pointsUnused = $points - ($objectPoints->getCyclicTrophy() * 3);
+                
+
+                $newCyclicTrophy = intval($pointsUnused / 3);
+                $trophiesObtained = $objectPoints->getCyclicTrophy();
+                $var = $objectPoints->setCyclicTrophy($trophiesObtained + $newCyclicTrophy);
+                $objectInstancePointsModel->update($var, true);
+            } else {}
         }
+
+        return new Response('Operation complete');
     }
 
 }

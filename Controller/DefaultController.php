@@ -70,14 +70,18 @@ class DefaultController extends Controller {
         $ruleMo = $this->get('model_factory');
         $ruleModel = $ruleMo->getModel('TMSolution\GamificationBundle\Entity\Rule');
         $ruleRecord = $ruleModel->findBy(['id' => 1]);
-        $rule = $ruleRecord[0]->getName();
-
+        $ruleObject = $ruleRecord[0];
+        
+        //$rule = $ruleRecord[0]->getName();
+        $rule = $ruleObject->getContext() . ' ' . $ruleObject->getOperator() . ' ' . $ruleObject->getValue();
+        
+        
         $ruler = new Ruler();
         $context = new Context();
         $context['points'] = $count;
-
         $result = $ruler->assert($rule, $context);
         
+        //dump($result);exit;
         if ($result) {
             $objectInstanceMo = $this->get('model_factory');        
             $objectInstanceModel = $objectInstanceMo->getModel('TMSolution\GamificationBundle\Entity\Objectinstance');
@@ -99,6 +103,8 @@ class DefaultController extends Controller {
             $objectTrophyModel->create($newObjectTrophy, true);
                      
             return new Response("operation complete");
+        }else{
+            return new Response("operation failed");
         }
     }
 
@@ -130,7 +136,7 @@ class DefaultController extends Controller {
         
         
         
-        return new Response(dump($res));
+        return new Response(/*$res->getContent()*/dump($res));
     }
 
 }
