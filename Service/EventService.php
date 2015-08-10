@@ -126,53 +126,35 @@ class EventService
         return $result;
     }
 
-    public function checkRule($objectInstanceId, $trophyId, $ruleId)
+    public function checkRule($objectInstance, $trophy, $points)
     {
         $model = $this->container->get('model_factory');
-        $objectInstanceModel = $model->getModel('TMSolution\GamificationBundle\Entity\Objectinstance');
-        $objectTrophyModel = $model->getModel('TMSolution\GamificationBundle\Entity\Trophy');
         $objectRuleModel = $model->getModel('TMSolution\GamificationBundle\Entity\Rule');
-        $objectInstancePointsModel = $model->getModel('TMSolution\GamificationBundle\Entity\ObjectInstancePoints');
+        $objectRule = $objectRuleModel->findOneBy(['trophy' => $trophy->getId()]);
+        $assertion = assertion($objectRule->getContext(), $objectRule->getOperator(), $objectRule->getValue(), $points);
 
-
-        $objectInstance = $objectInstanceModel->findOneById($objectInstanceId);
-        $objectTrophy = $objectTrophyModel->findOneById($trophyId);
-
-        $objectRule = $objectRuleModel->findOneById($ruleId);
-        $objectPoints = $objectInstancePointsModel->findOneBy(['objectid' => $objectInstanceId]);
-
-        $points = $objectPoints->getOverall1();
-
-        if ($objectTrophy->getTrophytype()->getId() == 1/* Jednorazowa */) {
-            $rule = $objectRule->getContext() . " " . $objectRule->getOperator() . " " . $objectRule->getValue();
-            $context = new Context();
-            $context[$objectRule->getContext()] = $points;
-            $ruler = new Ruler();
-
-            if ($ruler->assert($rule, $context) == true) {
-                if ($objectPoints->getOneusedTrophy() == 0) {
-                    $var = $objectPoints->setOneusedTrophy(1);
-                    $objectInstancePointsModel->update($var, true);
-                }
-            } else {}
-        } elseif ($objectTrophy->getTrophytype()->getId() == 2/* Cykliczna */) {
-            $rule = $objectRule->getContext() . " " . $objectRule->getOperator() . " " . $objectRule->getValue();
-            $context = new Context();
-            $context[$objectRule->getContext()] = $points;
-            $ruler = new Ruler();
-
-            if ($ruler->assert($rule, $context) == true) {
-                $pointsUnused = $points - ($objectPoints->getCyclicTrophy() * 3);
-                
-
-                $newCyclicTrophy = intval($pointsUnused / 3);
-                $trophiesObtained = $objectPoints->getCyclicTrophy();
-                $var = $objectPoints->setCyclicTrophy($trophiesObtained + $newCyclicTrophy);
-                $objectInstancePointsModel->update($var, true);
-            } else {}
+        if ($trophy->getTrophytype()->getId() == 1/* Jednorazowa */) {
+            if ($$assertion == true) {
+                return new Response('Jednorazowa przyznana');
+            } else {
+                return new Response('Jednorazowa nie przyznana');
+            }
+        } elseif ($trophy->getTrophytype()->getId() == 2/* Cykliczna */) {
+            if ($assertion == true) {
+                return new Response('Cykliczna przyznana');
+            } else {
+                return new Response('Cykliczna nie przyznana');
+            }
         }
+    }
 
-        return new Response('Operation complete');
+    public function assertion($context, $operator, $value, $contextValue)
+    {
+        $ruler = new Ruler();
+        $cont = new Context();
+        $rule = $context . " " . $operator . " " . $value;
+        $cont[$context] = $contextValue;
+        return $ruler->assert($rule, $cont);
     }
 
 }
