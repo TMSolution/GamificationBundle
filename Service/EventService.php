@@ -13,25 +13,20 @@ use Hoa\Ruler\Ruler;
 use Hoa\Ruler\Context;
 use Symfony\Component\HttpFoundation\Response;
 
-class EventService
-{
+/**
+ * Description of EventService service
+ *
+ * @author Damian Piela <damian.piela@tmsolution.pl>
+ * @author Lukasz Sobieraj <lukasz.sobieraj@tmsolution.pl>
+ * @author Jacek Lozinski <jacek.lozinski@tmsolution.pl>
+ */
+class EventService {
 
     protected $container;
 
-    public function __construct($container)
-    {
-
+    public function __construct($container) {
         $this->container = $container;
     }
-
-    /**
-     * Description of EventService service
-     *
-     * @author Damian Piela <damian.piela@tmsolution.pl>
-     * @author Lukasz Sobieraj <lukasz.sobieraj@tmsolution.pl>
-     * @author Jacek Lozinski <jacek.lozinski@tmsolution.pl>
-
-     */
 
     /**
      * The method registers events in the database. 
@@ -45,33 +40,28 @@ class EventService
      * @param integer $classId
      * 
      */
-    public function register($eventId, $objectIdentity, $classId)
-    {
-
-        $objectInstanceModel = $this->container->get('model_factory')->getModel('TMSolution\GamificationBundle\Entity\Objectinstance');
-        $objectInstance = $objectInstanceModel->getInstance($objectIdentity, $classId);
+    public function register($eventCategoryId, $objectIdentity, $classId) {
+        $objectInstance = $this->container->get('model_factory')->getModel('TMSolution\GamificationBundle\Entity\Objectinstance')->getInstance($objectIdentity, $classId);
         if ($objectInstance) {
-
-            $eventModel = $this->container->get('model_factory')->getModel('TMSolution\GamificationBundle\Entity\Event');
-            $event = $eventModel->findOneById($eventId);
-
+            $event = $this->container->get('model_factory')->getModel('TMSolution\GamificationBundle\Entity\Event')->findOneById($eventCategoryId);
             $eventLogModel = $this->container->get('model_factory')->getModel('TMSolution\GamificationBundle\Entity\Eventlog');
             $eventLogEntity = new Eventlog();
-            $eventLogEntity->setEvent($event);
-            $eventLogEntity->setObjectInstance($objectInstance);
-            $eventLogEntity->setDate(new \DateTime('NOW'));
+            $eventLogEntity->setEvent($event)
+                    ->setObjectInstance($objectInstance)
+                    ->setDate(new \DateTime('NOW'));
             $eventLogModel->create($eventLogEntity, true);
-
             $eventCounterModel = $this->container->get('model_factory')->getModel('TMSolution\GamificationBundle\Entity\Eventcounter');
             try {
-                $eventCounterEntity = $eventCounterModel->findOneBy(['eventid' => $event, 'objectInstanceId' => $objectInstance]);
-            } catch (\Exception $ex) {
+                $eventCounterEntity = $eventCounterModel->findOneBy(['event' => $event, 'objectInstance' => $objectInstance]);
+                $eventCounterEntity->setCounter($eventCounterEntity->getCounter() + 1);
+                $eventCounterModel->update($eventCounterEntity, true);
+            } catch (\Exception $e) {
                 $eventCounterEntity = new Eventcounter();
+                $eventCounterEntity->setEvent($event);
+                $eventCounterEntity->setObjectInstance($objectInstance);
+                $eventCounterEntity->setCounter($eventCounterEntity->getCounter() + 1);
+                $eventCounterModel->update($eventCounterEntity, true);
             }
-            $eventCounterEntity->setEvent($event);
-            $eventCounterEntity->setObjectInstance($objectInstance);
-            $eventCounterEntity->setCounter($eventCounterEntity->getCounter() + 1);
-            $eventCounterModel->update($eventCounterEntity, true);
         }
     }
 
@@ -84,24 +74,19 @@ class EventService
      * @param object $trophy
      * @return Objecttrophy $objectTrophy
      */
-    public function addObjectTrophy($objectType, $trophy)
-    {
-
+    public function addObjectTrophy($objectType, $trophy) {
         if ($objectType && $trophy) {
-
-            $objectTrophyModel = $this->container->get('model_factory')
-                    ->getModel('TMSolution\GamificationBundle\Entity\Objecttrophy');
-
+            $objectTrophyModel = $this->container->get('model_factory')->getModel('TMSolution\GamificationBundle\Entity\Objecttrophy');
             $objectTrophy = new Objecttrophy();
-            $objectTrophy->setDate(new \DateTime('NOW'));
-            $objectTrophy->setObject($objectType);
-            $objectTrophy->setTrophy($trophy);
-
+            $objectTrophy->setDate(new \DateTime('NOW'))
+                    ->setObject($objectType)
+                    ->setTrophy($trophy);
             $objectTrophyModel->create($objectTrophy, true);
-
             return $objectTrophy;
         }
     }
+
+//end of addObjectTrophy
 
     /**
      * Looks for user's trophies in the database, if the $trophyCategory paramenter is given, 
@@ -113,8 +98,7 @@ class EventService
      * @param object $troptrophyCategory
      * @return array $result
      */
-    public function getObjectTrophies($objectInstance, $trophyCategory = null)
-    {
+    public function getObjectTrophies($objectInstance, $trophyCategory = null) {
         $objectTrophyModel = $this->container->get('model_factory')
                 ->getModel('TMSolution\GamificationBundle\Entity\Objecttrophy');
         if ($trophyCategory != null) {
@@ -126,22 +110,21 @@ class EventService
         return $result;
     }
 
-    public function checkRule($objectInstanceId, $trophyId, $ruleId)
-    {
+    public function checkRule($objectInstance, $trophy, $points /* zmienna do testow */) {
         $model = $this->container->get('model_factory');
         $objectInstanceModel = $model->getModel('TMSolution\GamificationBundle\Entity\Objectinstance');
         $objectTrophyModel = $model->getModel('TMSolution\GamificationBundle\Entity\Trophy');
         $objectRuleModel = $model->getModel('TMSolution\GamificationBundle\Entity\Rule');
-        $objectContextModel =  $model->getModel('TMSolution\GamificationBundle\Entity\Context');
-       
+        $objectContextModel = $model->getModel('TMSolution\GamificationBundle\Entity\Context');
+
         $objectInstance = $objectInstanceModel->findOneById($objectInstanceId);
         $objectTrophy = $objectTrophyModel->findOneById($trophyId);
         $objectRule = $objectRuleModel->findOneById($ruleId);
         $objectContext = $objectContextModel->findOneById($ruleId);
         $contextName = $objectContext->getName();
-       
-        
-      
+
+
+
         if ($objectTrophy->getTrophytype()->getId() == 1/* Jednorazowa */) {
             $rule = $objectRule->getContext->getName() . " " . $objectRule->getOperator() . " " . $objectRule->getValue();
             dump($rule);
@@ -149,13 +132,15 @@ class EventService
             $context = new Context();
             $context[$objectRule->getContext()] = $points;
             $ruler = new Ruler();
-            
+
             if ($ruler->assert($rule, $context) == true) {
                 if ($objectPoints->getOneusedTrophy() == 0) {
                     $var = $objectPoints->setOneusedTrophy(1);
                     $objectInstancePointsModel->update($var, true);
                 }
-            } else {}
+            } else {
+                
+            }
         } elseif ($objectTrophy->getTrophytype()->getId() == 2/* Cykliczna */) {
             $rule = $objectRule->getContext() . " " . $objectRule->getOperator() . " " . $objectRule->getValue();
             $context = new Context();
@@ -164,16 +149,56 @@ class EventService
 
             if ($ruler->assert($rule, $context) == true) {
                 $pointsUnused = $points - ($objectPoints->getCyclicTrophy() * 3);
-                
+
 
                 $newCyclicTrophy = intval($pointsUnused / 3);
                 $trophiesObtained = $objectPoints->getCyclicTrophy();
                 $var = $objectPoints->setCyclicTrophy($trophiesObtained + $newCyclicTrophy);
                 $objectInstancePointsModel->update($var, true);
-            } else {}
-        }
+            } else {
+                
+            }
 
-        return new Response('Operation complete');
+            $ruleModel = $model->getModel('TMSolution\GamificationBundle\Entity\Rule');
+            $contextModel = $model->getModel('TMSolution\GamificationBundle\Entity\Context');
+            $objectRule = $ruleModel->getRepository()->findOneBy(['trophy' => $trophy]);
+            $objectContext = $contextModel->getRepository()->findOneBy(['id' => $objectRule->getContext()]);
+
+
+
+            $assertion = $this->assertion($objectContext->getName(), $objectRule->getOperator(), $objectRule->getValue(), $points);
+            if ($trophy->getTrophytype()->getId() == 1/* Jednorazowa */) {
+                if ($assertion == true) {
+                    return new Response('Jednorazowa przyznana');
+                } else {
+                    return new Response('Jednorazowa nie przyznana');
+                }
+            } elseif ($trophy->getTrophytype()->getId() == 2/* Cykliczna */) {
+                if ($assertion == true) {
+                    $currentTrophies = count($objectInstance); //Nie patrzy na rodzaj nagrody. Nie wiadomo, na co wpływa
+                    return new Response('Cykliczna przyznana');
+                } else {
+                    return new Response('Cykliczna nie przyznana');
+                }
+            }
+        }
+    }
+
+    public function assertion($context, $operator, $value, $contextValue) {
+        $ruler = new Ruler();
+        $cont = new Context();
+        $rule = $context . " " . $operator . " " . $value;
+        $cont[$context] = $contextValue;
+        return $ruler->assert($rule, $cont);
+    }
+
+    public function count($objectInstance) {
+
+        $model = $this->container->get('model_factory');
+        $objectInstanceModel = $model->getModel('TMSolution\GamificationBundle\Entity\Objecttrophy');
+        $objectInstanceObject = $objectInstanceModel->findOneById($objectInstance->getObjectIdentity());
+        $count = count($objectInstanceObject);
+        return $count;
     }
 
 }
