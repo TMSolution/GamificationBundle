@@ -132,23 +132,24 @@ class EventService
         $objectInstanceModel = $model->getModel('TMSolution\GamificationBundle\Entity\Objectinstance');
         $objectTrophyModel = $model->getModel('TMSolution\GamificationBundle\Entity\Trophy');
         $objectRuleModel = $model->getModel('TMSolution\GamificationBundle\Entity\Rule');
-        $objectInstancePointsModel = $model->getModel('TMSolution\GamificationBundle\Entity\ObjectInstancePoints');
-
-
+        $objectContextModel =  $model->getModel('TMSolution\GamificationBundle\Entity\Context');
+       
         $objectInstance = $objectInstanceModel->findOneById($objectInstanceId);
         $objectTrophy = $objectTrophyModel->findOneById($trophyId);
-
         $objectRule = $objectRuleModel->findOneById($ruleId);
-        $objectPoints = $objectInstancePointsModel->findOneBy(['objectid' => $objectInstanceId]);
-
-        $points = $objectPoints->getOverall1();
-
+        $objectContext = $objectContextModel->findOneById($ruleId);
+        $contextName = $objectContext->getName();
+       
+        
+      
         if ($objectTrophy->getTrophytype()->getId() == 1/* Jednorazowa */) {
-            $rule = $objectRule->getContext() . " " . $objectRule->getOperator() . " " . $objectRule->getValue();
+            $rule = $objectRule->getContext->getName() . " " . $objectRule->getOperator() . " " . $objectRule->getValue();
+            dump($rule);
+            exit;
             $context = new Context();
             $context[$objectRule->getContext()] = $points;
             $ruler = new Ruler();
-
+            
             if ($ruler->assert($rule, $context) == true) {
                 if ($objectPoints->getOneusedTrophy() == 0) {
                     $var = $objectPoints->setOneusedTrophy(1);
