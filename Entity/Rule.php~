@@ -21,12 +21,25 @@ class Rule {
      */
     protected $id;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="name", type="string", length=255, nullable=true)
+     /*
+     * @ORM\Column(name="name", type="string", length=50, nullable=false)
+     * 
      */
     protected $name;
+    
+   
+    
+    /**
+     * 
+     * 
+     * @ORM\ManyToOne(targetEntity="Context")
+     * @ORM\JoinColumn(name="context", referencedColumnName="id")
+     */
+    protected $context;
+    
+    
+
+
 
     /**
      * @var \TMSolution\GamificationBundle\Entity\Trophy
@@ -38,12 +51,6 @@ class Rule {
      */
     protected $trophy;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="context", type="string", length=255, nullable=false)
-     */
-    protected $context;
 
     /**
      * @var string
@@ -172,4 +179,54 @@ class Rule {
     public function getValue() {
         return $this->value;
     }
+
+    /**
+     * Set operator
+     *
+     * @param string $operator
+     * @return Rule
+     */
+    public function setOperator($operator) {
+        $this->operator = $operator;
+
+        return $this;
+    }
+
+    /**
+     * Constructor
+     */
+    public function __construct() {
+        $this->contexts = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    /**
+     * Add contexts
+     *
+     * @param \TMSolution\GamificationBundle\Entity\Context $contexts
+     * @return Rule
+     */
+    public function addContext(\TMSolution\GamificationBundle\Entity\Context $contexts) {
+        $this->contexts[] = $contexts;
+
+        return $this;
+    }
+
+    /**
+     * Remove contexts
+     *
+     * @param \TMSolution\GamificationBundle\Entity\Context $contexts
+     */
+    public function removeContext(\TMSolution\GamificationBundle\Entity\Context $contexts) {
+        $this->contexts->removeElement($contexts);
+    }
+
+    /**
+     * Get contexts
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getContexts() {
+        return $this->contexts;
+    }
+
 }
