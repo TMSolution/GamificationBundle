@@ -1,5 +1,5 @@
 tm_solution_gamification_homepage:
-    path:     /gamification/test/{objectIdentity}/{classId}
+    path:     /gamification/test/{eventCategoryId}/{objectIdentity}/{classId}
     defaults: { _controller: TMSolutionGamificationBundle:Default:check }
 
 tm_solution_gamification_checkTrophy:

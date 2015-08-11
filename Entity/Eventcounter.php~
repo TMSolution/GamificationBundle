@@ -33,7 +33,7 @@ class Eventcounter
      *
      * @ORM\ManyToOne(targetEntity="TMSolution\GamificationBundle\Entity\Objectinstance")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="objectinstance", referencedColumnName="id")
+     *   @ORM\JoinColumn(name="objectinstance", referencedColumnName="objectidentity")
      * })
      */
     protected $objectInstance;

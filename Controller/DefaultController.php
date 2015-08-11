@@ -15,6 +15,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 class DefaultController extends Controller
 {
 
+    // WARNING! The way the result is returned is for presentation purposes only and most probably will have to be updated.
     //Checks if event already exists. If not, registers it in the db.
     public function checkAction($eventCategoryId, $objectIdentity, $classId)
     {
@@ -22,7 +23,7 @@ class DefaultController extends Controller
 //        $myEvent = new \TMSolution\GamificationBundle\Entity\Event();
 //            $eventObject = $model->getModel('TMSolution\GamificationBundle\Entity\Event')->findOneBy(['objectidentity' => $objectInstanceId]);
 
-        $registeredObject = $eventService->register($eventCategoryId, $objectIdentity, $classId); 
+        $registeredObject = $eventService->register($eventCategoryId, $objectIdentity, $classId);
         return new JsonResponse($registeredObject);
     }
 
@@ -33,9 +34,10 @@ class DefaultController extends Controller
      */
     public function checkTrophyAction($objectInstance, $trophyCategory = null)
     {
-        $eventService = $this->get('gamification.events');
-        $result = $eventService->getObjectTrophies($objectInstance, $trophyCategory);
-        return new \Symfony\Component\HttpFoundation\Response("sprawdzono istnienie nagrody");
+        dump($objectInstance);exit;
+        //$eventService = $this->get('gamification.events');
+        $result = $this->get('gamification.events')->getObjectTrophies($objectInstance, $trophyCategory);
+        return new Response("sprawdzono istnienie nagrody");
     }
 
     // WARNING! The way the result is returned is for presentation purposes only and most probably will have to be updated.
@@ -124,9 +126,9 @@ class DefaultController extends Controller
         die("Do widzenia");
     }
 
+    // WARNING! The way the result is returned is for presentation purposes only and most probably will have to be updated.
     public function ruletestAction($objectInstanceId, $trophyId, $ruleId)
     {
-
         $model = $this->container->get('model_factory');
         $objectInstance = $model->getModel('TMSolution\GamificationBundle\Entity\Objectinstance')->findOneBy(['objectidentity' => $objectInstanceId]);
         $trophyObject = $model->getModel('TMSolution\GamificationBundle\Entity\Trophy')->findOneById($trophyId);
