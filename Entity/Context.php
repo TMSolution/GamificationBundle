@@ -15,12 +15,12 @@ class Context
     /**
      * @var integer
      *
-     * @ORM\Column(name="id", type="integer")    
+     * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     protected $id;
-
+    
     /**
      * @var string 
      * 
@@ -28,6 +28,16 @@ class Context
      */
     protected $name;
     
+//    /**
+//     * @ORM\ManyToOne(targetEntity="Rule", inversedBy="context")
+//     *
+//     * 
+//     */
+//     
+//    protected $rule;
+    
+
+
 
 
     /**

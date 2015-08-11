@@ -20,11 +20,13 @@ use Symfony\Component\HttpFoundation\Response;
  * @author Lukasz Sobieraj <lukasz.sobieraj@tmsolution.pl>
  * @author Jacek Lozinski <jacek.lozinski@tmsolution.pl>
  */
-class EventService {
+class EventService
+{
 
     protected $container;
 
-    public function __construct($container) {
+    public function __construct($container)
+    {
         $this->container = $container;
     }
 
@@ -40,7 +42,8 @@ class EventService {
      * @param integer $classId
      * 
      */
-    public function register($eventCategoryId, $objectIdentity, $classId) {
+    public function register($eventCategoryId, $objectIdentity, $classId)
+    {
         $objectInstance = $this->container->get('model_factory')->getModel('TMSolution\GamificationBundle\Entity\Objectinstance')->getInstance($objectIdentity, $classId);
         if ($objectInstance) {
             $event = $this->container->get('model_factory')->getModel('TMSolution\GamificationBundle\Entity\Event')->findOneById($eventCategoryId);
@@ -74,7 +77,8 @@ class EventService {
      * @param object $trophy
      * @return Objecttrophy $objectTrophy
      */
-    public function addObjectTrophy($objectType, $trophy) {
+    public function addObjectTrophy($objectType, $trophy)
+    {
         if ($objectType && $trophy) {
             $objectTrophyModel = $this->container->get('model_factory')->getModel('TMSolution\GamificationBundle\Entity\Objecttrophy');
             $objectTrophy = new Objecttrophy();
@@ -110,81 +114,36 @@ class EventService {
         return $result;
     }
 
-    public function checkRule($objectInstance, $trophy, $points /* zmienna do testow */) {
+    public function checkRule($objectInstance, $trophy, $points /* zmienna do testow */)
+    {
+
         $model = $this->container->get('model_factory');
-        $objectInstanceModel = $model->getModel('TMSolution\GamificationBundle\Entity\Objectinstance');
-        $objectTrophyModel = $model->getModel('TMSolution\GamificationBundle\Entity\Trophy');
-        $objectRuleModel = $model->getModel('TMSolution\GamificationBundle\Entity\Rule');
-        $objectContextModel = $model->getModel('TMSolution\GamificationBundle\Entity\Context');
-
-        $objectInstance = $objectInstanceModel->findOneById($objectInstanceId);
-        $objectTrophy = $objectTrophyModel->findOneById($trophyId);
-        $objectRule = $objectRuleModel->findOneById($ruleId);
-        $objectContext = $objectContextModel->findOneById($ruleId);
-        $contextName = $objectContext->getName();
+        $ruleModel = $model->getModel('TMSolution\GamificationBundle\Entity\Rule');
+        $contextModel = $model->getModel('TMSolution\GamificationBundle\Entity\Context');
+        $objectRule = $ruleModel->getRepository()->findOneBy(['trophy' => $trophy]);
+        $objectContext = $contextModel->getRepository()->findOneBy(['id' => $objectRule->getContext()]);
 
 
 
-        if ($objectTrophy->getTrophytype()->getId() == 1/* Jednorazowa */) {
-            $rule = $objectRule->getContext->getName() . " " . $objectRule->getOperator() . " " . $objectRule->getValue();
-            dump($rule);
-            exit;
-            $context = new Context();
-            $context[$objectRule->getContext()] = $points;
-            $ruler = new Ruler();
-
-            if ($ruler->assert($rule, $context) == true) {
-                if ($objectPoints->getOneusedTrophy() == 0) {
-                    $var = $objectPoints->setOneusedTrophy(1);
-                    $objectInstancePointsModel->update($var, true);
-                }
+        $assertion = $this->assertion($objectContext->getName(), $objectRule->getOperator(), $objectRule->getValue(), $points);
+        if ($trophy->getTrophytype()->getId() == 1/* Jednorazowa */) {
+            if ($assertion == true) {
+                return new Response('Jednorazowa przyznana');
             } else {
-                
+                return new Response('Jednorazowa nie przyznana');
             }
-        } elseif ($objectTrophy->getTrophytype()->getId() == 2/* Cykliczna */) {
-            $rule = $objectRule->getContext() . " " . $objectRule->getOperator() . " " . $objectRule->getValue();
-            $context = new Context();
-            $context[$objectRule->getContext()] = $points;
-            $ruler = new Ruler();
-
-            if ($ruler->assert($rule, $context) == true) {
-                $pointsUnused = $points - ($objectPoints->getCyclicTrophy() * 3);
-
-
-                $newCyclicTrophy = intval($pointsUnused / 3);
-                $trophiesObtained = $objectPoints->getCyclicTrophy();
-                $var = $objectPoints->setCyclicTrophy($trophiesObtained + $newCyclicTrophy);
-                $objectInstancePointsModel->update($var, true);
+        } elseif ($trophy->getTrophytype()->getId() == 2/* Cykliczna */) {
+            if ($assertion == true) {
+                $currentTrophies = count($objectInstance); //Nie patrzy na rodzaj nagrody. Nie wiadomo, na co wpływa
+                return new Response('Cykliczna przyznana');
             } else {
-                
-            }
-
-            $ruleModel = $model->getModel('TMSolution\GamificationBundle\Entity\Rule');
-            $contextModel = $model->getModel('TMSolution\GamificationBundle\Entity\Context');
-            $objectRule = $ruleModel->getRepository()->findOneBy(['trophy' => $trophy]);
-            $objectContext = $contextModel->getRepository()->findOneBy(['id' => $objectRule->getContext()]);
-
-
-
-            $assertion = $this->assertion($objectContext->getName(), $objectRule->getOperator(), $objectRule->getValue(), $points);
-            if ($trophy->getTrophytype()->getId() == 1/* Jednorazowa */) {
-                if ($assertion == true) {
-                    return new Response('Jednorazowa przyznana');
-                } else {
-                    return new Response('Jednorazowa nie przyznana');
-                }
-            } elseif ($trophy->getTrophytype()->getId() == 2/* Cykliczna */) {
-                if ($assertion == true) {
-                    $currentTrophies = count($objectInstance); //Nie patrzy na rodzaj nagrody. Nie wiadomo, na co wpływa
-                    return new Response('Cykliczna przyznana');
-                } else {
-                    return new Response('Cykliczna nie przyznana');
-                }
+                return new Response('Cykliczna nie przyznana');
             }
         }
     }
 
-    public function assertion($context, $operator, $value, $contextValue) {
+    public function assertion($context, $operator, $value, $contextValue)
+    {
         $ruler = new Ruler();
         $cont = new Context();
         $rule = $context . " " . $operator . " " . $value;
@@ -192,7 +151,8 @@ class EventService {
         return $ruler->assert($rule, $cont);
     }
 
-    public function count($objectInstance) {
+    public function count($objectInstance)
+    {
 
         $model = $this->container->get('model_factory');
         $objectInstanceModel = $model->getModel('TMSolution\GamificationBundle\Entity\Objecttrophy');
