@@ -12,131 +12,130 @@ use TMSolution\GamificationBundle\Entity\Objecttrophy;
 use TMSolution\GamificationBundle\Service\EventService;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
-class DefaultController extends Controller {
+class DefaultController extends Controller
+{
 
-    public function checkAction($objectIdentity, $classId) {
+    //Checks if event already exists. If not, registers it in the db.
+    public function checkAction($eventCategoryId, $objectIdentity, $classId)
+    {
         $eventService = $this->get('gamification.events');
-        $myEvent = new \TMSolution\GamificationBundle\Entity\Event();
+//        $myEvent = new \TMSolution\GamificationBundle\Entity\Event();
+//            $eventObject = $model->getModel('TMSolution\GamificationBundle\Entity\Event')->findOneBy(['objectidentity' => $objectInstanceId]);
 
-        $register = $eventService->register(1, $objectIdentity, $classId);
-        //$model = $this->getModel('TMSolution\GamificationBundle\Entity\Objectinstance');
-        //$result = $model->getInstance($objectIdentity, $classId);
-
-        return new JsonResponse($register);
+        $registeredObject = $eventService->register($eventCategoryId, $objectIdentity, $classId); 
+        return new JsonResponse($registeredObject);
     }
 
-    public function checkTrophyAction($objectInstance, $trophyCategory = null) {
-        echo "przed sleepem";
-        return new Response("lslsl");
-//        sleep(5);
-//        echo" po sleepie jestem akcja check trophy ";
-//        $eventService = $this->get('gamification.events');
-//        $result = $eventService->getObjectTrophies($objectInstance, $trophyCategory);
-//        return new \Symfony\Component\HttpFoundation\Response("sprawdzono istnienie nagrody");
-    }
-
-    public function addTrophyAction($objectInstanceId, $trophyId) {
-//  do testu listenerexception
-//       try{
-//           throw new Exception();
-//       } catch (Exception $ex) {
-//           throw $ex;
-//       }
-        $objectInstanceMo = $this->get('model_factory');
-        $objectInstanceModel = $objectInstanceMo->getModel('TMSolution\GamificationBundle\Entity\Objectinstance');
-        $objectInstance = $objectInstanceModel->findOneBy(['objectidentity' => $objectInstanceId]);
-        
-        $trophyInstanceMo = $this->get('model_factory');
-        $trophyInstanceModel = $trophyInstanceMo->getModel('TMSolution\GamificationBundle\Entity\Trophy');
-        $trophy = $trophyInstanceModel->findOneBy(['id' => $trophyId]);
+    //obsolete
+    /* This function returns a list of a certain user's trophies.
+     * By default, all kinds of trophies are returned, but the second 
+     * argument may specify the kind of trophy.
+     */
+    public function checkTrophyAction($objectInstance, $trophyCategory = null)
+    {
         $eventService = $this->get('gamification.events');
-        $result = $eventService->addObjectTrophy($objectInstance, $trophy);
-        //dump($result);exit();
-
-
-        return new \Symfony\Component\HttpFoundation\Response("dodano nagrode");
+        $result = $eventService->getObjectTrophies($objectInstance, $trophyCategory);
+        return new \Symfony\Component\HttpFoundation\Response("sprawdzono istnienie nagrody");
     }
 
+    // WARNING! The way the result is returned is for presentation purposes only and most probably will have to be updated.
+    /*
+     * Adds a trophy object to the specified user. Presents the object as a result.
+     * In case neither the user nor trophy exists, returns appropriate information.
+     */
+    public function addTrophyAction($objectInstanceId, $trophyId)
+    {
+        $response = null;
+        try {
+            $model = $this->get('model_factory');
+            $objectInstance = $model->getModel('TMSolution\GamificationBundle\Entity\Objectinstance')->findOneBy(['objectidentity' => $objectInstanceId]);
+            $trophyObject = $model->getModel('TMSolution\GamificationBundle\Entity\Trophy')->findOneBy(['id' => $trophyId]);
+        } catch (\Exception $e) {
+            $response = new Response('Podane dane nie istnieją'); //Exception return option
+        }
+        $addedTrophy = $this->get('gamification.events')->addObjectTrophy($objectInstance, $trophyObject);
+        return new Response(dump($addedTrophy)); //Primary return
+    }
+
+    //obsolete - appropriate service provided
     //@ToDo: do przeanalizowania i napisania
-    //
-    public function checkRuleAction($objectId) {
+    public function checkRuleAction($objectId)
+    {
         $model = $this->get('model_factory');
         $objectTrophyModel = $model->getModel('TMSolution\GamificationBundle\Entity\Objecttrophy');
         $array = ['object' => $objectId];
         $objectTrophyInstance = $objectTrophyModel->findBy($array);
         $count = count($objectTrophyInstance);
-        
+
         //dump($count);exit;
         $ruleMo = $this->get('model_factory');
         $ruleModel = $ruleMo->getModel('TMSolution\GamificationBundle\Entity\Rule');
         $ruleRecord = $ruleModel->findBy(['id' => 1]);
         $ruleObject = $ruleRecord[0];
-        
+
         //$rule = $ruleRecord[0]->getName();
         $rule = $ruleObject->getContext() . ' ' . $ruleObject->getOperator() . ' ' . $ruleObject->getValue();
-        
-        
+
+
         $ruler = new Ruler();
         $context = new Context();
         $context['points'] = $count;
         $result = $ruler->assert($rule, $context);
-        
+
         //dump($result);exit;
         if ($result) {
-            $objectInstanceMo = $this->get('model_factory');        
+            $objectInstanceMo = $this->get('model_factory');
             $objectInstanceModel = $objectInstanceMo->getModel('TMSolution\GamificationBundle\Entity\Objectinstance');
             $objectInstanceArray = $objectInstanceModel->findBy(['id' => $objectId]);
             $objectInstance = $objectInstanceArray[0];
-            
+
             $newObjectTrophy = new Objecttrophy();
             $newObjectTrophy->setDate(new \DateTime('NOW'));
             $newObjectTrophy->setObject($objectInstance);
-            
+
 
             $trophyMo = $this->get('model_factory');
             $trophyModel = $trophyMo->getModel('TMSolution\GamificationBundle\Entity\Trophy');
-   
+
             $trophyArray = $trophyModel->findBy(['id' => 2]);
             $trophy = $trophyArray[0];
             $newObjectTrophy->setTrophy($trophy);
 
             $objectTrophyModel->create($newObjectTrophy, true);
-                     
+
             return new Response("operation complete");
-        }else{
+        } else {
             return new Response("operation failed");
         }
     }
 
-    public function testSoapAction() {
-
-
-
+    public function testSoapAction()
+    {
 
         $objSoapClient = new \SoapClient("http://localhost/rulestest/rulestest/web/app_dev.php/ws/GamificationAPI?wsdl");
-        // dump($objSoapClient);
-//        //;
         try {
             $result = $objSoapClient->test(1);
             $result2 = $objSoapClient->hello(1);
         } catch (\Exception $ex) {
-
-
             die("hello");
         }
         echo $result;
         echo $result2;
         die("Do widzenia");
     }
-    
-    public function ruletestAction($objectInstanceId, $trophyId, $ruleId){
-        
+
+    public function ruletestAction($objectInstanceId, $trophyId, $ruleId)
+    {
+
+        $model = $this->container->get('model_factory');
+        $objectInstance = $model->getModel('TMSolution\GamificationBundle\Entity\Objectinstance')->findOneBy(['objectidentity' => $objectInstanceId]);
+        $trophyObject = $model->getModel('TMSolution\GamificationBundle\Entity\Trophy')->findOneById($trophyId);
+        //dump($trophyObject); exit;
         $service = $this->get('gamification.events');
-        $res = $service->checkRule($objectInstanceId, $trophyId, $ruleId);
-        
-        
-        
-        return new Response(/*$res->getContent()*/dump($res));
+
+        $res = $service->checkRule($objectInstance, $trophyObject, 50);
+
+        return new Response(dump($res));
     }
 
 }
