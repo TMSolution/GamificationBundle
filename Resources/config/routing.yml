@@ -3,11 +3,11 @@ tm_solution_gamification_homepage:
     defaults: { _controller: TMSolutionGamificationBundle:Default:check }
 
 tm_solution_gamification_checkTrophy:
-    path:     /gamification/checkTrophy/{objectInstance}/{trophyCategory}
+    path:     /gamification/checkTrophy/{objectInstanceId}/{trophyCategoryId}
     defaults: { _controller: TMSolutionGamificationBundle:Default:checkTrophy }
     
 tm_solution_gamification_checkTrophy1:
-    path:     /gamification/checkTrophy/{objectInstance}
+    path:     /gamification/checkTrophy/{objectInstanceId}
     defaults: { _controller: TMSolutionGamificationBundle:Default:checkTrophy }
     
 tm_solution_gamification_addTrophy1:

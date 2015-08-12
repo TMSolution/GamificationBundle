@@ -27,17 +27,26 @@ class DefaultController extends Controller
         return new JsonResponse($registeredObject);
     }
 
-    //obsolete
+    // WARNING! The way the result is returned is for presentation purposes only and most probably will have to be updated.
     /* This function returns a list of a certain user's trophies.
      * By default, all kinds of trophies are returned, but the second 
      * argument may specify the kind of trophy.
+     * 
+     * @param integer $objectInstanceId
+     * @param integer $trophyCategoryId
+     * @return Response
      */
-    public function checkTrophyAction($objectInstance, $trophyCategory = null)
+    public function checkTrophyAction($objectInstanceId, $trophyCategoryId = null)
     {
-        dump($objectInstance);exit;
-        //$eventService = $this->get('gamification.events');
+        $objectInstance = $this->get('model_factory')->getModel('TMSolution\GamificationBundle\Entity\Objectinstance')
+                ->findOneBy(['objectidentity' => $objectInstanceId]);
+        $trophyCategory = null;
+        if ($trophyCategoryId == null) {
+            $trophyCategory = $this->get('model_factory')->getModel('TMSolution\GamificationBundle\Entity\Trophycategory')
+                    ->findOneBy(['id' => $objectInstanceId]);
+        }
         $result = $this->get('gamification.events')->getObjectTrophies($objectInstance, $trophyCategory);
-        return new Response("sprawdzono istnienie nagrody");
+        return new Response(dump($result));
     }
 
     // WARNING! The way the result is returned is for presentation purposes only and most probably will have to be updated.
@@ -111,6 +120,7 @@ class DefaultController extends Controller
         }
     }
 
+    //obsolete
     public function testSoapAction()
     {
 
@@ -134,8 +144,7 @@ class DefaultController extends Controller
         $trophyObject = $model->getModel('TMSolution\GamificationBundle\Entity\Trophy')->findOneById($trophyId);
         //dump($trophyObject); exit;
         $service = $this->get('gamification.events');
-
-        $res = $service->checkRule($objectInstance, $trophyObject, 50);
+        $res = $service->checkRule($objectInstance, $trophyObject);
 
         return new Response(dump($res));
     }

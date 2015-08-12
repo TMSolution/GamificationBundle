@@ -5,10 +5,6 @@ namespace TMSolution\GamificationBundle\Service;
 use TMSolution\GamificationBundle\Entity\Eventlog;
 use TMSolution\GamificationBundle\Entity\Eventcounter;
 use TMSolution\GamificationBundle\Entity\Objecttrophy;
-use TMSolution\GamificationBundle\Entity\Trophy;
-use TMSolution\GamificationBundle\Entity\Classname;
-use TMSolution\GamificationBundle\Entity\Objectinstance;
-use Core\ModelBundle\Model\Model;
 use Hoa\Ruler\Ruler;
 use Hoa\Ruler\Context;
 use Symfony\Component\HttpFoundation\Response;
@@ -24,10 +20,28 @@ class EventService
 {
 
     protected $container;
+    protected $model;
+    protected $objectInstanceModel;
+    protected $eventModel;
+    protected $eventLogModel;
+    protected $eventCounterModel;
+    protected $objectTrophyModel;
+    protected $ruleModel;
+    protected $contextModel;
+    protected $trophyModel;
 
     public function __construct($container)
     {
         $this->container = $container;
+        $this->model = $this->container->get('model_factory');
+        $this->objectInstance = $this->model->getModel('TMSolution\GamificationBundle\Entity\Objectinstance');
+        $this->eventModel = $this->model->getModel('TMSolution\GamificationBundle\Entity\Event');
+        $this->eventLogModel = $this->model->getModel('TMSolution\GamificationBundle\Entity\Eventlog');
+        $this->eventCounterModel = $this->model->getModel('TMSolution\GamificationBundle\Entity\Eventcounter');
+        $this->objectTrophyModel = $this->model->getModel('TMSolution\GamificationBundle\Entity\Objecttrophy');
+        $this->ruleModel = $this->model->getModel('TMSolution\GamificationBundle\Entity\Rule');
+        $this->contextModel = $this->model->getModel('TMSolution\GamificationBundle\Entity\Context');
+        $this->trophyModel = $this->model->getModel('TMSolution\GamificationBundle\Entity\Trophy');
     }
 
     /**
@@ -44,26 +58,24 @@ class EventService
      */
     public function register($eventCategoryId, $objectIdentity, $classId)
     {
-        $objectInstance = $this->container->get('model_factory')->getModel('TMSolution\GamificationBundle\Entity\Objectinstance')->getInstance($objectIdentity, $classId);
+        $objectInstance = $this->objectInstanceModel->getInstance($objectIdentity, $classId);
         if ($objectInstance) {
-            $event = $this->container->get('model_factory')->getModel('TMSolution\GamificationBundle\Entity\Event')->findOneById($eventCategoryId);
-            $eventLogModel = $this->container->get('model_factory')->getModel('TMSolution\GamificationBundle\Entity\Eventlog');
+            $event = $this->eventModel->findOneById($eventCategoryId);
             $eventLogEntity = new Eventlog();
             $eventLogEntity->setEvent($event)
                     ->setObjectInstance($objectInstance)
                     ->setDate(new \DateTime('NOW'));
-            $eventLogModel->create($eventLogEntity, true);
-            $eventCounterModel = $this->container->get('model_factory')->getModel('TMSolution\GamificationBundle\Entity\Eventcounter');
+            $this->eventLogModel->create($eventLogEntity, true);
             try {
-                $eventCounterEntity = $eventCounterModel->findOneBy(['event' => $event, 'objectInstance' => $objectInstance]);
+                $eventCounterEntity = $this->eventCounterModel->findOneBy(['event' => $event, 'objectInstance' => $objectInstance]);
                 $eventCounterEntity->setCounter($eventCounterEntity->getCounter() + 1);
-                $eventCounterModel->update($eventCounterEntity, true);
+                $this->eventCounterModel->update($eventCounterEntity, true);
             } catch (\Exception $e) {
                 $eventCounterEntity = new Eventcounter();
                 $eventCounterEntity->setEvent($event);
                 $eventCounterEntity->setObjectInstance($objectInstance);
                 $eventCounterEntity->setCounter($eventCounterEntity->getCounter() + 1);
-                $eventCounterModel->update($eventCounterEntity, true);
+                $this->eventCounterModel->update($eventCounterEntity, true);
             }
         }
     }
@@ -80,12 +92,11 @@ class EventService
     public function addObjectTrophy($objectType, $trophy)
     {
         if ($objectType && $trophy) {
-            $objectTrophyModel = $this->container->get('model_factory')->getModel('TMSolution\GamificationBundle\Entity\Objecttrophy');
             $objectTrophy = new Objecttrophy();
             $objectTrophy->setDate(new \DateTime('NOW'))
                     ->setObject($objectType)
                     ->setTrophy($trophy);
-            $objectTrophyModel->create($objectTrophy, true);
+            $this->objectTrophyModel->create($objectTrophy, true);
             return $objectTrophy;
         }
     }
@@ -104,41 +115,44 @@ class EventService
      */
     public function getObjectTrophies($objectInstance, $trophyCategory = null)
     {
-        $objectTrophyModel = $this->container->get('model_factory')
-                ->getModel('TMSolution\GamificationBundle\Entity\Objecttrophy');
         if ($trophyCategory != null) {
-            $result = $objectTrophyModel->findBy(['object' => $objectInstance, 'trophy' => $trophyCategory]);
+            $result = $this->objectTrophyModel->findBy(['object' => $objectInstance, 'trophy' => $trophyCategory]);
         } else {
-            $result = $objectTrophyModel->findBy(['object' => $objectInstance]);
+            $result = $$this->objectTrophyModel->findBy(['object' => $objectInstance]);
         }
-
         return $result;
     }
 
-    public function checkRule($objectInstance, $trophy, $points /* zmienna do testow */)
+    /* Błąd projektowy - nagroda cykliczna nie może być przyznawana co 2 wystąpienia, ponieważ jej podstawą są przyznane wcześniej nagrody cykliczne.
+     * Oznacza to, że nagroda przyznaje się, sprawdzając samą siebie, oraz że nigdy nie zostanie osiągnięta, ponieważ nigdy nie spełni początkowego warunku
+     * i nie wyjdzie poza początkową wartość, o ile ta nie zostanie w sztuczny sposób podniesiona. Na tą chwilę jest przyznawana za każdym razem.
+     */
+
+    public function checkRule($objectInstance, $trophy /* $points -zmienna do testow */)
     {
+        $objectRule = $this->ruleModel->getRepository()->findOneBy(['trophy' => $trophy]);
+        $objectContext = $this->contextModel->getRepository()->findOneBy(['id' => $objectRule->getContext()]);
+        $trophyCount = $this->countTrophies($objectInstance, $trophy);
+        $cyclicCount = $this->countCyclicTrophies($objectInstance);
+        $assertion = $this->assertion($objectContext->getName(), $objectRule->getOperator(), $objectRule->getValue(), $cyclicCount);
 
-        $model = $this->container->get('model_factory');
-        $ruleModel = $model->getModel('TMSolution\GamificationBundle\Entity\Rule');
-        $contextModel = $model->getModel('TMSolution\GamificationBundle\Entity\Context');
-        $objectRule = $ruleModel->getRepository()->findOneBy(['trophy' => $trophy]);
-        $objectContext = $contextModel->getRepository()->findOneBy(['id' => $objectRule->getContext()]);
-
-
-
-        $assertion = $this->assertion($objectContext->getName(), $objectRule->getOperator(), $objectRule->getValue(), $points);
         if ($trophy->getTrophytype()->getId() == 1/* Jednorazowa */) {
-            if ($assertion == true) {
-                return new Response('Jednorazowa przyznana');
+            if (($assertion == true) && ($trophyCount == 0)) {
+                $objectTrophy = $this->createObjecttrophy($objectInstance, $trophy);
+                $this->objectTrophyModel->create($objectTrophy, true);
+                return new Response('Nagroda jednorazowa przyznana');
+            } elseif ($trophyCount != 0) {
+                return new Response('Posiadasz już tą nagrodę jednorazową.');
             } else {
-                return new Response('Jednorazowa nie przyznana');
+                return new Response('Nagroda jednorazowa nie przyznana');
             }
         } elseif ($trophy->getTrophytype()->getId() == 2/* Cykliczna */) {
             if ($assertion == true) {
-                $currentTrophies = count($objectInstance); //Nie patrzy na rodzaj nagrody. Nie wiadomo, na co wpływa
-                return new Response('Cykliczna przyznana');
+                $objectTrophy = $this->createObjecttrophy($objectInstance, $trophy);
+                $this->objectTrophyModel->create($objectTrophy, true);
+                return new Response("Nagroda cykliczna przyznana. Obecnie masz $cyclicCount nagród tego typu.");
             } else {
-                return new Response('Cykliczna nie przyznana');
+                return new Response('Nagroda cykliczna nie przyznana.');
             }
         }
     }
@@ -152,14 +166,33 @@ class EventService
         return $ruler->assert($rule, $cont);
     }
 
-    public function count($objectInstance)
+    public function countTrophies($objectInstance, $trophy)
     {
-
-        $model = $this->container->get('model_factory');
-        $objectInstanceModel = $model->getModel('TMSolution\GamificationBundle\Entity\Objecttrophy');
-        $objectInstanceObject = $objectInstanceModel->findOneById($objectInstance->getObjectIdentity());
-        $count = count($objectInstanceObject);
+        $trophiesArray = $this->objectTrophyModel->findBy(['object' => $objectInstance, 'trophy' => $trophy]);
+        $count = count($trophiesArray);
         return $count;
+    }
+
+    public function createObjecttrophy($objectInstance, $trophy)
+    {
+        $objectTrophy = new Objecttrophy();
+        $objectTrophy->setDate(new \DateTime('NOW'))
+                ->setObject($objectInstance)
+                ->setTrophy($trophy);
+        return $objectTrophy;
+    }
+
+    // Do zrobienia
+    public function computeContextValue($objectInstance, $trophy)
+    {
+        
+    }
+
+    public function countCyclicTrophies($objectInstance)
+    {
+        $cyclicTrophy = $this->trophyModel->findOneById(2);
+        $cyclicTrophies = $this->countTrophies($objectInstance, $cyclicTrophy);
+        return $cyclicTrophies;
     }
 
 }
