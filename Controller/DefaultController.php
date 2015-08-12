@@ -23,6 +23,8 @@ class DefaultController extends Controller
 //        $myEvent = new \TMSolution\GamificationBundle\Entity\Event();
 //            $eventObject = $model->getModel('TMSolution\GamificationBundle\Entity\Event')->findOneBy(['objectidentity' => $objectInstanceId]);
 
+        
+        
         $registeredObject = $eventService->register($eventCategoryId, $objectIdentity, $classId);
         return new JsonResponse($registeredObject);
     }
