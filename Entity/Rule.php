@@ -65,6 +65,17 @@ class Rule {
      * @ORM\Column(name="value", type="string", length=255, nullable=false)
      */
     protected $value;
+    
+    /**
+     * 
+     * @ORM\ManyToOne(targetEntity="Event", inversedBy="id")
+     * @ORM\JoinColumn(name="event", referencedColumnName="id")
+     */
+    protected $event;
+    
+    
+    
+    
 
     /**
      * Get id
@@ -229,4 +240,27 @@ class Rule {
         return $this->contexts;
     }
 
+
+    /**
+     * Set event
+     *
+     * @param \TMSolution\GamificationBundle\Entity\Event $event
+     * @return Rule
+     */
+    public function setEvent(\TMSolution\GamificationBundle\Entity\Event $event = null)
+    {
+        $this->event = $event;
+
+        return $this;
+    }
+
+    /**
+     * Get event
+     *
+     * @return \TMSolution\GamificationBundle\Entity\Event 
+     */
+    public function getEvent()
+    {
+        return $this->event;
+    }
 }
