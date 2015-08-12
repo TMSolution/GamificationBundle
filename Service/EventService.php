@@ -16,7 +16,7 @@ use Symfony\Component\HttpFoundation\Response;
  * @author Lukasz Sobieraj <lukasz.sobieraj@tmsolution.pl>
  * @author Jacek Lozinski <jacek.lozinski@tmsolution.pl>
  */
-class EventService
+class EventService 
 {
 
     protected $container;
