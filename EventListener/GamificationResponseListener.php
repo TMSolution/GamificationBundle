@@ -24,14 +24,14 @@ class GamificationResponseListener {
 
     public function onKernelResponse(FilterResponseEvent $event) {
 
-       \Doctrine\Common\Util\Debug::dump( $event);
+       //\Doctrine\Common\Util\Debug::dump( $event);
         echo "jestem listenerem";
     }
 
-    public function afterKernelResponse(FilterResponseEvent $event) {
-
-        echo "jestem listenerem po evencie";
-    }
+//    public function afterKernelResponse(FilterResponseEvent $event) {
+//
+//        echo "jestem listenerem po evencie";
+//    }
 
 //    public function onKernelController(FilterControllerEvent $event) {
 //        // ...
