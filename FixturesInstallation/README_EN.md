@@ -1,6 +1,6 @@
 # Fixtures installation description
 
->by Damian Piela
+>by Damian Piela <damian.piela@tmsolution.pl>
 
 ---
 
