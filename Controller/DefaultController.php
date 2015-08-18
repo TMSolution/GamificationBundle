@@ -95,7 +95,6 @@ class DefaultController extends Controller
         $context['points'] = $count;
         $result = $ruler->assert($rule, $context);
 
-        //dump($result);exit;
         if ($result) {
             $objectInstanceMo = $this->get('model_factory');
             $objectInstanceModel = $objectInstanceMo->getModel('TMSolution\GamificationBundle\Entity\Objectinstance');
