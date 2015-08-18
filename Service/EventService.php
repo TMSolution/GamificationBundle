@@ -118,7 +118,7 @@ class EventService
         if ($trophyCategory != null) {
             $result = $this->objectTrophyModel->findBy(['object' => $objectInstance, 'trophy' => $trophyCategory]);
         } else {
-            $result = $$this->objectTrophyModel->findBy(['object' => $objectInstance]);
+            $result = $this->objectTrophyModel->findBy(['object' => $objectInstance]);
         }
         return $result;
     }
@@ -127,11 +127,14 @@ class EventService
      * Oznacza to, że nagroda przyznaje się, sprawdzając samą siebie, oraz że nigdy nie zostanie osiągnięta, ponieważ nigdy nie spełni początkowego warunku
      * i nie wyjdzie poza początkową wartość, o ile ta nie zostanie w sztuczny sposób podniesiona. Na tą chwilę jest przyznawana za każdym razem.
      */
-
-    public function checkRule($objectInstance, $trophy /* $points -zmienna do testow */)
+ 
+    public function checkRule($objectInstance, $trophy/* $points -zmienna do testow */)
     {
         $objectRule = $this->ruleModel->getRepository()->findOneBy(['trophy' => $trophy]);
         $objectContext = $this->contextModel->getRepository()->findOneBy(['id' => $objectRule->getContext()]);
+        
+      
+        
         $trophyCount = $this->countTrophies($objectInstance, $trophy);
         $cyclicCount = $this->countCyclicTrophies($objectInstance);
         $assertion = $this->assertion($objectContext->getName(), $objectRule->getOperator(), $objectRule->getValue(), $cyclicCount);

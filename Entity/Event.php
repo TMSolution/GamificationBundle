@@ -10,8 +10,8 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table(name="event")
  * @ORM\Entity
  */
-class Event            
-{
+class Event {
+
     /**
      * @var integer
      *
@@ -38,15 +38,19 @@ class Event
      */
     protected $eventcategoryid;
 
-
+    /**
+     * 
+     * @ORM\OneToMany(targetEntity="Rule", mappedBy="event")
+     * 
+     */
+    protected $event;
 
     /**
      * Get id
      *
      * @return integer 
      */
-    public function getId()
-    {
+    public function getId() {
         return $this->id;
     }
 
@@ -56,8 +60,7 @@ class Event
      * @param string $name
      * @return Event
      */
-    public function setName($name)
-    {
+    public function setName($name) {
         $this->name = $name;
 
         return $this;
@@ -68,8 +71,7 @@ class Event
      *
      * @return string 
      */
-    public function getName()
-    {
+    public function getName() {
         return $this->name;
     }
 
@@ -79,8 +81,7 @@ class Event
      * @param \TMSolution\GamificationBundle\Entity\Eventcategory $eventcategory
      * @return Event
      */
-    public function setEventcategory(\TMSolution\GamificationBundle\Entity\Eventcategory $eventcategory = null)
-    {
+    public function setEventcategory(\TMSolution\GamificationBundle\Entity\Eventcategory $eventcategory = null) {
         $this->eventcategory = $eventcategory;
 
         return $this;
@@ -91,8 +92,7 @@ class Event
      *
      * @return \TMSolution\GamificationBundle\Entity\Eventcategory 
      */
-    public function getEventcategory()
-    {
+    public function getEventcategory() {
         return $this->eventcategory;
     }
 
@@ -102,8 +102,7 @@ class Event
      * @param \TMSolution\GamificationBundle\Entity\Eventcategory $eventcategoryid
      * @return Event
      */
-    public function setEventcategoryid(\TMSolution\GamificationBundle\Entity\Eventcategory $eventcategoryid = null)
-    {
+    public function setEventcategoryid(\TMSolution\GamificationBundle\Entity\Eventcategory $eventcategoryid = null) {
         $this->eventcategoryid = $eventcategoryid;
 
         return $this;
@@ -114,8 +113,48 @@ class Event
      *
      * @return \TMSolution\GamificationBundle\Entity\Eventcategory 
      */
-    public function getEventcategoryid()
-    {
+    public function getEventcategoryid() {
         return $this->eventcategoryid;
+    }
+
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->event = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    /**
+     * Add event
+     *
+     * @param \TMSolution\GamificationBundle\Entity\Rule $event
+     * @return Event
+     */
+    public function addEvent(\TMSolution\GamificationBundle\Entity\Rule $event)
+    {
+        $this->event[] = $event;
+
+        return $this;
+    }
+
+    /**
+     * Remove event
+     *
+     * @param \TMSolution\GamificationBundle\Entity\Rule $event
+     */
+    public function removeEvent(\TMSolution\GamificationBundle\Entity\Rule $event)
+    {
+        $this->event->removeElement($event);
+    }
+
+    /**
+     * Get event
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getEvent()
+    {
+        return $this->event;
     }
 }
