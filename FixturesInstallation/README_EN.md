@@ -1,6 +1,6 @@
 # Fixtures installation description
 
->by Damian Piela <damian.piela@tmsolution.pl> GitHub: <a href="https://github.com/damianpi">damianpi</a>
+>by Damian Piela <damian.piela@tmsolution.pl>
 
 ---
 
