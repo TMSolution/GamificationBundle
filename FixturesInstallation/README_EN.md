@@ -35,4 +35,4 @@ The whole process will happen after running the previously-written tests. Comman
 ### Results
 
 As a result, you will obtain a copy of the existing database - the test database. You can fill it up with random data generated with the Faker library.
-The aforementioned issues are included in the exemplary files in the folder.
+The aforementioned issues are included in the exemplary files in the folder. 
