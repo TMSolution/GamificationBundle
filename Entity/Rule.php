@@ -123,7 +123,7 @@ class Rule {
      * @param string $operator
      * @return Rule
      */
-    public function setRule($operator) {
+    public function setOperator($operator) {
         $this->operator = $operator;
 
         return $this;
@@ -178,18 +178,6 @@ class Rule {
      */
     public function getValue() {
         return $this->value;
-    }
-
-    /**
-     * Set operator
-     *
-     * @param string $operator
-     * @return Rule
-     */
-    public function setOperator($operator) {
-        $this->operator = $operator;
-
-        return $this;
     }
 
     /**
