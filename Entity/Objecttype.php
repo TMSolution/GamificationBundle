@@ -10,7 +10,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table(name="objecttype")
  * @ORM\Entity
  */
-class Objecttype implements \JsonSerializable {
+class Objecttype {
 
     /**
      * @var integer
@@ -38,18 +38,6 @@ class Objecttype implements \JsonSerializable {
     }
 
     /**
-     * Set id
-     *
-     * @param integer $id
-     * @return Objecttype
-     */
-    public function setId($id) {
-        $this->id = $id;
-
-        return $this;
-    }
-
-    /**
      * Set name
      *
      * @param string $name
@@ -69,12 +57,4 @@ class Objecttype implements \JsonSerializable {
     public function getName() {
         return $this->name;
     }
-
-    public function jsonSerialize() {
-        return [
-            'id' => $this->getId(),
-            'name' => $this->getName()
-        ];
-    }
-
 }

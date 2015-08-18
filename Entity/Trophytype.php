@@ -10,7 +10,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table(name="trophytype")
  * @ORM\Entity
  */
-class Trophytype implements \JsonSerializable {
+class Trophytype /*implements \JsonSerializable*/ {
 
     /**
      * @var integer
@@ -58,11 +58,11 @@ class Trophytype implements \JsonSerializable {
         return $this->name;
     }
 
-    public function jsonSerialize() {
-        return [
-            'id' => $this->getId(),
-            'name' => $this->getName(),
-        ];
-    }
+//    public function jsonSerialize() {
+//        return [
+//            'id' => $this->getId(),
+//            'name' => $this->getName(),
+//        ];
+//    }
 
 }

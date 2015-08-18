@@ -133,7 +133,7 @@ class Trophy /*implements \JsonSerializable*/ {
      * @param \TMSolution\GamificationBundle\Entity\Trophytype $trophytype
      * @return Trophy
      */
-    public function setTrophytype(\TMSolution\GamificationBundle\Entity\Trophycategory $trophytype = null) {
+    public function setTrophytype(\TMSolution\GamificationBundle\Entity\Trophytype $trophytype = null) {
         $this->trophytype = $trophytype;
 
         return $this;
