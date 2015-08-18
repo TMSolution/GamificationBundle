@@ -26,7 +26,8 @@ Append the following text into your `/app/config/config_test.yml`:
         dbname:   %database_name%_test
         user:     root
         password: 
-        charset:  UTF8 ```
+        charset:  UTF8 
+```
 
 where *dbname* is the database name, where the existing one will be copied.
 Subsequently, create a `bootstrap.php` file in your `/app/` directory, where configuration pertaining to - for instance - clearing or creating a test database takes place.
