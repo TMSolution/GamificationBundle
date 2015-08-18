@@ -30,7 +30,7 @@ class DefaultController extends Controller
     }
 
     // WARNING! The way the result is returned is for presentation purposes only and most probably will have to be updated.
-    /* This function returns a list of a certain user's trophies.
+    /** This function returns a list of a certain user's trophies.
      * By default, all kinds of trophies are returned, but the second 
      * argument may specify the kind of trophy.
      * 
@@ -52,7 +52,7 @@ class DefaultController extends Controller
     }
 
     // WARNING! The way the result is returned is for presentation purposes only and most probably will have to be updated.
-    /*
+    /**
      * Adds a trophy object to the specified user. Presents the object as a result.
      * In case neither the user nor trophy exists, returns appropriate information.
      */
