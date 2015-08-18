@@ -11,6 +11,7 @@ namespace TMSolution\GamificationBundle\Tests;
 use TMSolution\GamificationBundle\Entity\Objectinstance;
 use TMSolution\GamificationBundle\Entity\Trophycategory;
 use TMSolution\GamificationBundle\Entity\Trophy;
+use TMSolution\GamificationBundle\Entity\Objecttrophy;
 
 class EventServiceTest extends \PHPUnit_Framework_TestCase {
 
@@ -29,15 +30,31 @@ class EventServiceTest extends \PHPUnit_Framework_TestCase {
 
     public function testSetObjecttype() {
 
-        $mockobjecttrophy = $this->getMockBuilder('TMSolution\GamificationBundle\Entity\Objectinstance')
+        $mockobjectinstance = $this->getMockBuilder('TMSolution\GamificationBundle\Entity\Objectinstance')
                 ->getMock();
         $mockobjecttype = $this->getMockBuilder('TMSolution\GamificationBundle\Entity\Objecttype')
                 ->getMock();
-        $mockobjecttrophy->method('setObjecttype')
+        $mockobjectinstance->method('setObjecttype')
                 ->willReturn($mockobjecttype);
 
-
-        $this->assertEquals($mockobjecttype, $mockobjecttrophy->setObjecttype($mockobjecttype));
+        $this->assertEquals($mockobjecttype, $mockobjectinstance->setObjecttype($mockobjecttype));
     }
+
+    public function testaddObjectTrophy() {
+
+        $mockobjecttrophy = $this->getMockBuilder('TMSolution\GamificationBundle\Entity\Objecttrophy')
+                ->getMock();
+        $mockobjecttrophy->method('setObject')
+                ->willReturn(1);
+
+        $mockobjecttrophy->method('setTrophy')
+                ->willReturn(1);
+
+
+        $this->assertEquals(1, $mockobjecttrophy->setObject());
+        $this->assertEquals(1, $mockobjecttrophy->setTrophy());
+    }
+
+   
 
 }
