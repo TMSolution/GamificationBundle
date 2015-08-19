@@ -3,6 +3,7 @@
 /**
  * Description of EventServiceTest
  *
+ * @author Damian Piela
  * @author Lukasz
  */
 
@@ -13,6 +14,7 @@ use TMSolution\GamificationBundle\Entity\Trophycategory;
 use TMSolution\GamificationBundle\Entity\Trophy;
 use TMSolution\GamificationBundle\Entity\Objecttrophy;
 use TMSolution\GamificationBundle\Entity\Context;
+
 
 class EventServiceTest extends \PHPUnit_Framework_TestCase {
 
@@ -25,17 +27,19 @@ class EventServiceTest extends \PHPUnit_Framework_TestCase {
     protected $modelFactory;
 
     public static function setUpBeforeClass() {
+        
         self::$kernel = new \AppKernel('test', true);
         self::$kernel->boot();
         self::$container = self::$kernel->getContainer();
     }
 
     public function setUp() {
-
+       
         $this->modelFactory = $this->get('model_factory');
         $this->objectinstanceModel = $this->modelFactory->getModel('TMSolution\GamificationBundle\Entity\Objectinstance');
         $this->trophyModel = $this->modelFactory->getModel('TMSolution\GamificationBundle\Entity\Trophy');
         $this->objectTrophyModel = $this->modelFactory->getModel('TMSolution\GamificationBundle\Entity\Objecttrophy');
+        $this->objectEventModel = $this->modelFactory->getModel('TMSolution\GamificationBundle\Entity\Event');
         $this->eventsService = $this->get('gamification.events');
     }
 
@@ -102,9 +106,10 @@ class EventServiceTest extends \PHPUnit_Framework_TestCase {
     /**
      * @author Damian Piela
      */
+    //niekoniecznie typu "cyclic" to zależy od ID w bazie 
     public function testCountCyclicTrophies() {
 
-        $cyclicTrophy = $this->trophyModel->findOneById(2);
+        $cyclicTrophy = $this->trophyModel->findOneById(1);
         $objectInstance = $this->objectinstanceModel->findOneById(1);
         $cyclicTrophies = $this->eventsService->countTrophies($objectInstance, $cyclicTrophy);
         $this->assertNotNull($cyclicTrophies);
@@ -113,15 +118,18 @@ class EventServiceTest extends \PHPUnit_Framework_TestCase {
     /**
      * @author Damian Piela
      */
-    public function testCreateObjecttrophy() {
-
-        $objectInstance = $this->objectinstanceModel->findOneById(1);
-        $trophy = $this->objectTrophyModel->findOneById(1);
-        $objectTrophy = $this->eventsService->createObjecttrophy($objectInstance, $trophy);
-        $objectTrophyId = $objectTrophy->getId();
-        $objectTrophyDB = $this->objectTrophyModel->findOneById($objectTrophyId);
-        $this->assertEquals($objectTrophyDB, $objectTrophy);
-    }
+//    public function testCreateObjecttrophy() {
+//
+//        $objectInstance = $this->objectinstanceModel->findOneById(1);
+//        $trophy = $this->trophyModel->findOneById(1);
+//        $objectTrophy = $this->eventsService->createObjecttrophy($objectInstance, $trophy);
+//                
+//
+//        $objectTrophyId = $objectTrophy->getId();
+//        die($objectTrophyId);
+//        $objectTrophyDB = $this->objectTrophyModel->findOneById($objectTrophyId);
+//        $this->assertEquals($objectTrophyDB, $objectTrophy);
+//    }
 
     /**
      * @author Damian Piela
@@ -133,6 +141,20 @@ class EventServiceTest extends \PHPUnit_Framework_TestCase {
         $count = $this->eventsService->countTrophies($objectInstance, $trophy);
         
         $this->assertInternalType("int", $count);
-    } 
+    }
+
+//    public function testRegister() {
+//        
+//    }
+
+    //---------------------tests method from Model/Objectinstance------------------------------
+//    public function testCheckInstance() {
+//
+//        $objectInstance = $this->objectinstanceModel->findOneById(1);
+//        $objectidentity = $objectInstance->getObjectidentity();
+//        $objecttype = $objectInstance->getObjecttype();
+//        $check = $this->checkInstance();
+//        $this->assertNotNull($objectInstance);
+//    }
 
 }
