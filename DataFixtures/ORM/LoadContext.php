@@ -18,6 +18,8 @@ use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 use TMSolution\GamificationBundle\Entity\Context;
 use TMSolution\GamificationBundle\Entity\Eventcategory;
+use TMSolution\GamificationBundle\Entity\Eventcategory;
+use TMSolution\GamificationBundle\Entity\Trophy;
 use Faker\Factory;
 
 class LoadContext implements FixtureInterface {
@@ -40,6 +42,20 @@ class LoadContext implements FixtureInterface {
 
 
         //load data to the eventcategory  table
+        for ($i = 0; $i < 10; $i++) {
+
+            for ($i = 0; $i < 1000; $i++) {
+
+                $eventcategory = new Eventcategory();
+                $eventcategory->setName($faker->name);
+
+                $manager->persist($eventcategory);
+            }
+            $manager->flush();
+        }
+        
+        
+         //load data to the objecttrophy  table
         for ($i = 0; $i < 10; $i++) {
 
             for ($i = 0; $i < 1000; $i++) {
