@@ -99,4 +99,40 @@ class EventServiceTest extends \PHPUnit_Framework_TestCase {
         $this->assertNotNull($objecttrophy);
     }
 
+    /**
+     * @author Damian Piela
+     */
+    public function testCountCyclicTrophies() {
+
+        $cyclicTrophy = $this->trophyModel->findOneById(2);
+        $objectInstance = $this->objectinstanceModel->findOneById(1);
+        $cyclicTrophies = $this->eventsService->countTrophies($objectInstance, $cyclicTrophy);
+        $this->assertNotNull($cyclicTrophies);
+    }
+
+    /**
+     * @author Damian Piela
+     */
+    public function testCreateObjecttrophy() {
+
+        $objectInstance = $this->objectinstanceModel->findOneById(1);
+        $trophy = $this->objectTrophyModel->findOneById(1);
+        $objectTrophy = $this->eventsService->createObjecttrophy($objectInstance, $trophy);
+        $objectTrophyId = $objectTrophy->getId();
+        $objectTrophyDB = $this->objectTrophyModel->findOneById($objectTrophyId);
+        $this->assertEquals($objectTrophyDB, $objectTrophy);
+    }
+
+    /**
+     * @author Damian Piela
+     */
+    public function testCountTrophies() {
+
+        $objectInstance = $this->objectinstanceModel->findOneById(1);
+        $trophy = $this->objectTrophyModel->findOneById(1);
+        $count = $this->eventsService->countTrophies($objectInstance, $trophy);
+        
+        $this->assertInternalType("int", $count);
+    }
+
 }
