@@ -51,7 +51,7 @@ class EventsService
      * If the object exists, the method increments a counter.
      * 
      * 
-     * @param integer $eventId
+     * @param integer $eventCategoryId
      * @param integer $objectIdentity
      * @param integer $classId
      * 
