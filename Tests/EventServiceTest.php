@@ -131,7 +131,8 @@ class EventServiceTest extends \PHPUnit_Framework_TestCase {
         $objectInstance = $this->objectinstanceModel->findOneById(1);
         $trophy = $this->objectTrophyModel->findOneById(1);
         $count = $this->eventsService->countTrophies($objectInstance, $trophy);
+        
         $this->assertInternalType("int", $count);
-    }
+    } 
 
 }
