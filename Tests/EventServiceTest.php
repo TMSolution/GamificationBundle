@@ -13,6 +13,7 @@ use TMSolution\GamificationBundle\Entity\Trophycategory;
 use TMSolution\GamificationBundle\Entity\Trophy;
 use TMSolution\GamificationBundle\Entity\Objecttrophy;
 use TMSolution\GamificationBundle\Entity\Context;
+use TMSolution\GamificationBundle\Model\Objectinstance;
 
 class EventServiceTest extends \PHPUnit_Framework_TestCase {
 
@@ -99,19 +100,6 @@ class EventServiceTest extends \PHPUnit_Framework_TestCase {
         $objecttrophy = $this->objectTrophyModel->findAll();
         $this->assertNotNull($objecttrophy);
     }
-    
-    
-    public function testRegister(){
-        
-        
-    }
-    
-    //---------------------tests method from Model/Objectinstance------------------------------
-    public function testCheckInstance(){
-        
-        $objectInstance = 
-        
-    }
 
     /**
      * @author Damian Piela
@@ -146,6 +134,20 @@ class EventServiceTest extends \PHPUnit_Framework_TestCase {
         $trophy = $this->objectTrophyModel->findOneById(1);
         $count = $this->eventsService->countTrophies($objectInstance, $trophy);
         $this->assertInternalType("int", $count);
+    }
+
+    public function testRegister() {
+        
+    }
+
+    //---------------------tests method from Model/Objectinstance------------------------------
+    public function testCheckInstance() {
+
+        $objectInstance = $this->objectinstanceModel->findOneById(1);
+        $objectidentity = $objectInstance->getObjectidentity();
+        $objecttype = $objectInstance->getObjecttype();
+        $check = $this->checkInstance();
+        $this->assertNotNull($objectInstance);
     }
 
 }
