@@ -10,7 +10,7 @@
 namespace TMSolution\GamificationBundle\Tests;
 
 use TMSolution\GamificationBundle\Entity\Objectinstance;
-use TMSolution\GamificationBundle\Entity\Trophycategory;
+use TMSolution\GamificationBundle\Entity\Trophycategory; 
 use TMSolution\GamificationBundle\Entity\Trophy;
 use TMSolution\GamificationBundle\Entity\Objecttrophy;
 use TMSolution\GamificationBundle\Entity\Context;
