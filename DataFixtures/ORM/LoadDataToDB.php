@@ -22,21 +22,21 @@ use Faker\Factory;
 class LoadDataToDB implements FixtureInterface {
 //
 //    //put your code here
-//    public function load(ObjectManager $manager) {
-//        $faker = Factory::create();
-//
-//        for ($i = 0; $i < 10; $i++) {
-//
-//            for ($i = 0; $i < 1000; $i++) {
-//
-//                $context = new Context();
-//                $context->setName($faker->name);
-//
-//                $manager->persist($context);
-//            }
-//            $manager->flush();
-//        }
-//    }
+    public function load(ObjectManager $manager) {
+        $faker = Factory::create();
+
+        for ($i = 0; $i < 10; $i++) {
+
+            for ($i = 0; $i < 1000; $i++) {
+
+                $context = new Context();
+                $context->setName($faker->name);
+
+                $manager->persist($context);
+            }
+            $manager->flush();
+        }
+    }
 
 }
 

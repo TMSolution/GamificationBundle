@@ -172,14 +172,15 @@ class EventsService
         $count = count($trophiesArray);
         return $count;
     }
-
+    //niedokończona
     public function createObjecttrophy($objectInstance, $trophy)
     {
         $objectTrophy = new Objecttrophy();
         $objectTrophy->setDate(new \DateTime('NOW'))
                 ->setObject($objectInstance)
                 ->setTrophy($trophy);
-        return $objectTrophy;
+        $ot = $this->objectTrophyModel->create($objectTrophy, true);
+        return $ot;
     }
 
     // Do zrobienia

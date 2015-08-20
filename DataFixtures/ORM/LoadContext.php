@@ -18,7 +18,6 @@ use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 use TMSolution\GamificationBundle\Entity\Context;
 use TMSolution\GamificationBundle\Entity\Eventcategory;
-use TMSolution\GamificationBundle\Entity\Eventcategory;
 use TMSolution\GamificationBundle\Entity\Trophy;
 use Faker\Factory;
 
