@@ -29,7 +29,7 @@ class LoadContext implements FixtureInterface {
         //load data to the context table
         for ($i = 0; $i < 10; $i++) {
 
-            for ($i = 0; $i < 1000; $i++) {
+            for ($i = 0; $i < 100; $i++) {
 
                 $context = new Context();
                 $context->setName($faker->name);
@@ -43,7 +43,7 @@ class LoadContext implements FixtureInterface {
         //load data to the eventcategory  table
         for ($i = 0; $i < 10; $i++) {
 
-            for ($i = 0; $i < 1000; $i++) {
+            for ($i = 0; $i < 100; $i++) {
 
                 $eventcategory = new Eventcategory();
                 $eventcategory->setName($faker->name);
@@ -57,7 +57,7 @@ class LoadContext implements FixtureInterface {
          //load data to the objecttrophy  table
         for ($i = 0; $i < 10; $i++) {
 
-            for ($i = 0; $i < 1000; $i++) {
+            for ($i = 0; $i < 100; $i++) {
 
                 $eventcategory = new Eventcategory();
                 $eventcategory->setName($faker->name);

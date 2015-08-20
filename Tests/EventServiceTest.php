@@ -43,7 +43,7 @@ class EventServiceTest extends \PHPUnit_Framework_TestCase {
         $this->objectTrophyModel = $this->modelFactory->getModel('TMSolution\GamificationBundle\Entity\Objecttrophy');
         $this->objectEventModel = $this->modelFactory->getModel('TMSolution\GamificationBundle\Entity\Event');
         $this->eventsService = $this->get('gamification.events');
-        $this->objectEventcategoryModel = $this->modelFactory->getModel('TMSolution\GamificationBundle\Model\Eventcategory');
+        $this->objectEventcategoryModel = $this->modelFactory->getModel('TMSolution\GamificationBundle\Entity\Eventcategory');
     }
 
     public function get($serviceId) {
