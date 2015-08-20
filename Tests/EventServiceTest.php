@@ -26,6 +26,7 @@ class EventServiceTest extends \PHPUnit_Framework_TestCase {
     protected $eventsService;
     protected $modelFactory;
     protected $gamificationModel;
+    protected $objectEventcategoryModel;
 
     public static function setUpBeforeClass() {
 
@@ -42,7 +43,7 @@ class EventServiceTest extends \PHPUnit_Framework_TestCase {
         $this->objectTrophyModel = $this->modelFactory->getModel('TMSolution\GamificationBundle\Entity\Objecttrophy');
         $this->objectEventModel = $this->modelFactory->getModel('TMSolution\GamificationBundle\Entity\Event');
         $this->eventsService = $this->get('gamification.events');
-        //$this->gamificationModel = $this->modelFactory->getModel('TMSolution\GamificationBundle\Model\Objectinstance');
+        $this->objectEventcategoryModel = $this->modelFactory->getModel('TMSolution\GamificationBundle\Model\Eventcategory');
     }
 
     public function get($serviceId) {
@@ -145,9 +146,13 @@ class EventServiceTest extends \PHPUnit_Framework_TestCase {
         $this->assertInternalType("int", $count);
     }
 
-//    public function testRegister() {
-//        
-//    }
+    
+    
+    
+    public function testRegister() {
+        $eventcategoryObject = $this->objectEventcategory->findOneById(1);
+        
+    }
     //---------------------tests method from Model/Objectinstance------------------------------
 
     public function testCheckInstance() {
