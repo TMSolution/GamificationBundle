@@ -149,10 +149,10 @@ class EventServiceTest extends \PHPUnit_Framework_TestCase {
     
     
     
-    public function testRegister() {
-        $eventcategoryObject = $this->objectEventcategory->findOneById(1);
-        
-    }
+//    public function testRegister() {
+//        $eventcategoryObject = $this->objectEventcategory->findOneById(1);
+//        
+//    }
     //---------------------tests method from Model/Objectinstance------------------------------
 
     public function testCheckInstance() {
