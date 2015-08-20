@@ -34,7 +34,7 @@ class EventsService
     {
         $this->container = $container;
         $this->model = $this->container->get('model_factory');
-        $this->objectInstance = $this->model->getModel('TMSolution\GamificationBundle\Entity\Objectinstance');
+        $this->objectInstanceModel = $this->model->getModel('TMSolution\GamificationBundle\Entity\Objectinstance');
         $this->eventModel = $this->model->getModel('TMSolution\GamificationBundle\Entity\Event');
         $this->eventLogModel = $this->model->getModel('TMSolution\GamificationBundle\Entity\Eventlog');
         $this->eventCounterModel = $this->model->getModel('TMSolution\GamificationBundle\Entity\Eventcounter');

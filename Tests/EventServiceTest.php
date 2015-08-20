@@ -10,7 +10,7 @@
 namespace TMSolution\GamificationBundle\Tests;
 
 use TMSolution\GamificationBundle\Entity\Objectinstance;
-use TMSolution\GamificationBundle\Entity\Trophycategory; 
+use TMSolution\GamificationBundle\Entity\Trophycategory;
 use TMSolution\GamificationBundle\Entity\Trophy;
 use TMSolution\GamificationBundle\Entity\Objecttrophy;
 use TMSolution\GamificationBundle\Entity\Context;
@@ -27,6 +27,7 @@ class EventServiceTest extends \PHPUnit_Framework_TestCase {
     protected $modelFactory;
     protected $gamificationModel;
     protected $objectEventcategoryModel;
+    protected $objecttypeModel;
 
     public static function setUpBeforeClass() {
 
@@ -43,7 +44,8 @@ class EventServiceTest extends \PHPUnit_Framework_TestCase {
         $this->objectTrophyModel = $this->modelFactory->getModel('TMSolution\GamificationBundle\Entity\Objecttrophy');
         $this->objectEventModel = $this->modelFactory->getModel('TMSolution\GamificationBundle\Entity\Event');
         $this->eventsService = $this->get('gamification.events');
-        $this->objectEventcategoryModel = $this->modelFactory->getModel('TMSolution\GamificationBundle\Model\Eventcategory');
+        $this->objectEventcategoryModel = $this->modelFactory->getModel('TMSolution\GamificationBundle\Entity\Eventcategory');
+        $this->objecttypeModel = $this->modelFactory->getModel('TMSolution\GamificationBundle\Entity\Objecttype');
     }
 
     public function get($serviceId) {
@@ -146,13 +148,17 @@ class EventServiceTest extends \PHPUnit_Framework_TestCase {
         $this->assertInternalType("int", $count);
     }
 
-    
-    
-    
-//    public function testRegister() {
-//        $eventcategoryObject = $this->objectEventcategory->findOneById(1);
-//        
-//    }
+    public function testRegister() {
+        $eventcategoryObject = $this->objectEventcategoryModel->findOneById(1);
+        $eventcategoryId = $eventcategoryObject->getId();
+        $objectinstanceObject = $this->objectinstanceModel->findOneById(1);
+        $objectidentity = $objectinstanceObject->getObjectidentity();
+        $objecttype = $this->objecttypeModel->findOneById(1);
+        $objecttypeId = $objecttype->getId();
+        $result = $this->eventsService->register($eventcategoryId, $objectidentity, $objecttypeId);
+        $this->assertNull($result);
+    }
+
     //---------------------tests method from Model/Objectinstance------------------------------
 
     public function testCheckInstance() {
@@ -193,6 +199,6 @@ class EventServiceTest extends \PHPUnit_Framework_TestCase {
         $result = $objinstmodel->getInstance($objectidentity, $objectype);
         $this->assertNotNull($result);
     }
-    //---------------------------------------------------------------------------------------------------------------
 
+    //---------------------------------------------------------------------------------------------------------------
 }
