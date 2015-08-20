@@ -19,13 +19,7 @@ use Core\ModelBundle\Model\Model;
 
 class LoadDataToDB implements FixtureInterface {
 
-//
-//    //put your code here
     public function load(ObjectManager $manager) {
-        $faker = Factory::create();
-
-
-
         //Faker
         $faker = Factory::create();
         $model = new Model();
@@ -63,6 +57,10 @@ class LoadDataToDB implements FixtureInterface {
         }
         $manager->flush();
 
+        
+        
+        
+
         for ($i = 0; $i < 10; $i++) {
 
             for ($i = 0; $i < 1000; $i++) {
@@ -75,4 +73,5 @@ class LoadDataToDB implements FixtureInterface {
             $manager->flush();
         }
     }
-}  
+
+}
