@@ -108,13 +108,10 @@ class EventServiceTest extends \PHPUnit_Framework_TestCase {
      * @author Damian Piela
      */
     public function testCreateObjecttrophy() {
-
         $objectInstance = $this->objectinstanceModel->findOneById(1);
         $trophy = $this->trophyModel->findOneById(1);
         $query = $this->objectTrophyModel->getManager()->createQuery('SELECT MAX(u.id) id FROM TMSolution\GamificationBundle\Entity\Objecttrophy u');
         $recordsBefore = $query->getSingleResult();
-
-
         $objectTrophy = $this->eventsService->createObjecttrophy($objectInstance, $trophy);
         if ($objectTrophy != null) {
             $recordsAfter = $query->getSingleResult();
