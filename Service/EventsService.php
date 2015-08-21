@@ -140,10 +140,8 @@ class EventsService {
 
                 return new Response('Nagroda jednorazowa przyznana');
             } elseif ($trophyCount != 0) {
-
                 return new Response('Posiadasz już tą nagrodę jednorazową.');
             } else {
-
                 return new Response('Nagroda jednorazowa nie przyznana');
             }
         } elseif ($trophy->getTrophytype()->getId() == 2/* Cykliczna */) {
