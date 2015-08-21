@@ -27,45 +27,46 @@ class LoadContext implements FixtureInterface {
         $faker = Factory::create();
 
         //load data to the context table
-        for ($i = 0; $i < 10; $i++) {
-
-            for ($i = 0; $i < 100; $i++) {
-
-                $context = new Context();
-                $context->setName($faker->name);
-
-                $manager->persist($context);
-            }
-            $manager->flush();
-        }
+//        for ($i = 0; $i < 10; $i++) {
+//
+//            for ($i = 0; $i < 10; $i++) {
+//
+//                $context = new Context();
+//                $context->setName($faker->word);
+//
+//                $manager->persist($context);
+//            }
+//            $manager->flush();
+//        }
 
 
         //load data to the eventcategory  table
-        for ($i = 0; $i < 10; $i++) {
-
-            for ($i = 0; $i < 100; $i++) {
-
-                $eventcategory = new Eventcategory();
-                $eventcategory->setName($faker->name);
-
-                $manager->persist($eventcategory);
-            }
-            $manager->flush();
-        }
+//        for ($i = 0; $i < 10; $i++) {
+//
+//            for ($i = 0; $i < 10; $i++) {
+//
+//                $eventcategory = new Eventcategory();
+//                $eventcategory->setName($faker->name);
+//
+//                $manager->persist($eventcategory);
+//            }
+//            $manager->flush();
+//        }
         
         
          //load data to the objecttrophy  table
-        for ($i = 0; $i < 10; $i++) {
-
-            for ($i = 0; $i < 100; $i++) {
-
-                $eventcategory = new Eventcategory();
-                $eventcategory->setName($faker->name);
-
-                $manager->persist($eventcategory);
-            }
-            $manager->flush();
-        }
+//        for ($i = 0; $i < 10; $i++) {
+//
+//            for ($i = 0; $i < 100; $i++) {
+//
+//                $eventcategory = new Objecttrophy();//!!! bylo eventcategory
+//                $eventcategory->setName($faker->name);
+//
+//                $manager->persist($eventcategory);
+//            }
+//            $manager->flush();
+//        }
+       
     }
 
 }
