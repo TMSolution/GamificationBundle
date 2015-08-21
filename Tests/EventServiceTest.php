@@ -166,7 +166,7 @@ class EventServiceTest extends \PHPUnit_Framework_TestCase {
         $object = $objecttrophy->getObject();
         $trophy = $objecttrophy->getTrophy();
         $rule = $this->eventsService->checkRule($object, $trophy);
-        //$this->assertNotNull($rule);
+        $this->assertNotNull($rule);
     }
 
     //---------------------tests method from Model/Objectinstance------------------------------

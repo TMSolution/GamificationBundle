@@ -129,7 +129,6 @@ class EventsService {
         $objectContext = $this->contextModel->getRepository()->findOneBy(['id' => $objectRule->getContext()->getId()]);
         $trophyCount = $this->countTrophies($objectInstance, $trophy);
         $cyclicCount = $this->countCyclicTrophies($objectInstance);
-        die('rule');
         $assertion = $this->assertion($objectContext->getName(), $objectRule->getOperator(), $objectRule->getValue(), $cyclicCount);
         if ($trophy->getTrophytype()->getId() == 1/* Jednorazowa */) {
 
