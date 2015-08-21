@@ -28,6 +28,7 @@ class EventServiceTest extends \PHPUnit_Framework_TestCase {
     protected $gamificationModel;
     protected $objectEventcategoryModel;
     protected $objecttypeModel;
+    protected $ruleModel;
 
     public static function setUpBeforeClass() {
 
@@ -46,6 +47,7 @@ class EventServiceTest extends \PHPUnit_Framework_TestCase {
         $this->eventsService = $this->get('gamification.events');
         $this->objectEventcategoryModel = $this->modelFactory->getModel('TMSolution\GamificationBundle\Entity\Eventcategory');
         $this->objecttypeModel = $this->modelFactory->getModel('TMSolution\GamificationBundle\Entity\Objecttype');
+        $this->ruleModel = $this->modelFactory->getModel('TMSolution\GamificationBundle\Entity\Rule');
     }
 
     public function get($serviceId) {
@@ -157,6 +159,14 @@ class EventServiceTest extends \PHPUnit_Framework_TestCase {
         $objecttypeId = $objecttype->getId();
         $result = $this->eventsService->register($eventcategoryId, $objectidentity, $objecttypeId);
         $this->assertNull($result);
+    }
+
+    public function testCheckRule() {
+        $objecttrophy = $this->objectTrophyModel->findOneById(1);
+        $object = $objecttrophy->getObject();
+        $trophy = $objecttrophy->getTrophy();
+        $rule = $this->eventsService->checkRule($object, $trophy);
+        $this->assertNotNull($rule);
     }
 
     //---------------------tests method from Model/Objectinstance------------------------------
