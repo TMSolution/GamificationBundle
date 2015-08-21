@@ -16,8 +16,7 @@ use Symfony\Component\HttpFoundation\Response;
  * @author Lukasz Sobieraj <lukasz.sobieraj@tmsolution.pl>
  * @author Jacek Lozinski <jacek.lozinski@tmsolution.pl>
  */
-class EventsService
-{
+class EventsService {
 
     protected $container;
     protected $model;
@@ -30,8 +29,7 @@ class EventsService
     protected $contextModel;
     protected $trophyModel;
 
-    public function __construct($container)
-    {
+    public function __construct($container) {
         $this->container = $container;
         $this->model = $this->container->get('model_factory');
         $this->objectInstanceModel = $this->model->getModel('TMSolution\GamificationBundle\Entity\Objectinstance');
@@ -56,8 +54,7 @@ class EventsService
      * @param integer $classId
      * 
      */
-    public function register($eventCategoryId, $objectIdentity, $classId)
-    {
+    public function register($eventCategoryId, $objectIdentity, $classId) {
         $objectInstance = $this->objectInstanceModel->getInstance($objectIdentity, $classId);
         if ($objectInstance) {
             $event = $this->eventModel->findOneById($eventCategoryId);
@@ -89,8 +86,7 @@ class EventsService
      * @param object $trophy
      * @return Objecttrophy $objectTrophy
      */
-    public function addObjectTrophy($objectType, $trophy)
-    {
+    public function addObjectTrophy($objectType, $trophy) {
         if ($objectType && $trophy) {
             $objectTrophy = $this->objectTrophyModel->getEntity();
             $objectTrophy->setDate(new \DateTime('NOW'))
@@ -113,8 +109,7 @@ class EventsService
      * @param object $troptrophyCategory
      * @return array $result
      */
-    public function getObjectTrophies($objectInstance, $trophyCategory = null)
-    {
+    public function getObjectTrophies($objectInstance, $trophyCategory = null) {
         if ($trophyCategory != null) {
             $result = $this->objectTrophyModel->findBy(['object' => $objectInstance, 'trophy' => $trophyCategory]);
         } else {
@@ -127,23 +122,28 @@ class EventsService
      * Oznacza to, że nagroda przyznaje się, sprawdzając samą siebie, oraz że nigdy nie zostanie osiągnięta, ponieważ nigdy nie spełni początkowego warunku
      * i nie wyjdzie poza początkową wartość, o ile ta nie zostanie w sztuczny sposób podniesiona. Na tą chwilę jest przyznawana za każdym razem.
      */
- 
-    public function checkRule($objectInstance, $trophy)
-    {
+
+    public function checkRule($objectInstance, $trophy) {
+
         $objectRule = $this->ruleModel->getRepository()->findOneBy(['trophy' => $trophy]);
-        $objectContext = $this->contextModel->getRepository()->findOneBy(['id' => $objectRule->getContext()]);        
+        $objectContext = $this->contextModel->getRepository()->findOneBy(['id' => $objectRule->getContext()->getId()]);
         $trophyCount = $this->countTrophies($objectInstance, $trophy);
         $cyclicCount = $this->countCyclicTrophies($objectInstance);
-        $assertion = $this->assertion($objectContext->getName(), $objectRule->getOperator(), $objectRule->getValue(), $cyclicCount);
 
+        $assertion = $this->assertion($objectContext->getName(), $objectRule->getOperator(), $objectRule->getValue(), $cyclicCount);
         if ($trophy->getTrophytype()->getId() == 1/* Jednorazowa */) {
+
             if (($assertion == true) && ($trophyCount == 0)) {
                 $objectTrophy = $this->createObjecttrophy($objectInstance, $trophy);
+
                 $this->objectTrophyModel->create($objectTrophy, true);
+
                 return new Response('Nagroda jednorazowa przyznana');
             } elseif ($trophyCount != 0) {
+
                 return new Response('Posiadasz już tą nagrodę jednorazową.');
             } else {
+
                 return new Response('Nagroda jednorazowa nie przyznana');
             }
         } elseif ($trophy->getTrophytype()->getId() == 2/* Cykliczna */) {
@@ -157,8 +157,7 @@ class EventsService
         }
     }
 
-    public function assertion($context, $operator, $value, $contextValue)
-    {
+    public function assertion($context, $operator, $value, $contextValue) {
         $ruler = new Ruler();
         $cont = new Context();
         $rule = $context . " " . $operator . " " . $value;
@@ -166,15 +165,14 @@ class EventsService
         return $ruler->assert($rule, $cont);
     }
 
-    public function countTrophies($objectInstance, $trophy)
-    {
+    public function countTrophies($objectInstance, $trophy) {
         $trophiesArray = $this->objectTrophyModel->findBy(['object' => $objectInstance, 'trophy' => $trophy]);
         $count = count($trophiesArray);
         return $count;
     }
+
     //niedokończona
-    public function createObjecttrophy($objectInstance, $trophy)
-    {
+    public function createObjecttrophy($objectInstance, $trophy) {
         $objectTrophy = new Objecttrophy();
         $objectTrophy->setDate(new \DateTime('NOW'))
                 ->setObject($objectInstance)
@@ -184,13 +182,11 @@ class EventsService
     }
 
     // Do zrobienia
-    public function computeContextValue($objectInstance, $trophy)
-    {
+    public function computeContextValue($objectInstance, $trophy) {
         
     }
 
-    public function countCyclicTrophies($objectInstance)
-    {
+    public function countCyclicTrophies($objectInstance) {
         $cyclicTrophy = $this->trophyModel->findOneById(2);
         $cyclicTrophies = $this->countTrophies($objectInstance, $cyclicTrophy);
         return $cyclicTrophies;
