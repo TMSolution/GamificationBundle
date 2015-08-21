@@ -1,20 +1,13 @@
 <?php
 
 /**
- * Description of EventServiceTest
+ * Test class for EventService
  *
  * @author Damian Piela
  * @author Lukasz
  */
 
 namespace TMSolution\GamificationBundle\Tests;
-
-use TMSolution\GamificationBundle\Entity\Objectinstance;
-use TMSolution\GamificationBundle\Entity\Trophycategory;
-use TMSolution\GamificationBundle\Entity\Trophy;
-use TMSolution\GamificationBundle\Entity\Objecttrophy;
-use TMSolution\GamificationBundle\Entity\Context;
-use TMSolution\GamificationBundle\Model\Objectinstance as oiModel;
 
 class EventServiceTest extends \PHPUnit_Framework_TestCase {
 
@@ -55,7 +48,6 @@ class EventServiceTest extends \PHPUnit_Framework_TestCase {
     }
 
     public function testGetObjectTrophiesMock() {
-
         $mockobjecttrophy = $this->getMockBuilder('TMSolution\GamificationBundle\Entity\Objectinstance')
                 ->getMock();
         $mockobjecttrophy->method('setObjectidentity')
@@ -76,31 +68,22 @@ class EventServiceTest extends \PHPUnit_Framework_TestCase {
     }
 
     public function testaddObjectTrophyMock() {
-
         $mockobjecttrophy = $this->getMockBuilder('TMSolution\GamificationBundle\Entity\Objecttrophy')
                 ->getMock();
         $mockobjecttrophy->method('setObject')
                 ->willReturn(1);
-
         $mockobjecttrophy->method('setTrophy')
                 ->willReturn(1);
-
-
         $this->assertEquals(1, $mockobjecttrophy->setObject());
         $this->assertEquals(1, $mockobjecttrophy->setTrophy());
     }
 
-    //add object trophy - change 
     public function testAddObjectTrophy() {
-
         $objectinstance = $this->objectinstanceModel->findOneById(1);
         $trophy = $this->trophyModel->findOneById(1);
-
         $objectTrophy = $this->eventsService->addObjectTrophy($objectinstance, $trophy);
-
         $query = $this->objectTrophyModel->getManager()->createQuery('SELECT MAX(u.id) id FROM TMSolution\GamificationBundle\Entity\Objecttrophy u');
         $max = $query->getSingleResult();
-
         $foundObjectTrophy = $this->objectTrophyModel->findOneById($max["id"]);
         $this->assertEquals($objectTrophy, $foundObjectTrophy);
     }
@@ -113,9 +96,8 @@ class EventServiceTest extends \PHPUnit_Framework_TestCase {
     /**
      * @author Damian Piela
      */
-    //niekoniecznie typu "cyclic" to zależy od ID w bazie 
+    //niekoniecznie typu "cyclic" - to zależy od ID w bazie 
     public function testCountCyclicTrophies() {
-
         $cyclicTrophy = $this->trophyModel->findOneById(1);
         $objectInstance = $this->objectinstanceModel->findOneById(1);
         $cyclicTrophies = $this->eventsService->countTrophies($objectInstance, $cyclicTrophy);
@@ -142,11 +124,9 @@ class EventServiceTest extends \PHPUnit_Framework_TestCase {
      * @author Damian Piela
      */
     public function testCountTrophies() {
-
         $objectInstance = $this->objectinstanceModel->findOneById(1);
         $trophy = $this->objectTrophyModel->findOneById(1);
         $count = $this->eventsService->countTrophies($objectInstance, $trophy);
-
         $this->assertInternalType("int", $count);
     }
 
@@ -169,16 +149,14 @@ class EventServiceTest extends \PHPUnit_Framework_TestCase {
         $this->assertNotNull($rule);
     }
 
-    //---------------------tests method from Model/Objectinstance------------------------------
+    //---------------------test methods from Model/Objectinstance------------------------------
 
     public function testCheckInstance() {
         $objectinstanceModelFactory = $this->get('model_factory');
         $objinstmodel = $objectinstanceModelFactory->getModel('TMSolution\GamificationBundle\Entity\Objectinstance');
-
         $objectInstance = $this->objectinstanceModel->findOneById(1);
         $objectidentity = $objectInstance->getObjectidentity();
         $objecttype = $objectInstance->getObjecttype();
-
         $check = $objinstmodel->checkInstance($objectidentity, $objecttype);
         $this->assertNotNull($check);
     }
@@ -186,13 +164,9 @@ class EventServiceTest extends \PHPUnit_Framework_TestCase {
     public function testCreateInstance() {
         $objectinstanceModelFactory = $this->get('model_factory');
         $objinstmodel = $objectinstanceModelFactory->getModel('TMSolution\GamificationBundle\Entity\Objectinstance');
-
         $objectInstance = $this->objectinstanceModel->findOneById(1);
         $objectidentity = $objectInstance->getObjectidentity();
         $objectype = $objectInstance->getObjecttype();
-
-        //$newobjectInstance = new Objectinstance();
-
         $create = $objinstmodel->createInstance($objectidentity, $objectype);
         $this->assertNotNull($create);
     }
@@ -200,12 +174,9 @@ class EventServiceTest extends \PHPUnit_Framework_TestCase {
     public function testGetInstance() {
         $objectinstanceModelFactory = $this->get('model_factory');
         $objinstmodel = $objectinstanceModelFactory->getModel('TMSolution\GamificationBundle\Entity\Objectinstance');
-
         $objectInstance = $this->objectinstanceModel->findOneById(1);
         $objectidentity = $objectInstance->getObjectidentity();
         $objectype = $objectInstance->getObjecttype();
-
-        //$newObjectInstance = new Objectinstance();
         $result = $objinstmodel->getInstance($objectidentity, $objectype);
         $this->assertNotNull($result);
     }

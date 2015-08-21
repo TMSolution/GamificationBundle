@@ -4,11 +4,12 @@
  * Loads test data to database
  * 
  * @author Damian Piela
- * @author Lukasz
+ * @author Lukasz Sobieraj
  */
 
 namespace TMSolution\GamificationBundle\DataFixtures\ORM;
 
+use Faker\Factory;
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
@@ -24,8 +25,6 @@ use TMSolution\GamificationBundle\Entity\Eventcategory;
 use TMSolution\GamificationBundle\Entity\Eventcounter;
 use TMSolution\GamificationBundle\Entity\Eventlog;
 use TMSolution\GamificationBundle\Entity\Objecttype;
-use Faker\Factory;
-use Core\ModelBundle\Model\Model;
 
 class LoadDataToDB extends AbstractFixture implements FixtureInterface {
 
@@ -46,8 +45,8 @@ class LoadDataToDB extends AbstractFixture implements FixtureInterface {
 
         //Faker
         $faker = Factory::create();
-        $model = $this->get('model_factory');
 
+        
         //Context - sc
         $context = new Context();
         $context->setName($faker->word);
@@ -76,7 +75,7 @@ class LoadDataToDB extends AbstractFixture implements FixtureInterface {
         $this->addReference('trophytypeCykliczna', $trophyType1);
 
 
-        //Trophycategory -sc
+        //Trophycategory - sc
         $trophyCategory = new Trophycategory();
         $trophyCategory->setName('Kategoria testowa');
         $manager->persist($trophyCategory);
@@ -84,13 +83,12 @@ class LoadDataToDB extends AbstractFixture implements FixtureInterface {
         $this->addReference('trophycategory', $trophyCategory);
 
 
-        //Eventcategory -sc
+        //Eventcategory - sc
         $eventcategory = new Eventcategory();
         $eventcategory->setName($faker->name);
         $manager->persist($eventcategory);
         $manager->flush();
         $this->addReference('eventcategory', $eventcategory);
-
 
 
         //Event - ob
@@ -148,15 +146,6 @@ class LoadDataToDB extends AbstractFixture implements FixtureInterface {
         $manager->flush();
 
 
-        $trophyCyclic = new Trophy();
-        $trophyCyclic->setTrophycategory($this->getReference('trophycategory'))
-                ->setTrophytype($this->getReference('trophytypeJednorazowa'))
-                ->setName('TrophytypeName')
-                ->setImage('Image');
-        $manager->persist($trophyCyclic);
-        $manager->flush();
-
-
         //Objecttrophy - ob
         $objectTrophy = new Objecttrophy();
         $objectTrophy->setObject($this->getReference('objectinstance'))
@@ -164,7 +153,8 @@ class LoadDataToDB extends AbstractFixture implements FixtureInterface {
                 ->setDate(new \DateTime('NOW'));
         $manager->persist($objectTrophy);
         $manager->flush();
-//die('ok');
+
+        
         //Rule - ob
         $rule = new Rule();
         $rule->setContext($this->getReference('context'))
@@ -175,80 +165,5 @@ class LoadDataToDB extends AbstractFixture implements FixtureInterface {
         $manager->persist($rule);
         $manager->flush();
 
-
-
-//$eventCategoryModel = $model->getModel('TMSolution\GamificationBundle\Entity\Eventcategory');
-//        die('ok');
-//        $eventCategoryDB = $eventCategoryModel->findOneById(1);
-//        var_dump($eventCategoryDB);
-//        
-        //juz istnieje w LoadContext
-        //context
-//        $context = new Context();
-//        $context->setName('contextTest');
-//        $manager->persist($context);
-//        $manager->flush();
-        //rule
-//        $rule = new Rule();
-//        $rule->//setContext(new Context())
-//                setOperator('>')
-//                ->setValue('30');
-//        $manager->persist($context);
-//        $manager->flush();
-//
-//        //Objectinstance
-//        $objectInstance = new Objectinstance();
-//        $manager->persist($objectInstance);
-//        $manager->flush();
-//
-//        //Trophy
-//        $trophy = new Trophy();
-//        $manager->persist($objectInstance);
-//        $manager->flush();
-//
-//        //Objecttrophy
-//        $objectTrophy = new Objecttrophy();
-//        $manager->persist($objectInstance);
-//        $manager->flush();
-//        //Trophy
-//        $trophyCategoryModel = $model->getModel('TMSolution\GamificationBundle\Entity\Trophycategory');
-//        $trophyTypeModel = $model->getModel('TMSolution\GamificationBundle\Entity\Trophytype');
-//
-//        $trophyCategoryDB = $trophyCategoryModel->findOneBy(['name'=>'Kategoria testowa']);
-//        $trophyTypeDB = $trophyTypeModel->findOneBy(['name'=>'Cykliczna']);
-//
-////        var_dump($trophyTypeDB);
-////                die('ok');
-//
-//        $trophyModel = $model->getModel('TMSolution\GamificationBundle\Entity\Trophy');
-//        //for ($i = 0; i < 10; $i++) {
-//        $trophy = new Trophy();
-//        $trophy ->setTrophycategory($trophyCategoryDB)
-//                ->setTrophytype($trophyTypeDB)
-//                ->setName('name')
-//                ->setImage('image');
-//        $trophyModel->create($trophy, true);
-//        //$manager->persist($trophy);
-//        // }
-//        //$manager->flush();
-//
-//        die('ok');
-//
-//        
-//        
-//        
-//
-//        for ($i = 0; $i < 10; $i++) {
-//
-//            for ($i = 0; $i < 1000; $i++) {
-//
-//                $context = new Context();
-//                $context->setName($faker->name);
-//
-//                $manager->persist($context);
-//            }
-//            $manager->flush();
-//        }
     }
-
 }

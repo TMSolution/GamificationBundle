@@ -1,5 +1,13 @@
 <?php
 
+/**
+ * EventService service
+ *
+ * @author Damian Piela <damian.piela@tmsolution.pl>
+ * @author Lukasz Sobieraj <lukasz.sobieraj@tmsolution.pl>
+ * @author Jacek Lozinski <jacek.lozinski@tmsolution.pl>
+ */
+
 namespace TMSolution\GamificationBundle\Service;
 
 use TMSolution\GamificationBundle\Entity\Eventlog;
@@ -9,13 +17,6 @@ use Hoa\Ruler\Ruler;
 use Hoa\Ruler\Context;
 use Symfony\Component\HttpFoundation\Response;
 
-/**
- * Description of EventService service
- *
- * @author Damian Piela <damian.piela@tmsolution.pl>
- * @author Lukasz Sobieraj <lukasz.sobieraj@tmsolution.pl>
- * @author Jacek Lozinski <jacek.lozinski@tmsolution.pl>
- */
 class EventsService {
 
     protected $container;
@@ -48,11 +49,9 @@ class EventsService {
      * creates a new entry in the db and increments the counter.
      * If the object exists, the method increments a counter.
      * 
-     * 
      * @param integer $eventCategoryId
      * @param integer $objectIdentity
      * @param integer $classId
-     * 
      */
     public function register($eventCategoryId, $objectIdentity, $classId) {
         $objectInstance = $this->objectInstanceModel->getInstance($objectIdentity, $classId);
@@ -97,8 +96,6 @@ class EventsService {
         }
     }
 
-//end of addObjectTrophy
-
     /**
      * Looks for user's trophies in the database, if the $trophyCategory paramenter is given, 
      * the returned results are of the given type.
@@ -118,11 +115,13 @@ class EventsService {
         return $result;
     }
 
-    /* Błąd projektowy - nagroda cykliczna nie może być przyznawana co 2 wystąpienia, ponieważ jej podstawą są przyznane wcześniej nagrody cykliczne.
-     * Oznacza to, że nagroda przyznaje się, sprawdzając samą siebie, oraz że nigdy nie zostanie osiągnięta, ponieważ nigdy nie spełni początkowego warunku
-     * i nie wyjdzie poza początkową wartość, o ile ta nie zostanie w sztuczny sposób podniesiona. Na tą chwilę jest przyznawana za każdym razem.
+    /**
+     * Checks rule and decides if a trophy can be given.
+     * 
+     * @param object $objectInstance
+     * @param object $trophy
+     * @return Response
      */
-
     public function checkRule($objectInstance, $trophy) {
         
         $objectRule = $this->ruleModel->getRepository()->findOneBy(['trophy' => $trophy]);
@@ -131,12 +130,9 @@ class EventsService {
         $cyclicCount = $this->countCyclicTrophies($objectInstance);
         $assertion = $this->assertion($objectContext->getName(), $objectRule->getOperator(), $objectRule->getValue(), $cyclicCount);
         if ($trophy->getTrophytype()->getId() == 1/* Jednorazowa */) {
-
             if (($assertion == true) && ($trophyCount == 0)) {
                 $objectTrophy = $this->createObjecttrophy($objectInstance, $trophy);
-
                 $this->objectTrophyModel->create($objectTrophy, true);
-
                 return new Response('Nagroda jednorazowa przyznana');
             } elseif ($trophyCount != 0) {
                 return new Response('Posiadasz już tą nagrodę jednorazową.');
@@ -153,7 +149,16 @@ class EventsService {
             }
         }
     }
-
+    
+    /**
+     * Based on the data provided as arguments, decides if assertion is true.
+     * 
+     * @param string $context
+     * @param string $operator
+     * @param integer $value
+     * @param integer $contextValue
+     * @return boolean
+     */
     public function assertion($context, $operator, $value, $contextValue) {
         $ruler = new Ruler();
         $cont = new Context();
@@ -162,31 +167,48 @@ class EventsService {
         return $ruler->assert($rule, $cont);
     }
 
+    /**
+     * Counts trophies of the given type for a specified user.
+     * 
+     * @param type $objectInstance
+     * @param type $trophy
+     * @return type
+     */
     public function countTrophies($objectInstance, $trophy) {
         $trophiesArray = $this->objectTrophyModel->findBy(['object' => $objectInstance, 'trophy' => $trophy]);
         $count = count($trophiesArray);
         return $count;
     }
 
-    //niedokończona
+    /**
+     * Creates an Objecttrophy with objectInstance and trophy given.
+     * 
+     * @param type $objectInstance
+     * @param type $trophy
+     * @return type
+     */
     public function createObjecttrophy($objectInstance, $trophy) {
         $objectTrophy = new Objecttrophy();
         $objectTrophy->setDate(new \DateTime('NOW'))
                 ->setObject($objectInstance)
                 ->setTrophy($trophy);
-        $ot = $this->objectTrophyModel->create($objectTrophy, true);
-        return $ot;
+        $result = $this->objectTrophyModel->create($objectTrophy, true);
+        return $result;
     }
 
-    // Do zrobienia
-    public function computeContextValue($objectInstance, $trophy) {
-        
-    }
-
+    /**
+     * Counts cyclic trophies for the specified user.
+     * 
+     * WARNING! 
+     * The kind of trophy (here - cyclic) derives from it's id in the original test database.
+     * This may change in the final version.
+     * 
+     * @param type $objectInstance
+     * @return type
+     */
     public function countCyclicTrophies($objectInstance) {
         $cyclicTrophy = $this->trophyModel->findOneById(2);
         $cyclicTrophies = $this->countTrophies($objectInstance, $cyclicTrophy);
         return $cyclicTrophies;
     }
-
 }

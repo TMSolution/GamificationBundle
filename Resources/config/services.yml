@@ -3,30 +3,17 @@ services:
         class: TMSolution\GamificationBundle\Service\EventsService
         arguments: [@service_container]
 
-
-#listener do testow
-#    kernel.listener.testlistener:
-#        class: TMSolution\GamificationBundle\EventListener\TestEventListener
-##        tags:
-#            - { name: kernel.event_listener, event: kernel.response, method: onKernelResponse }
 #listener exception      
 #    kernel.listener.your_listener_name:
 #        class: TMSolution\GamificationBundle\EventListener\GamificationExceptionListener
 #        tags:
-#            - { name: kernel.event_listener, event: kernel.exception, method: onKernelException }
-            
+#            - { name: kernel.event_listener, event: kernel.exception, method: onKernelException }           
             
 #listener response
     kernel.listener.your_listener_response:
         class: TMSolution\GamificationBundle\EventListener\GamificationResponseListener
         tags:
             - { name: kernel.event_listener, event: kernel.response, method: onKernelResponse }
-    
-#    kernel.listener.your_listener_afterResponse:
-#        class: TMSolution\GamificationBundle\EventListener\GamificationResponseListener
-#        tags:
-#            - { name: kernel.event_listener, event: kernel.response, method: afterKernelResponse }
-
 
 #    app.tokens.action_listener:
 #        class: TMSolution\GamificationBundle\EventListener\GamificationResponseListener

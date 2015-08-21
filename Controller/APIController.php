@@ -1,5 +1,12 @@
 <?php
 
+/**
+ * APIController
+ * 
+ * @author Damian Piela
+ * @author Lukasz Sobieraj
+ */
+
 namespace TMSolution\GamificationBundle\Controller;
 
 use BeSimple\SoapBundle\ServiceDefinition\Annotation as Soap;
@@ -27,10 +34,9 @@ class APIController extends Controller {
      */
     public function helloAction($paramId) {
 
-        return "dupa i cycki";
+        return "jabłko i gruszka";
     }
 
-    //get object trophies
 
     /**
      * A SOAP method that returns an array of objects, type Objecttrophy, that - 
@@ -47,16 +53,9 @@ class APIController extends Controller {
 
         $objectInstanceMo = $this->get('model_factory');
         $objectInstanceModel = $objectInstanceMo->getModel('TMSolution\GamificationBundle\Entity\Objectinstance');
-
         $objectInstance = $objectInstanceModel->getInstance($objectIdentity, $objectTypeId);
-       
         $eventService = $this->get('gamification.events');
-
-
         $result = $eventService->getObjectTrophies($objectInstance);
-        dump($result);
-        exit;
-
         return new Response($result);
     }
 
