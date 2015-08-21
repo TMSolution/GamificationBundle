@@ -1,14 +1,18 @@
 <?php
+/**
+ * Bootstrap file for testing database.
+ * 
+ * @author Damian Piela
+ * @author Lukasz Sobieraj
+ */
 
 
 require_once __DIR__.'/bootstrap.php.cache';
 require_once __DIR__.'/AppKernel.php';
-//require_once '/path/to/Faker/src/autoload.php';
 
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Component\Console\Output\ConsoleOutput;
 use Symfony\Component\Console\Input\ArrayInput;
-
 use Doctrine\Bundle\DoctrineBundle\Command\DropDatabaseDoctrineCommand;
 use Doctrine\Bundle\DoctrineBundle\Command\CreateDatabaseDoctrineCommand;
 use Doctrine\Bundle\DoctrineBundle\Command\Proxy\CreateSchemaDoctrineCommand;
@@ -45,8 +49,6 @@ $input = new ArrayInput(array(
     'command' => 'doctrine:schema:create',
 ));
 $command->run($input, new ConsoleOutput());
-
-
 
 // let Doctrine create the database schema (i.e. the tables)
 $command = new LoadDataFixturesDoctrineCommand();

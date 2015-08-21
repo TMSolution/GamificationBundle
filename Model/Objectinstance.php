@@ -1,15 +1,11 @@
 <?php
 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 
 /**
- * Description of Objectinstance
+ * Objectinstance, business logic for the service.
  *
- * @author Lukasz
+ * @author Damian Piela
+ * @author Lukasz Sobieraj
  */
 
 namespace TMSolution\GamificationBundle\Model;
@@ -17,13 +13,15 @@ namespace TMSolution\GamificationBundle\Model;
 use TMSolution\GamificationBundle\Entity\Objectinstance as EntityObjectInstance;
 
 class Objectinstance extends \Core\ModelBundle\Model\Model {
-
     
-    
-    // check if the instance exists
+    /**
+     * Checks if object exists.
+     * 
+     * @param type $objectIdentity
+     * @param type $objectType
+     * @return boolean
+     */
     public function checkInstance($objectIdentity, $objectType) {
-
-
         try {
             return $this->findOneBy(['objectidentity' => $objectIdentity, 'objecttype' => $objectType]);
         } catch (\Exception $ex) {
@@ -31,20 +29,30 @@ class Objectinstance extends \Core\ModelBundle\Model\Model {
         }
     }
 
-    // get the instance
+    /**
+     * Returns Objectinstance from database, or creates one if doesn't exist, using the createInstance method of Objectinstance.php
+     * 
+     * @param type $objectIdentity
+     * @param type $objectType
+     * @return type
+     */
     public function getInstance($objectIdentity, $objectType) {
         $objectInstance = $this->checkInstance($objectIdentity, $objectType);
         if (!$objectInstance) {
-            //create object
             $objectInstance = $this->createInstance($objectIdentity, $objectType);
         }
         return $objectInstance;
     }
 
     
-    //create new instance object if it doesn't exist
+    /**
+     * Creates an Objectinstance, using the objectIdentity and objectType provided.
+     * 
+     * @param type $objectIdentity
+     * @param type $objectType
+     * @return type
+     */
     public function createInstance($objectIdentity, $objectType) {
-        //wytworzenie encji TMSolution\GamificationBundle\Model
         $classNameModel = $this->container->get('model_factory')->getModel('TMSolution\GamificationBundle\Entity\Objecttype');
         $classNameObject = $classNameModel->findOneById($objectType);
         $entityObjectInstance = new EntityObjectInstance();
@@ -52,5 +60,4 @@ class Objectinstance extends \Core\ModelBundle\Model\Model {
         $entityObjectInstance->setObjectidentity($objectIdentity);
         return $this->create($entityObjectInstance, true);
     }
-
 }
