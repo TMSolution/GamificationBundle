@@ -72,7 +72,8 @@ class LoadDataToDB extends AbstractFixture implements FixtureInterface {
         $manager->persist($trophyType);
         $manager->persist($trophyType1);
         $manager->flush();
-        $this->addReference('trophytype', $trophyType);
+        $this->addReference('trophytypeJednorazowa', $trophyType);
+        $this->addReference('trophytypeCykliczna', $trophyType1);
 
 
         //Trophycategory -sc
@@ -90,8 +91,8 @@ class LoadDataToDB extends AbstractFixture implements FixtureInterface {
         $manager->flush();
         $this->addReference('eventcategory', $eventcategory);
 
-        
-        
+
+
         //Event - ob
         $event = new Event();
         $event->setEventcategoryid($this->getReference('eventcategory'))
@@ -131,12 +132,29 @@ class LoadDataToDB extends AbstractFixture implements FixtureInterface {
         //Trophy - ob
         $trophy = new Trophy();
         $trophy->setTrophycategory($this->getReference('trophycategory'))
-                ->setTrophytype($this->getReference('trophytype'))
+                ->setTrophytype($this->getReference('trophytypeJednorazowa'))
                 ->setName('TrophytypeName')
                 ->setImage('Image');
         $manager->persist($trophy);
         $manager->flush();
         $this->addReference('trophy', $trophy);
+
+        $trophy1 = new Trophy();
+        $trophy1->setTrophycategory($this->getReference('trophycategory'))
+                ->setTrophytype($this->getReference('trophytypeCykliczna'))
+                ->setName('TrophytypeName')
+                ->setImage('Image');
+        $manager->persist($trophy1);
+        $manager->flush();
+
+
+        $trophyCyclic = new Trophy();
+        $trophyCyclic->setTrophycategory($this->getReference('trophycategory'))
+                ->setTrophytype($this->getReference('trophytypeJednorazowa'))
+                ->setName('TrophytypeName')
+                ->setImage('Image');
+        $manager->persist($trophyCyclic);
+        $manager->flush();
 
 
         //Objecttrophy - ob
@@ -147,14 +165,13 @@ class LoadDataToDB extends AbstractFixture implements FixtureInterface {
         $manager->persist($objectTrophy);
         $manager->flush();
 //die('ok');
-
         //Rule - ob
         $rule = new Rule();
         $rule->setContext($this->getReference('context'))
                 ->setTrophy($this->getReference('trophy'))
                 ->setEvent($this->getReference('event'))
-                ->setOperator('operator')
-                ->setValue('value');
+                ->setOperator('<')
+                ->setValue('10');
         $manager->persist($rule);
         $manager->flush();
 
