@@ -10,7 +10,7 @@
 
 namespace TMSolution\GamificationBundle\Model;
 
-use TMSolution\GamificationBundle\Entity\Gamerinstance as EntityObjectInstance;
+use TMSolution\GamificationBundle\Entity\Gamerinstance as EntityGamerInstance;
 
 class Gamerinstance extends \Core\ModelBundle\Model\Model {
     
@@ -53,11 +53,11 @@ class Gamerinstance extends \Core\ModelBundle\Model\Model {
      * @return type
      */
     public function createInstance($gamerIdentity, $gamerType) {
-        $classNameModel = $this->container->get('model_factory')->getModel('TMSolution\GamificationBundle\Entity\Objecttype');
-        $classNameObject = $classNameModel->findOneById($gamerType);
-        $entityObjectInstance = new EntityObjectInstance();
-        $entityObjectInstance->setObjecttype($classNameObject);
-        $entityObjectInstance->setObjectidentity($gamerIdentity);
-        return $this->create($entityObjectInstance, true);
+        $classNameModel = $this->container->get('model_factory')->getModel('TMSolution\GamificationBundle\Entity\Gamertype');
+        $classNameGamer = $classNameModel->findOneById($gamerType);
+        $entityGamerInstance = new EntityGamerInstance();
+        $entityGamerInstance->setGamertype($classNameGamer);
+        $entityGamerInstance->setGameridentity($gamerIdentity);
+        return $this->create($entityGamerInstance, true);
     }
 }

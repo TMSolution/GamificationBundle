@@ -2,23 +2,23 @@
 
 namespace TMSolution\GamificationBundle\Tests\Entity;
 
-use TMSolution\GamificationBundle\Entity\Objecttype;
+use TMSolution\GamificationBundle\Entity\Gamertype;
 
 /**
- * Description of ObjecttypeTest
+ * Description of GamertypeTest
  *
  * @author Damian Piela <damian.piela@tmsolution.pl>
  */
-class ObjecttypeTest extends \PHPUnit_Framework_TestCase {
+class GamertypeTest extends \PHPUnit_Framework_TestCase {
 
     public function testSetName() {
-        $ot = new Objecttype();
+        $ot = new Gamertype();
         $ot->setName('Name');
         $this->assertEquals('Name', $ot->getName());
     }
 
     public function testGetName() {
-        $ot = new Objecttype();
+        $ot = new Gamertype();
         $ot->setName('Name');
         $this->assertEquals('Name', $ot->getName());
     }

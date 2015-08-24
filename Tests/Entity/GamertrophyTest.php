@@ -3,35 +3,35 @@
 namespace TMSolution\GamificationBundle\Tests;
 
 use TMSolution\GamificationBundle\Entity\Trophy;
-use TMSolution\GamificationBundle\Entity\Objectinstance;
-use TMSolution\GamificationBundle\Entity\Objecttrophy;
+use TMSolution\GamificationBundle\Entity\Gamerinstance;
+use TMSolution\GamificationBundle\Entity\Gamertrophy;
 use ReflectionClass;
 
 class EventTest extends \PHPUnit_Framework_TestCase {
 
     public function testGetId() {
 
-        $objecttrophy = new Objecttrophy();
-        $class = new ReflectionClass($objecttrophy);
+        $gamertrophy = new Gamertrophy();
+        $class = new ReflectionClass($gamertrophy);
         $property = $class->getProperty('id');
         $property->setAccessible(true);
-        $property->setValue($objecttrophy, 1);
-        $this->assertSame(1, $objecttrophy->getId());
+        $property->setValue($gamertrophy, 1);
+        $this->assertSame(1, $gamertrophy->getId());
     }
 
-    public function testObject() {
+    public function testGamer() {
 
-        $object = new Objecttrophy();
-        $objectid = new Objectinstance();
-        $objectGet = $object->setObject($objectid)->getObject();
-        $this->assertTrue($objectid == $objectGet);
+        $gamer = new Gamertrophy();
+        $gamerid = new Gamerinstance();
+        $gamerGet = $gamer->setGamer($gamerid)->getGamer();
+        $this->assertTrue($gamerid == $gamerGet);
     }
 
     public function testTrophy() {
 
-        $object = new Objecttrophy();
+        $gamer = new Gamertrophy();
         $trophy = new Trophy();
-        $trophyGet = $object->setTrophy($trophy)->getTrophy();
+        $trophyGet = $gamer->setTrophy($trophy)->getTrophy();
         $this->assertTrue($trophy == $trophyGet);
     }
 
