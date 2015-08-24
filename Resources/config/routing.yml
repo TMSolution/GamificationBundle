@@ -1,36 +1,36 @@
 tm_solution_gamification_homepage:
-    path:     /gamification/test/{eventCategoryId}/{objectIdentity}/{classId}
+    path:     /gamification/test/{eventCategoryId}/{gamerIdentity}/{classId}
     defaults: { _controller: TMSolutionGamificationBundle:Default:check }
 
 tm_solution_gamification_checkTrophy:
-    path:     /gamification/checkTrophy/{objectInstanceId}/{trophyCategoryId}
+    path:     /gamification/checkTrophy/{gamerInstanceId}/{trophyCategoryId}
     defaults: { _controller: TMSolutionGamificationBundle:Default:checkTrophy }
     
 tm_solution_gamification_checkTrophy1:
-    path:     /gamification/checkTrophy/{objectInstanceId}
+    path:     /gamification/checkTrophy/{gamerInstanceId}
     defaults: { _controller: TMSolutionGamificationBundle:Default:checkTrophy }
     
 tm_solution_gamification_addTrophy1:
-    path:     /gamification/addTrophy/{objectInstanceId}/{trophyId}
+    path:     /gamification/addTrophy/{gamerInstanceId}/{trophyId}
     defaults: { _controller: TMSolutionGamificationBundle:Default:addTrophy }
     
 tm_solution_gamification_checkRule:
-    path:     /gamification/checkRule/{objectId}
+    path:     /gamification/checkRule/{gamerId}
     defaults: { _controller: TMSolutionGamificationBundle:Default:checkRule }
 
-tm_solution_gamification_checkobject:
-    path:     /gamification/checkObject/{id}
-    defaults: { _controller: TMSolutionGamificationBundle:API:checkobject }
+tm_solution_gamification_checkgamer:
+    path:     /gamification/checkGamer/{id}
+    defaults: { _controller: TMSolutionGamificationBundle:API:checkgamer }
     
 tm_solution_gamification_testsoap:
     path:     /soaptest
     defaults: { _controller: TMSolutionGamificationBundle:Default:testSoap }
     
-tm_solution_gamification_soap_checkObjectTrophy:
-    path:     /gamification/soapcheckobjecttrophy/{objectTypeId}/{objectIdentity}
-    defaults: { _controller: TMSolutionGamificationBundle:API:checkObjectTrophy }    
+tm_solution_gamification_soap_checkGamerTrophy:
+    path:     /gamification/soapcheckgamertrophy/{gamerTypeId}/{gamerIdentity}
+    defaults: { _controller: TMSolutionGamificationBundle:API:checkGamerTrophy }    
     
 
 tm_solution_gamification_soap_ruletest:
-    path:     /gamification/ruletest/{objectInstanceId}/{trophyId}/{ruleId}
+    path:     /gamification/ruletest/{gamerInstanceId}/{trophyId}/{ruleId}
     defaults: { _controller: TMSolutionGamificationBundle:Default:ruletest }   

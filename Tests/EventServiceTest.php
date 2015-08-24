@@ -13,14 +13,14 @@ class EventServiceTest extends \PHPUnit_Framework_TestCase {
 
     protected static $kernel;
     protected static $container;
-    protected $objectinstanceModel;
+    protected $gamerinstanceModel;
     protected $trophyModel;
-    protected $objectTrophyModel;
+    protected $gamerTrophyModel;
     protected $eventsService;
     protected $modelFactory;
     protected $gamificationModel;
-    protected $objectEventcategoryModel;
-    protected $objecttypeModel;
+    protected $gamerEventcategoryModel;
+    protected $gamertypeModel;
     protected $ruleModel;
 
     public static function setUpBeforeClass() {
@@ -33,13 +33,13 @@ class EventServiceTest extends \PHPUnit_Framework_TestCase {
     public function setUp() {
 
         $this->modelFactory = $this->get('model_factory');
-        $this->objectinstanceModel = $this->modelFactory->getModel('TMSolution\GamificationBundle\Entity\Objectinstance');
+        $this->gamerinstanceModel = $this->modelFactory->getModel('TMSolution\GamificationBundle\Entity\Gamerinstance');
         $this->trophyModel = $this->modelFactory->getModel('TMSolution\GamificationBundle\Entity\Trophy');
-        $this->objectTrophyModel = $this->modelFactory->getModel('TMSolution\GamificationBundle\Entity\Objecttrophy');
-        $this->objectEventModel = $this->modelFactory->getModel('TMSolution\GamificationBundle\Entity\Event');
+        $this->gamerTrophyModel = $this->modelFactory->getModel('TMSolution\GamificationBundle\Entity\Gamertrophy');
+        $this->gamerEventModel = $this->modelFactory->getModel('TMSolution\GamificationBundle\Entity\Event');
         $this->eventsService = $this->get('gamification.events');
-        $this->objectEventcategoryModel = $this->modelFactory->getModel('TMSolution\GamificationBundle\Entity\Eventcategory');
-        $this->objecttypeModel = $this->modelFactory->getModel('TMSolution\GamificationBundle\Entity\Objecttype');
+        $this->gamerEventcategoryModel = $this->modelFactory->getModel('TMSolution\GamificationBundle\Entity\Eventcategory');
+        $this->gamertypeModel = $this->modelFactory->getModel('TMSolution\GamificationBundle\Entity\Gamertype');
         $this->ruleModel = $this->modelFactory->getModel('TMSolution\GamificationBundle\Entity\Rule');
     }
 
@@ -47,68 +47,68 @@ class EventServiceTest extends \PHPUnit_Framework_TestCase {
         return self::$kernel->getContainer()->get($serviceId);
     }
 
-    public function testGetObjectTrophiesMock() {
-        $mockobjecttrophy = $this->getMockBuilder('TMSolution\GamificationBundle\Entity\Objectinstance')
+    public function testGetGamerTrophiesMock() {
+        $mockgamertrophy = $this->getMockBuilder('TMSolution\GamificationBundle\Entity\Gamerinstance')
                 ->getMock();
-        $mockobjecttrophy->method('setObjectidentity')
+        $mockgamertrophy->method('setGameridentity')
                 ->willReturn(1);
-        $this->assertEquals(1, $mockobjecttrophy->setObjectidentity(1));
+        $this->assertEquals(1, $mockgamertrophy->setGameridentity(1));
     }
 
-    public function testSetObjecttypeMock() {
+    public function testSetGamertypeMock() {
 
-        $mockobjectinstance = $this->getMockBuilder('TMSolution\GamificationBundle\Entity\Objectinstance')
+        $mockgamerinstance = $this->getMockBuilder('TMSolution\GamificationBundle\Entity\Gamerinstance')
                 ->getMock();
-        $mockobjecttype = $this->getMockBuilder('TMSolution\GamificationBundle\Entity\Objecttype')
+        $mockgamertype = $this->getMockBuilder('TMSolution\GamificationBundle\Entity\Gamertype')
                 ->getMock();
-        $mockobjectinstance->method('setObjecttype')
-                ->willReturn($mockobjecttype);
+        $mockgamerinstance->method('setGamertype')
+                ->willReturn($mockgamertype);
 
-        $this->assertEquals($mockobjecttype, $mockobjectinstance->setObjecttype($mockobjecttype));
+        $this->assertEquals($mockgamertype, $mockgamerinstance->setGamertype($mockgamertype));
     }
 
-    public function testaddObjectTrophyMock() {
-        $mockobjecttrophy = $this->getMockBuilder('TMSolution\GamificationBundle\Entity\Objecttrophy')
+    public function testaddGamerTrophyMock() {
+        $mockgamertrophy = $this->getMockBuilder('TMSolution\GamificationBundle\Entity\Gamertrophy')
                 ->getMock();
-        $mockobjecttrophy->method('setObjectinstance')
+        $mockgamertrophy->method('setGamerinstance')
                 ->willReturn(1);
-        $mockobjecttrophy->method('setTrophy')
+        $mockgamertrophy->method('setTrophy')
                 ->willReturn(1);
-        $this->assertEquals(1, $mockobjecttrophy->setObjectinstance());
-        $this->assertEquals(1, $mockobjecttrophy->setTrophy());
+        $this->assertEquals(1, $mockgamertrophy->setGamerinstance());
+        $this->assertEquals(1, $mockgamertrophy->setTrophy());
     }
     
-    public function testAddObjectTrophy() {
-        $objectinstance = $this->objectinstanceModel->findOneById(1);
+    public function testAddGamerTrophy() {
+        $gamerinstance = $this->gamerinstanceModel->findOneById(1);
         $trophy = $this->trophyModel->findOneById(1);
-        $objectTrophy = $this->eventsService->addObjectTrophy($objectinstance, $trophy);
-        $query = $this->objectTrophyModel->getManager()->createQuery('SELECT MAX(u.id) id FROM TMSolution\GamificationBundle\Entity\Objecttrophy u');
+        $gamerTrophy = $this->eventsService->addGamerTrophy($gamerinstance, $trophy);
+        $query = $this->gamerTrophyModel->getManager()->createQuery('SELECT MAX(u.id) id FROM TMSolution\GamificationBundle\Entity\Gamertrophy u');
         $max = $query->getSingleResult();
-        $foundObjectTrophy = $this->objectTrophyModel->findOneById($max["id"]);
-        $this->assertEquals($objectTrophy, $foundObjectTrophy);
+        $foundGamerTrophy = $this->gamerTrophyModel->findOneById($max["id"]);
+        $this->assertEquals($gamerTrophy, $foundGamerTrophy);
     }
 
     //do poprawy - wytestowac szczegolowo - ma sprawdza ile obiketow zwrotkaa
-    public function testGetObjectTrophies() {
-        $objecttrophy = $this->objectTrophyModel->findAll();
-        $this->assertNotNull($objecttrophy);
+    public function testGetGamerTrophies() {
+        $gamertrophy = $this->gamerTrophyModel->findAll();
+        $this->assertNotNull($gamertrophy);
     }
 
     //niekoniecznie typu "cyclic" - to zależy od ID w bazie 
     public function testCountCyclicTrophies() {
         $cyclicTrophy = $this->trophyModel->findOneById(1);
-        $objectInstance = $this->objectinstanceModel->findOneById(1);
-        $countcyclicTrophies = $this->eventsService->countTrophies($objectInstance, $cyclicTrophy);
+        $gamerInstance = $this->gamerinstanceModel->findOneById(1);
+        $countcyclicTrophies = $this->eventsService->countTrophies($gamerInstance, $cyclicTrophy);
         $this->assertNotNull($countcyclicTrophies);
     }
 
-    public function testCreateObjecttrophy() {
-        $objectInstance = $this->objectinstanceModel->findOneById(1);
+    public function testCreateGamertrophy() {
+        $gamerInstance = $this->gamerinstanceModel->findOneById(1);
         $trophy = $this->trophyModel->findOneById(1);
-        $query = $this->objectTrophyModel->getManager()->createQuery('SELECT MAX(u.id) id FROM TMSolution\GamificationBundle\Entity\Objecttrophy u');
+        $query = $this->gamerTrophyModel->getManager()->createQuery('SELECT MAX(u.id) id FROM TMSolution\GamificationBundle\Entity\Gamertrophy u');
         $recordsBefore = $query->getSingleResult();
-        $objectTrophy = $this->eventsService->createObjecttrophy($objectInstance, $trophy);
-        if ($objectTrophy != null) {
+        $gamerTrophy = $this->eventsService->createGamertrophy($gamerInstance, $trophy);
+        if ($gamerTrophy != null) {
             $recordsAfter = $query->getSingleResult();
             if($recordsAfter > $recordsBefore){
                 $this->assertTrue(true);
@@ -119,60 +119,60 @@ class EventServiceTest extends \PHPUnit_Framework_TestCase {
     }
 
     public function testCountTrophies() {
-        $objectInstance = $this->objectinstanceModel->findOneById(1);
-        $trophy = $this->objectTrophyModel->findOneById(1);
-        $count = $this->eventsService->countTrophies($objectInstance, $trophy);
+        $gamerInstance = $this->gamerinstanceModel->findOneById(1);
+        $trophy = $this->gamerTrophyModel->findOneById(1);
+        $count = $this->eventsService->countTrophies($gamerInstance, $trophy);
         $this->assertInternalType("int", $count);
     }
 
     public function testRegister() {
-        $eventcategoryObject = $this->objectEventcategoryModel->findOneById(1);
-        $eventcategoryId = $eventcategoryObject->getId();
-        $objectinstanceObject = $this->objectinstanceModel->findOneById(1);
-        $objectidentity = $objectinstanceObject->getObjectidentity();
-        $objecttype = $this->objecttypeModel->findOneById(1);
-        $objecttypeId = $objecttype->getId();
-        $result = $this->eventsService->register($eventcategoryId, $objectidentity, $objecttypeId);
+        $eventcategoryGamer = $this->gamerEventcategoryModel->findOneById(1);
+        $eventcategoryId = $eventcategoryGamer->getId();
+        $gamerinstanceGamer = $this->gamerinstanceModel->findOneById(1);
+        $gameridentity = $gamerinstanceGamer->getGameridentity();
+        $gamertype = $this->gamertypeModel->findOneById(1);
+        $gamertypeId = $gamertype->getId();
+        $result = $this->eventsService->register($eventcategoryId, $gameridentity, $gamertypeId);
         $this->assertNull($result);
     }
 
     public function testCheckRule() {
-        $objecttrophy = $this->objectTrophyModel->findOneById(1);
-        $object = $objecttrophy->getObjectinstance();
-        $trophy = $objecttrophy->getTrophy();
-        $rule = $this->eventsService->checkRule($object, $trophy);
+        $gamertrophy = $this->gamerTrophyModel->findOneById(1);
+        $gamer = $gamertrophy->getGamerinstance();
+        $trophy = $gamertrophy->getTrophy();
+        $rule = $this->eventsService->checkRule($gamer, $trophy);
         $this->assertNotNull($rule);
     }
 
-    //---------------------test methods from Model/Objectinstance------------------------------
+    //---------------------test methods from Model/Gamerinstance------------------------------
 
     public function testCheckInstance() {
-        $objectinstanceModelFactory = $this->get('model_factory');
-        $objinstmodel = $objectinstanceModelFactory->getModel('TMSolution\GamificationBundle\Entity\Objectinstance');
-        $objectInstance = $this->objectinstanceModel->findOneById(1);
-        $objectidentity = $objectInstance->getObjectidentity();
-        $objecttype = $objectInstance->getObjecttype();
-        $check = $objinstmodel->checkInstance($objectidentity, $objecttype);
+        $gamerinstanceModelFactory = $this->get('model_factory');
+        $objinstmodel = $gamerinstanceModelFactory->getModel('TMSolution\GamificationBundle\Entity\Gamerinstance');
+        $gamerInstance = $this->gamerinstanceModel->findOneById(1);
+        $gameridentity = $gamerInstance->getGameridentity();
+        $gamertype = $gamerInstance->getGamertype();
+        $check = $objinstmodel->checkInstance($gameridentity, $gamertype);
         $this->assertNotNull($check);
     }
 
     public function testCreateInstance() {
-        $objectinstanceModelFactory = $this->get('model_factory');
-        $objinstmodel = $objectinstanceModelFactory->getModel('TMSolution\GamificationBundle\Entity\Objectinstance');
-        $objectInstance = $this->objectinstanceModel->findOneById(1);
-        $objectidentity = $objectInstance->getObjectidentity();
-        $objectype = $objectInstance->getObjecttype();
-        $create = $objinstmodel->createInstance($objectidentity, $objectype);
+        $gamerinstanceModelFactory = $this->get('model_factory');
+        $objinstmodel = $gamerinstanceModelFactory->getModel('TMSolution\GamificationBundle\Entity\Gamerinstance');
+        $gamerInstance = $this->gamerinstanceModel->findOneById(1);
+        $gameridentity = $gamerInstance->getGameridentity();
+        $gamerype = $gamerInstance->getGamertype();
+        $create = $objinstmodel->createInstance($gameridentity, $gamerype);
         $this->assertNotNull($create);
     }
 
     public function testGetInstance() {
-        $objectinstanceModelFactory = $this->get('model_factory');
-        $objinstmodel = $objectinstanceModelFactory->getModel('TMSolution\GamificationBundle\Entity\Objectinstance');
-        $objectInstance = $this->objectinstanceModel->findOneById(1);
-        $objectidentity = $objectInstance->getObjectidentity();
-        $objectype = $objectInstance->getObjecttype();
-        $result = $objinstmodel->getInstance($objectidentity, $objectype);
+        $gamerinstanceModelFactory = $this->get('model_factory');
+        $objinstmodel = $gamerinstanceModelFactory->getModel('TMSolution\GamificationBundle\Entity\Gamerinstance');
+        $gamerInstance = $this->gamerinstanceModel->findOneById(1);
+        $gameridentity = $gamerInstance->getGameridentity();
+        $gamerype = $gamerInstance->getGamertype();
+        $result = $objinstmodel->getInstance($gameridentity, $gamerype);
         $this->assertNotNull($result);
     }
 

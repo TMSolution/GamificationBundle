@@ -4,7 +4,7 @@ namespace TMSolution\GamificationBundle\Tests;
 
 use TMSolution\GamificationBundle\Entity\Eventlog;
 use TMSolution\GamificationBundle\Entity\Event;
-use TMSolution\GamificationBundle\Entity\Objectinstance;
+use TMSolution\GamificationBundle\Entity\Gamerinstance;
 use ReflectionClass;
 
 class EventlogTest extends \PHPUnit_Framework_TestCase {
@@ -19,12 +19,12 @@ class EventlogTest extends \PHPUnit_Framework_TestCase {
         $this->assertSame(1, $eventlog->getId());
     }
 
-    public function testObjectinstance() {
+    public function testGamerinstance() {
 
-        $objectInstance = new Eventlog();
-        $objectInst = new Objectinstance();
-        $objectInstanceGet = $objectInstance->setObjectInstance($objectInst)->getObjectInstance();
-        $this->assertTrue($objectInst == $objectInstanceGet);
+        $gamerInstance = new Eventlog();
+        $gamerInst = new Gamerinstance();
+        $gamerInstanceGet = $gamerInstance->setGamerInstance($gamerInst)->getGamerInstance();
+        $this->assertTrue($gamerInst == $gamerInstanceGet);
     }
 
     public function testEvent() {

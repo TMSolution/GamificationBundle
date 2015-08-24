@@ -39,23 +39,23 @@ class APIController extends Controller {
 
 
     /**
-     * A SOAP method that returns an array of objects, type Objecttrophy, that - 
+     * A SOAP method that returns an array of objects, type Gamertrophy, that - 
      * if exist - represent the user's collected trophies. Otherwise, the null
      *  is returned.
      * 
-     * @Soap\Method("checkObjectTrophy")
-     * @Soap\Param("objectTypeId", phpType = "int")
-     * @Soap\Param("objectIdentity", phpType = "int")
+     * @Soap\Method("checkGamerTrophy")
+     * @Soap\Param("gamerTypeId", phpType = "int")
+     * @Soap\Param("gamerIdentity", phpType = "int")
      * @Soap\Result(phpType= "array")
      * 
      */
-    public function checkObjectTrophyAction($objectTypeId, $objectIdentity) {
+    public function checkGamerTrophyAction($gamerTypeId, $gamerIdentity) {
 
-        $objectInstanceMo = $this->get('model_factory');
-        $objectInstanceModel = $objectInstanceMo->getModel('TMSolution\GamificationBundle\Entity\Objectinstance');
-        $objectInstance = $objectInstanceModel->getInstance($objectIdentity, $objectTypeId);
+        $gamerInstanceMo = $this->get('model_factory');
+        $gamerInstanceModel = $gamerInstanceMo->getModel('TMSolution\GamificationBundle\Entity\Gamerinstance');
+        $gamerInstance = $gamerInstanceModel->getInstance($gamerIdentity, $gamerTypeId);
         $eventService = $this->get('gamification.events');
-        $result = $eventService->getObjectTrophies($objectInstance);
+        $result = $eventService->getGamerTrophies($gamerInstance);
         return new Response($result);
     }
 

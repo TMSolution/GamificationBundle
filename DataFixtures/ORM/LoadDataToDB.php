@@ -12,19 +12,19 @@ namespace TMSolution\GamificationBundle\DataFixtures\ORM;
 use Faker\Factory;
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\FixtureInterface;
-use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\Common\Persistence\GamerManager;
 use TMSolution\GamificationBundle\Entity\Context;
 use TMSolution\GamificationBundle\Entity\Trophytype;
 use TMSolution\GamificationBundle\Entity\Trophy;
 use TMSolution\GamificationBundle\Entity\Trophycategory;
-use TMSolution\GamificationBundle\Entity\Objectinstance;
-use TMSolution\GamificationBundle\Entity\Objecttrophy;
+use TMSolution\GamificationBundle\Entity\Gamerinstance;
+use TMSolution\GamificationBundle\Entity\Gamertrophy;
 use TMSolution\GamificationBundle\Entity\Rule;
 use TMSolution\GamificationBundle\Entity\Event;
 use TMSolution\GamificationBundle\Entity\Eventcategory;
 use TMSolution\GamificationBundle\Entity\Eventcounter;
 use TMSolution\GamificationBundle\Entity\Eventlog;
-use TMSolution\GamificationBundle\Entity\Objecttype;
+use TMSolution\GamificationBundle\Entity\Gamertype;
 
 class LoadDataToDB extends AbstractFixture implements FixtureInterface {
 
@@ -41,7 +41,7 @@ class LoadDataToDB extends AbstractFixture implements FixtureInterface {
         return self::$kernel->getContainer()->get($serviceId);
     }
 
-    public function load(ObjectManager $manager) {
+    public function load(GamerManager $manager) {
 
         //Faker
         $faker = Factory::create();
@@ -55,12 +55,12 @@ class LoadDataToDB extends AbstractFixture implements FixtureInterface {
         $this->addReference('context', $context);
 
 
-        //Objecttype - sc
-        $objectType = new Objecttype();
-        $objectType->setName('objectType1');
-        $manager->persist($objectType);
+        //Gamertype - sc
+        $gamerType = new Gamertype();
+        $gamerType->setName('gamerType1');
+        $manager->persist($gamerType);
         $manager->flush();
-        $this->addReference('objecttype', $objectType);
+        $this->addReference('gamertype', $gamerType);
 
 
         //Trophytype - sc
@@ -100,18 +100,18 @@ class LoadDataToDB extends AbstractFixture implements FixtureInterface {
         $this->addReference('event', $event);
 
 
-        //Objectinstance - ob
-        $objectInstance = new Objectinstance();
-        $objectInstance->setObjecttype($this->getReference('objecttype'))
-                ->setObjectidentity(1);
-        $manager->persist($objectInstance);
+        //Gamerinstance - ob
+        $gamerInstance = new Gamerinstance();
+        $gamerInstance->setGamertype($this->getReference('gamertype'))
+                ->setGameridentity(1);
+        $manager->persist($gamerInstance);
         $manager->flush();
-        $this->addReference('objectinstance', $objectInstance);
+        $this->addReference('gamerinstance', $gamerInstance);
 
 
         //Eventcounter - ob
         $eventCounter = new Eventcounter();
-        $eventCounter->setObjectInstance($this->getReference('objectinstance'))
+        $eventCounter->setGamerInstance($this->getReference('gamerinstance'))
                 ->setEvent($this->getReference('event'))
                 ->setCounter(1);
         $manager->persist($eventCounter);
@@ -120,7 +120,7 @@ class LoadDataToDB extends AbstractFixture implements FixtureInterface {
 
         //Eventlog - ob
         $eventLog = new Eventlog();
-        $eventLog->setObjectInstance($this->getReference('objectinstance'))
+        $eventLog->setGamerInstance($this->getReference('gamerinstance'))
                 ->setEvent($this->getReference('event'))
                 ->setDate(new \DateTime('NOW'));
         $manager->persist($eventLog);
@@ -146,12 +146,12 @@ class LoadDataToDB extends AbstractFixture implements FixtureInterface {
         $manager->flush();
 
 
-        //Objecttrophy - ob
-        $objectTrophy = new Objecttrophy();
-        $objectTrophy->setObjectinstance($this->getReference('objectinstance'))
+        //Gamertrophy - ob
+        $gamerTrophy = new Gamertrophy();
+        $gamerTrophy->setGamerinstance($this->getReference('gamerinstance'))
                 ->setTrophy($this->getReference('trophy'))
                 ->setDate(new \DateTime('NOW'));
-        $manager->persist($objectTrophy);
+        $manager->persist($gamerTrophy);
         $manager->flush();
 
         

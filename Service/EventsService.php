@@ -12,7 +12,7 @@ namespace TMSolution\GamificationBundle\Service;
 
 use TMSolution\GamificationBundle\Entity\Eventlog;
 use TMSolution\GamificationBundle\Entity\Eventcounter;
-use TMSolution\GamificationBundle\Entity\Objecttrophy;
+use TMSolution\GamificationBundle\Entity\Gamertrophy;
 use Hoa\Ruler\Ruler;
 use Hoa\Ruler\Context;
 use Symfony\Component\HttpFoundation\Response;
@@ -21,11 +21,11 @@ class EventsService {
 
     protected $container;
     protected $model;
-    protected $objectInstanceModel;
+    protected $gamerInstanceModel;
     protected $eventModel;
     protected $eventLogModel;
     protected $eventCounterModel;
-    protected $objectTrophyModel;
+    protected $gamerTrophyModel;
     protected $ruleModel;
     protected $contextModel;
     protected $trophyModel;
@@ -33,11 +33,11 @@ class EventsService {
     public function __construct($container) {
         $this->container = $container;
         $this->model = $this->container->get('model_factory');
-        $this->objectInstanceModel = $this->model->getModel('TMSolution\GamificationBundle\Entity\Objectinstance');
+        $this->gamerInstanceModel = $this->model->getModel('TMSolution\GamificationBundle\Entity\Gamerinstance');
         $this->eventModel = $this->model->getModel('TMSolution\GamificationBundle\Entity\Event');
         $this->eventLogModel = $this->model->getModel('TMSolution\GamificationBundle\Entity\Eventlog');
         $this->eventCounterModel = $this->model->getModel('TMSolution\GamificationBundle\Entity\Eventcounter');
-        $this->objectTrophyModel = $this->model->getModel('TMSolution\GamificationBundle\Entity\Objecttrophy');
+        $this->gamerTrophyModel = $this->model->getModel('TMSolution\GamificationBundle\Entity\Gamertrophy');
         $this->ruleModel = $this->model->getModel('TMSolution\GamificationBundle\Entity\Rule');
         $this->contextModel = $this->model->getModel('TMSolution\GamificationBundle\Entity\Context');
         $this->trophyModel = $this->model->getModel('TMSolution\GamificationBundle\Entity\Trophy');
@@ -50,26 +50,26 @@ class EventsService {
      * If the object exists, the method increments a counter.
      * 
      * @param integer $eventCategoryId
-     * @param integer $objectIdentity
+     * @param integer $gamerIdentity
      * @param integer $classId
      */
-    public function register($eventCategoryId, $objectIdentity, $classId) {
-        $objectInstance = $this->objectInstanceModel->getInstance($objectIdentity, $classId);
-        if ($objectInstance) {
+    public function register($eventCategoryId, $gamerIdentity, $classId) {
+        $gamerInstance = $this->gamerInstanceModel->getInstance($gamerIdentity, $classId);
+        if ($gamerInstance) {
             $event = $this->eventModel->findOneById($eventCategoryId);
             $eventLogEntity = new Eventlog();
             $eventLogEntity->setEvent($event)
-                    ->setObjectInstance($objectInstance)
+                    ->setGamerInstance($gamerInstance)
                     ->setDate(new \DateTime('NOW'));
             $this->eventLogModel->create($eventLogEntity, true);
             try {
-                $eventCounterEntity = $this->eventCounterModel->findOneBy(['event' => $event, 'objectInstance' => $objectInstance]);
+                $eventCounterEntity = $this->eventCounterModel->findOneBy(['event' => $event, 'gamerInstance' => $gamerInstance]);
                 $eventCounterEntity->setCounter($eventCounterEntity->getCounter() + 1);
                 $this->eventCounterModel->update($eventCounterEntity, true);
             } catch (\Exception $e) {
                 $eventCounterEntity = new Eventcounter();
                 $eventCounterEntity->setEvent($event);
-                $eventCounterEntity->setObjectInstance($objectInstance);
+                $eventCounterEntity->setGamerInstance($gamerInstance);
                 $eventCounterEntity->setCounter($eventCounterEntity->getCounter() + 1);
                 $this->eventCounterModel->update($eventCounterEntity, true);
             }
@@ -78,21 +78,21 @@ class EventsService {
 
     /**
      * Function, upon ensuring that input data is correct, creates a new entity which represents
-     * a single entry in the objecttrophy database table.
+     * a single entry in the gamertrophy database table.
      * Additionally, it returns the object it has created, allowing for a more strict operation control.
      * 
-     * @param object $objectInstance
+     * @param object $gamerInstance
      * @param object $trophy
-     * @return Objecttrophy $objectTrophy
+     * @return Gamertrophy $gamerTrophy
      */
-    public function addObjectTrophy($objectType, $trophy) {
-        if ($objectType && $trophy) {
-            $objectTrophy = $this->objectTrophyModel->getEntity();
-            $objectTrophy->setDate(new \DateTime('NOW'))
-                    ->setObjectinstance($objectType)
+    public function addGamerTrophy($gamerType, $trophy) {
+        if ($gamerType && $trophy) {
+            $gamerTrophy = $this->gamerTrophyModel->getEntity();
+            $gamerTrophy->setDate(new \DateTime('NOW'))
+                    ->setGamerinstance($gamerType)
                     ->setTrophy($trophy);
-            $this->objectTrophyModel->create($objectTrophy, true);
-            return $objectTrophy;
+            $this->gamerTrophyModel->create($gamerTrophy, true);
+            return $gamerTrophy;
         }
     }
 
@@ -102,15 +102,15 @@ class EventsService {
      * Otherwise, it returns all the trophies of that particular user.
      * The result is an array, which is the result obtained from the database.
      * 
-     * @param object $objectInstance
+     * @param object $gamerInstance
      * @param object $troptrophyCategory
      * @return array $result
      */
-    public function getObjectTrophies($objectInstance, $trophyCategory = null) {
+    public function getGamerTrophies($gamerInstance, $trophyCategory = null) {
         if ($trophyCategory != null) {
-            $result = $this->objectTrophyModel->findBy(['object' => $objectInstance, 'trophy' => $trophyCategory]);
+            $result = $this->gamerTrophyModel->findBy(['gamer' => $gamerInstance, 'trophy' => $trophyCategory]);
         } else {
-            $result = $this->objectTrophyModel->findBy(['object' => $objectInstance]);
+            $result = $this->gamerTrophyModel->findBy(['gamer' => $gamerInstance]);
         }
         return $result;
     }
@@ -118,21 +118,21 @@ class EventsService {
     /**
      * Checks rule and decides if a trophy can be given.
      * 
-     * @param object $objectInstance
+     * @param object $gamerInstance
      * @param object $trophy
      * @return Response
      */
-    public function checkRule($objectInstance, $trophy) {
+    public function checkRule($gamerInstance, $trophy) {
 
-        $objectRule = $this->ruleModel->getRepository()->findOneBy(['trophy' => $trophy]);
-        $objectContext = $this->contextModel->getRepository()->findOneBy(['id' => $objectRule->getContext()->getId()]);
-        $trophyCount = $this->countTrophies($objectInstance, $trophy);
-        $cyclicCount = $this->countCyclicTrophies($objectInstance);
-        $assertion = $this->assertion($objectContext->getName(), $objectRule->getOperator(), $objectRule->getValue(), $cyclicCount);
+        $gamerRule = $this->ruleModel->getRepository()->findOneBy(['trophy' => $trophy]);
+        $gamerContext = $this->contextModel->getRepository()->findOneBy(['id' => $gamerRule->getContext()->getId()]);
+        $trophyCount = $this->countTrophies($gamerInstance, $trophy);
+        $cyclicCount = $this->countCyclicTrophies($gamerInstance);
+        $assertion = $this->assertion($gamerContext->getName(), $gamerRule->getOperator(), $gamerRule->getValue(), $cyclicCount);
         if ($trophy->getTrophytype()->getId() == 1/* Jednorazowa */) {
             if (($assertion == true) && ($trophyCount == 0)) {
-                $objectTrophy = $this->createObjecttrophy($objectInstance, $trophy);
-                $this->objectTrophyModel->create($objectTrophy, true);
+                $gamerTrophy = $this->createGamertrophy($gamerInstance, $trophy);
+                $this->gamerTrophyModel->create($gamerTrophy, true);
                 return new Response('Nagroda jednorazowa przyznana');
             } elseif ($trophyCount != 0) {
                 return new Response('Posiadasz już tą nagrodę jednorazową.');
@@ -141,8 +141,8 @@ class EventsService {
             }
         } elseif ($trophy->getTrophytype()->getId() == 2/* Cykliczna */) {
             if ($assertion == true) {
-                $objectTrophy = $this->createObjecttrophy($objectInstance, $trophy);
-                $this->objectTrophyModel->create($objectTrophy, true);
+                $gamerTrophy = $this->createGamertrophy($gamerInstance, $trophy);
+                $this->gamerTrophyModel->create($gamerTrophy, true);
                 return new Response("Nagroda cykliczna przyznana. Obecnie masz $cyclicCount nagród tego typu.");
             } else {
                 return new Response('Nagroda cykliczna nie przyznana.');
@@ -170,29 +170,29 @@ class EventsService {
     /**
      * Counts trophies of the given type for a specified user.
      * 
-     * @param type $objectInstance
+     * @param type $gamerInstance
      * @param type $trophy
      * @return type
      */
-    public function countTrophies($objectInstance, $trophy) {
-        $trophiesArray = $this->objectTrophyModel->findBy(['objectinstance' => $objectInstance, 'trophy' => $trophy]);
+    public function countTrophies($gamerInstance, $trophy) {
+        $trophiesArray = $this->gamerTrophyModel->findBy(['gamerinstance' => $gamerInstance, 'trophy' => $trophy]);
         $count = count($trophiesArray);
         return $count;
     }
 
     /**
-     * Creates an Objecttrophy with objectInstance and trophy given.
+     * Creates an Gamertrophy with gamerInstance and trophy given.
      * 
-     * @param type $objectInstance
+     * @param type $gamerInstance
      * @param type $trophy
      * @return type
      */
-    public function createObjecttrophy($objectInstance, $trophy) {
-        $objectTrophy = new Objecttrophy();
-        $objectTrophy->setDate(new \DateTime('NOW'))
-                ->setObjectinstance($objectInstance)
+    public function createGamertrophy($gamerInstance, $trophy) {
+        $gamerTrophy = new Gamertrophy();
+        $gamerTrophy->setDate(new \DateTime('NOW'))
+                ->setGamerinstance($gamerInstance)
                 ->setTrophy($trophy);
-        $result = $this->objectTrophyModel->create($objectTrophy, true);
+        $result = $this->gamerTrophyModel->create($gamerTrophy, true);
         return $result;
     }
 
@@ -203,24 +203,24 @@ class EventsService {
      * The kind of trophy (here - cyclic) derives from it's id in the original test database.
      * This may change in the final version.
      * 
-     * @param type $objectInstance
+     * @param type $gamerInstance
      * @return type
      */
-    public function countCyclicTrophies($objectInstance) {
+    public function countCyclicTrophies($gamerInstance) {
         $cyclicTrophy = $this->trophyModel->findOneById(2);
-        $cyclicTrophies = $this->countTrophies($objectInstance, $cyclicTrophy);
+        $cyclicTrophies = $this->countTrophies($gamerInstance, $cyclicTrophy);
         return $cyclicTrophies;
     }
 
 }
 
-//objecttrophy - objectinstance - poprawic musi sie nazywac tak samo
-//objectinstancetropohy - zamiast objecttrophy
+//objecttrophy - gamerinstance - poprawic musi sie nazywac tak samo
+//objectinstancetropohy - zamiast gamertrophy
 //objectinstance - przyjazna nazwa? - np.gamer
 //event dopisac date
 //usecase - wybudowac test na mocku - user zaklada event i dostaje nagrode
 //test wsdl
-//event = ma byc gamerid (czyli objectinstanceid)
+//event = ma byc gamerid (czyli gamerinstanceid)
 //test dla modelu jako calosc - nie na poszczegolne metody, a takze by byl uniwersalny dla modelow inncyh  takze.
 //test jednostkowe symfony dla encji
 //testowanie googla - ksiazka na stanie firmy

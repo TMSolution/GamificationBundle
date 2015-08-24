@@ -17,10 +17,10 @@ class DefaultController extends Controller {
 
     // WARNING! The way the result is returned is for presentation purposes only and most probably will have to be updated.
     // Checks if event already exists. If not, registers it in the db.
-    public function checkAction($eventCategoryId, $objectIdentity, $classId) {
+    public function checkAction($eventCategoryId, $gamerIdentity, $classId) {
         $eventService = $this->get('gamification.events');
-        $registeredObject = $eventService->register($eventCategoryId, $objectIdentity, $classId);
-        return new JsonResponse($registeredObject);
+        $registeredGamer = $eventService->register($eventCategoryId, $gamerIdentity, $classId);
+        return new JsonResponse($registeredGamer);
     }
 
     // WARNING! The way the result is returned is for presentation purposes only and most probably will have to be updated.
@@ -28,40 +28,40 @@ class DefaultController extends Controller {
      * By default, all kinds of trophies are returned, but the second 
      * argument may specify the kind of trophy.
      * 
-     * @param integer $objectInstanceId
+     * @param integer $gamerInstanceId
      * @param integer $trophyCategoryId
      * @return Response
      */
-    public function checkTrophyAction($objectInstanceId, $trophyCategoryId = null) {
-        $objectInstance = $this->get('model_factory')->getModel('TMSolution\GamificationBundle\Entity\Objectinstance')
-                ->findOneBy(['objectidentity' => $objectInstanceId]);
+    public function checkTrophyAction($gamerInstanceId, $trophyCategoryId = null) {
+        $gamerInstance = $this->get('model_factory')->getModel('TMSolution\GamificationBundle\Entity\Gamerinstance')
+                ->findOneBy(['gameridentity' => $gamerInstanceId]);
         $trophyCategory = null;
         if ($trophyCategoryId == null) {
             $trophyCategory = $this->get('model_factory')->getModel('TMSolution\GamificationBundle\Entity\Trophycategory')
-                    ->findOneBy(['id' => $objectInstanceId]);
+                    ->findOneBy(['id' => $gamerInstanceId]);
         }
-        $result = $this->get('gamification.events')->getObjectTrophies($objectInstance, $trophyCategory);
+        $result = $this->get('gamification.events')->getGamerTrophies($gamerInstance, $trophyCategory);
         return new Response(dump($result));
     }
 
     // WARNING! The way the result is returned is for presentation purposes only and most probably will have to be updated.
     /**
-     * Adds a trophy object to the specified user. Presents the object as a result.
+     * Adds a trophy gamer to the specified user. Presents the gamer as a result.
      * In case neither the user nor trophy exists, returns appropriate information.
      * 
-     * @param integer $objectInstanceId 
+     * @param integer $gamerInstanceId 
      * @param integer $trophyId
      */
-    public function addTrophyAction($objectInstanceId, $trophyId) {
+    public function addTrophyAction($gamerInstanceId, $trophyId) {
         $response = null;
         try {
             $model = $this->get('model_factory');
-            $objectInstance = $model->getModel('TMSolution\GamificationBundle\Entity\Objectinstance')->findOneBy(['objectidentity' => $objectInstanceId]);
-            $trophyObject = $model->getModel('TMSolution\GamificationBundle\Entity\Trophy')->findOneBy(['id' => $trophyId]);
+            $gamerInstance = $model->getModel('TMSolution\GamificationBundle\Entity\Gamerinstance')->findOneBy(['gameridentity' => $gamerInstanceId]);
+            $trophyGamer = $model->getModel('TMSolution\GamificationBundle\Entity\Trophy')->findOneBy(['id' => $trophyId]);
         } catch (\Exception $e) {
             $response = new Response('Podane dane nie istnieją'); //Exception return option
         }
-        $addedTrophy = $this->get('gamification.events')->addObjectTrophy($objectInstance, $trophyObject);
+        $addedTrophy = $this->get('gamification.events')->addGamerTrophy($gamerInstance, $trophyGamer);
         return new Response(dump($addedTrophy)); //Primary return
     }
 
@@ -81,12 +81,12 @@ class DefaultController extends Controller {
     }
 
     // WARNING! The way the result is returned is for presentation purposes only and most probably will have to be updated.
-    public function ruletestAction($objectInstanceId, $trophyId, $ruleId) {
+    public function ruletestAction($gamerInstanceId, $trophyId, $ruleId) {
         $model = $this->container->get('model_factory');
-        $objectInstance = $model->getModel('TMSolution\GamificationBundle\Entity\Objectinstance')->findOneBy(['objectidentity' => $objectInstanceId]);
-        $trophyObject = $model->getModel('TMSolution\GamificationBundle\Entity\Trophy')->findOneById($trophyId);
+        $gamerInstance = $model->getModel('TMSolution\GamificationBundle\Entity\Gamerinstance')->findOneBy(['gameridentity' => $gamerInstanceId]);
+        $trophyGamer = $model->getModel('TMSolution\GamificationBundle\Entity\Trophy')->findOneById($trophyId);
         $service = $this->get('gamification.events');
-        $res = $service->checkRule($objectInstance, $trophyObject);
+        $res = $service->checkRule($gamerInstance, $trophyGamer);
 
         return new Response(dump($res));
     }

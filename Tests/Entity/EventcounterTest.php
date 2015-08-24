@@ -3,7 +3,7 @@
 namespace TMSolution\GamificationBundle\Tests;
 
 use TMSolution\GamificationBundle\Entity\Eventcounter;
-use TMSolution\GamificationBundle\Entity\Objectinstance;
+use TMSolution\GamificationBundle\Entity\Gamerinstance;
 use TMSolution\GamificationBundle\Entity\Event;
 use ReflectionClass;
 
@@ -26,12 +26,12 @@ class EventcounterTest extends \PHPUnit_Framework_TestCase {
         $this->assertTrue(4 == $counterGet);
     }
 
-    public function testObjectinstance() {
+    public function testGamerinstance() {
 
-        $objectInstance = new Eventcounter();
-        $objectInst = new Objectinstance();
-        $objectInstanceGet = $objectInstance->setObjectInstance($objectInst)->getObjectInstance();
-        $this->assertTrue($objectInst == $objectInstanceGet);
+        $gamerInstance = new Eventcounter();
+        $gamerInst = new Gamerinstance();
+        $gamerInstanceGet = $gamerInstance->setGamerInstance($gamerInst)->getGamerInstance();
+        $this->assertTrue($gamerInst == $gamerInstanceGet);
     }
 
     public function testEvent() {
