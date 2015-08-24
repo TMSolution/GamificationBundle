@@ -70,11 +70,11 @@ class EventServiceTest extends \PHPUnit_Framework_TestCase {
     public function testaddObjectTrophyMock() {
         $mockobjecttrophy = $this->getMockBuilder('TMSolution\GamificationBundle\Entity\Objecttrophy')
                 ->getMock();
-        $mockobjecttrophy->method('setObject')
+        $mockobjecttrophy->method('setObjectinstance')
                 ->willReturn(1);
         $mockobjecttrophy->method('setTrophy')
                 ->willReturn(1);
-        $this->assertEquals(1, $mockobjecttrophy->setObject());
+        $this->assertEquals(1, $mockobjecttrophy->setObjectinstance());
         $this->assertEquals(1, $mockobjecttrophy->setTrophy());
     }
     
@@ -147,7 +147,7 @@ class EventServiceTest extends \PHPUnit_Framework_TestCase {
 
     public function testCheckRule() {
         $objecttrophy = $this->objectTrophyModel->findOneById(1);
-        $object = $objecttrophy->getObject();
+        $object = $objecttrophy->getObjectinstance();
         $trophy = $objecttrophy->getTrophy();
         $rule = $this->eventsService->checkRule($object, $trophy);
         $this->assertNotNull($rule);
