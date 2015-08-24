@@ -214,10 +214,10 @@ class EventsService {
 
 }
 
-//objecttrophy - gamerinstance - poprawic musi sie nazywac tak samo
-//objectinstancetropohy - zamiast gamertrophy
-//objectinstance - przyjazna nazwa? - np.gamer
-//event dopisac date
+//--objecttrophy - gamerinstance - poprawic musi sie nazywac tak samo
+//--objectinstancetropohy - zamiast gamertrophy
+//--objectinstance - przyjazna nazwa? - np.gamer
+//--event dopisac date
 //usecase - wybudowac test na mocku - user zaklada event i dostaje nagrode
 //test wsdl
 //event = ma byc gamerid (czyli gamerinstanceid)
