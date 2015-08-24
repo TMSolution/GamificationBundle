@@ -50,10 +50,10 @@ $input = new ArrayInput(array(
 ));
 $command->run($input, new ConsoleOutput());
 
-// let Doctrine create the database schema (i.e. the tables)
-$command = new LoadDataFixturesDoctrineCommand();
-$application->add($command);
-$input = new ArrayInput(array(
-    'command' => 'doctrine:fixtures:load',
-));
-$command->run($input, new ConsoleOutput());
+//// let Doctrine create the database schema (i.e. the tables)
+//$command = new LoadDataFixturesDoctrineCommand();
+//$application->add($command);
+//$input = new ArrayInput(array(
+//    'command' => 'doctrine:fixtures:load',
+//));
+//$command->run($input, new ConsoleOutput());
