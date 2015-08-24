@@ -94,9 +94,6 @@ class EventServiceTest extends \PHPUnit_Framework_TestCase {
         $this->assertNotNull($objecttrophy);
     }
 
-    /**
-     * @author Damian Piela
-     */
     //niekoniecznie typu "cyclic" - to zależy od ID w bazie 
     public function testCountCyclicTrophies() {
         $cyclicTrophy = $this->trophyModel->findOneById(1);
@@ -105,9 +102,6 @@ class EventServiceTest extends \PHPUnit_Framework_TestCase {
         $this->assertNotNull($countcyclicTrophies);
     }
 
-    /**
-     * @author Damian Piela
-     */
     public function testCreateObjecttrophy() {
         $objectInstance = $this->objectinstanceModel->findOneById(1);
         $trophy = $this->trophyModel->findOneById(1);
@@ -124,9 +118,6 @@ class EventServiceTest extends \PHPUnit_Framework_TestCase {
         }
     }
 
-    /**
-     * @author Damian Piela
-     */
     public function testCountTrophies() {
         $objectInstance = $this->objectinstanceModel->findOneById(1);
         $trophy = $this->objectTrophyModel->findOneById(1);
