@@ -34,6 +34,12 @@ class Event {
      * @ORM\Column(name="date", type="datetime", nullable=true)
      */
     protected $date;
+    
+    /**
+     * @ORM\ManyToOne(targetEntity="Gamerinstance")
+     * @ORM\JoinColumn(name="gamerinstanceid", referencedColumnName="id")
+     */
+    protected $gamerinstance;
 
     /**
      * @var \TMSolution\GamificationBundle\Entity\Eventcategory
@@ -186,5 +192,51 @@ class Event {
     public function getDate()
     {
         return $this->date;
+    }
+
+    /**
+     * Set gamerinstanceid
+     *
+     * @param integer $gamerinstanceid
+     * @return Event
+     */
+    public function setGamerinstanceid($gamerinstanceid)
+    {
+        $this->gamerinstanceid = $gamerinstanceid;
+
+        return $this;
+    }
+
+    /**
+     * Get gamerinstanceid
+     *
+     * @return integer 
+     */
+    public function getGamerinstanceid()
+    {
+        return $this->gamerinstanceid;
+    }
+
+    /**
+     * Set gamerinstance
+     *
+     * @param \TMSolution\GamificationBundle\Entity\Gamerinstance $gamerinstance
+     * @return Event
+     */
+    public function setGamerinstance(\TMSolution\GamificationBundle\Entity\Gamerinstance $gamerinstance = null)
+    {
+        $this->gamerinstance = $gamerinstance;
+
+        return $this;
+    }
+
+    /**
+     * Get gamerinstance
+     *
+     * @return \TMSolution\GamificationBundle\Entity\Gamerinstance 
+     */
+    public function getGamerinstance()
+    {
+        return $this->gamerinstance;
     }
 }

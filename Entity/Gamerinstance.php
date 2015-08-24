@@ -27,6 +27,9 @@ class Gamerinstance implements \JsonSerializable {
      * @ORM\Column(name="gameridentity", type="bigint", nullable=true)
      */
     protected $gameridentity;
+    
+   
+
 
     /**
      * @var \TMSolution\GamificationBundle\Entity\Gamertype
@@ -97,4 +100,44 @@ class Gamerinstance implements \JsonSerializable {
         ];
     }
 
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->event = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    /**
+     * Add event
+     *
+     * @param \TMSolution\GamificationBundle\Entity\Event $event
+     * @return Gamerinstance
+     */
+    public function addEvent(\TMSolution\GamificationBundle\Entity\Event $event)
+    {
+        $this->event[] = $event;
+
+        return $this;
+    }
+
+    /**
+     * Remove event
+     *
+     * @param \TMSolution\GamificationBundle\Entity\Event $event
+     */
+    public function removeEvent(\TMSolution\GamificationBundle\Entity\Event $event)
+    {
+        $this->event->removeElement($event);
+    }
+
+    /**
+     * Get event
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getEvent()
+    {
+        return $this->event;
+    }
 }

@@ -220,7 +220,7 @@ class EventsService {
 //--event dopisac date
 //usecase - wybudowac test na mocku - user zaklada event i dostaje nagrode
 //test wsdl
-//event = ma byc gamerid (czyli gamerinstanceid)
+//--event = ma byc gamerid (czyli gamerinstanceid)
 //test dla modelu jako calosc - nie na poszczegolne metody, a takze by byl uniwersalny dla modelow inncyh  takze.
 //test jednostkowe symfony dla encji
 //testowanie googla - ksiazka na stanie firmy
