@@ -183,9 +183,9 @@ class EventsService {
     /**
      * Creates an Gamertrophy with gamerInstance and trophy given.
      * 
-     * @param type $gamerInstance
-     * @param type $trophy
-     * @return type
+     * @param object $gamerInstance
+     * @param object $trophy
+     * @return object
      */
     public function createGamertrophy($gamerInstance, $trophy) {
         $gamerTrophy = new Gamertrophy();
@@ -203,8 +203,8 @@ class EventsService {
      * The kind of trophy (here - cyclic) derives from it's id in the original test database.
      * This may change in the final version.
      * 
-     * @param type $gamerInstance
-     * @return type
+     * @param object $gamerInstance
+     * @return integer
      */
     public function countCyclicTrophies($gamerInstance) {
         $cyclicTrophy = $this->trophyModel->findOneById(2);
