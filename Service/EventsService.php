@@ -89,7 +89,7 @@ class EventsService {
         if ($objectType && $trophy) {
             $objectTrophy = $this->objectTrophyModel->getEntity();
             $objectTrophy->setDate(new \DateTime('NOW'))
-                    ->setObject($objectType)
+                    ->setObjectinstance($objectType)
                     ->setTrophy($trophy);
             $this->objectTrophyModel->create($objectTrophy, true);
             return $objectTrophy;
@@ -123,7 +123,7 @@ class EventsService {
      * @return Response
      */
     public function checkRule($objectInstance, $trophy) {
-        
+
         $objectRule = $this->ruleModel->getRepository()->findOneBy(['trophy' => $trophy]);
         $objectContext = $this->contextModel->getRepository()->findOneBy(['id' => $objectRule->getContext()->getId()]);
         $trophyCount = $this->countTrophies($objectInstance, $trophy);
@@ -149,7 +149,7 @@ class EventsService {
             }
         }
     }
-    
+
     /**
      * Based on the data provided as arguments, decides if assertion is true.
      * 
@@ -175,7 +175,7 @@ class EventsService {
      * @return type
      */
     public function countTrophies($objectInstance, $trophy) {
-        $trophiesArray = $this->objectTrophyModel->findBy(['object' => $objectInstance, 'trophy' => $trophy]);
+        $trophiesArray = $this->objectTrophyModel->findBy(['objectinstance' => $objectInstance, 'trophy' => $trophy]);
         $count = count($trophiesArray);
         return $count;
     }
@@ -190,7 +190,7 @@ class EventsService {
     public function createObjecttrophy($objectInstance, $trophy) {
         $objectTrophy = new Objecttrophy();
         $objectTrophy->setDate(new \DateTime('NOW'))
-                ->setObject($objectInstance)
+                ->setObjectinstance($objectInstance)
                 ->setTrophy($trophy);
         $result = $this->objectTrophyModel->create($objectTrophy, true);
         return $result;
@@ -211,6 +211,7 @@ class EventsService {
         $cyclicTrophies = $this->countTrophies($objectInstance, $cyclicTrophy);
         return $cyclicTrophies;
     }
+
 }
 
 //objecttrophy - objectinstance - poprawic musi sie nazywac tak samo

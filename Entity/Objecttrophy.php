@@ -33,10 +33,10 @@ class Objecttrophy implements \JsonSerializable
      *
      * @ORM\ManyToOne(targetEntity="TMSolution\GamificationBundle\Entity\Objectinstance")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="object", referencedColumnName="id")
+     *   @ORM\JoinColumn(name="objectinstance", referencedColumnName="id")
      * })
      */
-    protected $object;
+    protected $objectinstance;
 
     /**
      * @var \TMSolution\GamificationBundle\Entity\Trophy
@@ -89,9 +89,9 @@ class Objecttrophy implements \JsonSerializable
      * @param \TMSolution\GamificationBundle\Entity\Objectinstance $object
      * @return Objecttrophy
      */
-    public function setObject(\TMSolution\GamificationBundle\Entity\Objectinstance $object = null)
+    public function setObjectinstance(\TMSolution\GamificationBundle\Entity\Objectinstance $object = null)
     {
-        $this->object = $object;
+        $this->objectinstance = $objectinstance;
 
         return $this;
     }
@@ -101,9 +101,9 @@ class Objecttrophy implements \JsonSerializable
      *
      * @return \TMSolution\GamificationBundle\Entity\Objectinstance 
      */
-    public function getObject()
+    public function getObjectinstance()
     {
-        return $this->object;
+        return $this->objectinstance;
     }
 
     /**

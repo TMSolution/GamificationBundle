@@ -148,7 +148,7 @@ class LoadDataToDB extends AbstractFixture implements FixtureInterface {
 
         //Objecttrophy - ob
         $objectTrophy = new Objecttrophy();
-        $objectTrophy->setObject($this->getReference('objectinstance'))
+        $objectTrophy->setObjectinstance($this->getReference('objectinstance'))
                 ->setTrophy($this->getReference('trophy'))
                 ->setDate(new \DateTime('NOW'));
         $manager->persist($objectTrophy);
