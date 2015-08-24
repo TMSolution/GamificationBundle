@@ -28,28 +28,28 @@ $application = new Application($kernel);
 $command = new DropDatabaseDoctrineCommand();
 $application->add($command);
 
-$input = new ArrayInput(array(
-    'command' => 'doctrine:database:drop',
-    '--force' => true,
-));
-$command->run($input, new ConsoleOutput());
-
-// add the database:create command to the application and run it
-$command = new CreateDatabaseDoctrineCommand();
-$application->add($command);
-$input = new ArrayInput(array(
-    'command' => 'doctrine:database:create',
-));
-$command->run($input, new ConsoleOutput());
-
-// let Doctrine create the database schema (i.e. the tables)
-$command = new CreateSchemaDoctrineCommand();
-$application->add($command);
-$input = new ArrayInput(array(
-    'command' => 'doctrine:schema:create',
-));
-$command->run($input, new ConsoleOutput());
-
+//$input = new ArrayInput(array(
+//    'command' => 'doctrine:database:drop',
+//    '--force' => true,
+//));
+//$command->run($input, new ConsoleOutput());
+//
+//// add the database:create command to the application and run it
+//$command = new CreateDatabaseDoctrineCommand();
+//$application->add($command);
+//$input = new ArrayInput(array(
+//    'command' => 'doctrine:database:create',
+//));
+//$command->run($input, new ConsoleOutput());
+//// let Doctrine create the database schema (i.e. the tables)
+//$command = new CreateSchemaDoctrineCommand();
+//$application->add($command);
+//$input = new ArrayInput(array(
+//    'command' => 'doctrine:schema:create',
+//));
+//$command->run($input, new ConsoleOutput());
+//
+//
 //// let Doctrine create the database schema (i.e. the tables)
 //$command = new LoadDataFixturesDoctrineCommand();
 //$application->add($command);

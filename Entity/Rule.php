@@ -31,15 +31,10 @@ class Rule {
     
     /**
      * 
-     * 
      * @ORM\ManyToOne(targetEntity="Context")
      * @ORM\JoinColumn(name="context", referencedColumnName="id")
      */
     protected $context;
-    
-    
-
-
 
     /**
      * @var \TMSolution\GamificationBundle\Entity\Trophy

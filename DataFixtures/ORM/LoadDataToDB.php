@@ -12,7 +12,7 @@ namespace TMSolution\GamificationBundle\DataFixtures\ORM;
 use Faker\Factory;
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\FixtureInterface;
-use Doctrine\Common\Persistence\GamerManager;
+use Doctrine\Common\Persistence\ObjectManager;
 use TMSolution\GamificationBundle\Entity\Context;
 use TMSolution\GamificationBundle\Entity\Trophytype;
 use TMSolution\GamificationBundle\Entity\Trophy;
@@ -27,7 +27,7 @@ use TMSolution\GamificationBundle\Entity\Eventlog;
 use TMSolution\GamificationBundle\Entity\Gamertype;
 
 class LoadDataToDB extends AbstractFixture implements FixtureInterface {
-
+    
     protected static $kernel;
     protected static $container;
 
@@ -41,8 +41,7 @@ class LoadDataToDB extends AbstractFixture implements FixtureInterface {
         return self::$kernel->getContainer()->get($serviceId);
     }
 
-    public function load(GamerManager $manager) {
-
+    public function load(ObjectManager $manager) {
         //Faker
         $faker = Factory::create();
 

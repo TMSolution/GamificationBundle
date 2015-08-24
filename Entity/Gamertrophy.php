@@ -33,7 +33,7 @@ class Gamertrophy implements \JsonSerializable
      *
      * @ORM\ManyToOne(targetEntity="TMSolution\GamificationBundle\Entity\Gamerinstance")
      * @ORM\JoinColumns({
-     * @ORM\JoinColumn(name="gamerinstance", referencedColumnName="id")
+     *   @ORM\JoinColumn(name="gamerinstance", referencedColumnName="id")
      * })
      */
     protected $gamerinstance;
