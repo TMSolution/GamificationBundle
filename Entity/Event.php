@@ -27,6 +27,13 @@ class Event {
      * @ORM\Column(name="name", type="string", length=255, nullable=true)
      */
     protected $name;
+    
+    /**
+     * @var string
+     * 
+     * @ORM\Column(name="date", type="datetime", nullable=true)
+     */
+    protected $date;
 
     /**
      * @var \TMSolution\GamificationBundle\Entity\Eventcategory
