@@ -212,3 +212,14 @@ class EventsService {
         return $cyclicTrophies;
     }
 }
+
+//objecttrophy - objectinstance - poprawic musi sie nazywac tak samo
+//objectinstancetropohy - zamiast objecttrophy
+//objectinstance - przyjazna nazwa? - np.gamer
+//event dopisac date
+//usecase - wybudowac test na mocku - user zaklada event i dostaje nagrode
+//test wsdl
+//event = ma byc gamerid (czyli objectinstanceid)
+//test dla modelu jako calosc - nie na poszczegolne metody, a takze by byl uniwersalny dla modelow inncyh  takze.
+//test jednostkowe symfony dla encji
+//testowanie googla - ksiazka na stanie firmy

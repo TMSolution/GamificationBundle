@@ -1,10 +1,10 @@
 <?php
 
 /**
- * Test class for EventService
+ * Test class for EventsService
  *
  * @author Damian Piela
- * @author Lukasz
+ * @author Lukasz Sobieraj
  */
 
 namespace TMSolution\GamificationBundle\Tests;
@@ -77,7 +77,7 @@ class EventServiceTest extends \PHPUnit_Framework_TestCase {
         $this->assertEquals(1, $mockobjecttrophy->setObject());
         $this->assertEquals(1, $mockobjecttrophy->setTrophy());
     }
-
+    
     public function testAddObjectTrophy() {
         $objectinstance = $this->objectinstanceModel->findOneById(1);
         $trophy = $this->trophyModel->findOneById(1);
@@ -88,6 +88,7 @@ class EventServiceTest extends \PHPUnit_Framework_TestCase {
         $this->assertEquals($objectTrophy, $foundObjectTrophy);
     }
 
+    //do poprawy - wytestowac szczegolowo - ma sprawdza ile obiketow zwrotkaa
     public function testGetObjectTrophies() {
         $objecttrophy = $this->objectTrophyModel->findAll();
         $this->assertNotNull($objecttrophy);
@@ -100,8 +101,8 @@ class EventServiceTest extends \PHPUnit_Framework_TestCase {
     public function testCountCyclicTrophies() {
         $cyclicTrophy = $this->trophyModel->findOneById(1);
         $objectInstance = $this->objectinstanceModel->findOneById(1);
-        $cyclicTrophies = $this->eventsService->countTrophies($objectInstance, $cyclicTrophy);
-        $this->assertNotNull($cyclicTrophies);
+        $countcyclicTrophies = $this->eventsService->countTrophies($objectInstance, $cyclicTrophy);
+        $this->assertNotNull($countcyclicTrophies);
     }
 
     /**
