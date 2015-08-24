@@ -5,12 +5,12 @@ namespace TMSolution\GamificationBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Objecttype
+ * Gamertype
  *
- * @ORM\Table(name="objecttype")
+ * @ORM\Table(name="gamertype")
  * @ORM\Entity
  */
-class Objecttype {
+class Gamertype {
 
     /**
      * @var integer
@@ -41,7 +41,7 @@ class Objecttype {
      * Set name
      *
      * @param string $name
-     * @return Objecttype
+     * @return Gamertype
      */
     public function setName($name) {
         $this->name = $name;

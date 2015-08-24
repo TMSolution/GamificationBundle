@@ -29,7 +29,6 @@ class Eventcategory
     protected $name;
 
 
-
     /**
      * Get id
      *

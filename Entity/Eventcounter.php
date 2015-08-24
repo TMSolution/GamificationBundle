@@ -29,14 +29,14 @@ class Eventcounter
     protected $counter;
 
    /**
-     * @var \TMSolution\GamificationBundle\Entity\Objectinstance
+     * @var \TMSolution\GamificationBundle\Entity\Gamerinstance
      *
-     * @ORM\ManyToOne(targetEntity="TMSolution\GamificationBundle\Entity\Objectinstance")
+     * @ORM\ManyToOne(targetEntity="TMSolution\GamificationBundle\Entity\Gamerinstance")
      * @ORM\JoinColumns({
-     * @ORM\JoinColumn(name="objectinstance", referencedColumnName="id")
+     * @ORM\JoinColumn(name="gamerinstance", referencedColumnName="id")
      * })
      */
-    protected $objectInstance;
+    protected $gamerInstance;
 
     /**
      * @var \TMSolution\GamificationBundle\Entity\Event
@@ -84,26 +84,26 @@ class Eventcounter
     }
 
     /**
-     * Set objectinstance
+     * Set gamerinstance
      *
-     * @param \TMSolution\GamificationBundle\Entity\Objectinstance $objectinstance
+     * @param \TMSolution\GamificationBundle\Entity\Gamerinstance $gamerinstance
      * @return Eventcounter
      */
-    public function setObjectInstance(\TMSolution\GamificationBundle\Entity\Objectinstance $objectinstance = null)
+    public function setGamerInstance(\TMSolution\GamificationBundle\Entity\Gamerinstance $gamerinstance = null)
     {
-        $this->objectInstance = $objectinstance;
+        $this->gamerInstance = $gamerinstance;
 
         return $this;
     }
 
     /**
-     * Get objectinstance
+     * Get gamerinstance
      *
-     * @return \TMSolution\GamificationBundle\Entity\Objectinstance 
+     * @return \TMSolution\GamificationBundle\Entity\Gamerinstance 
      */
-    public function getObjectInstance()
+    public function getGamerInstance()
     {
-        return $this->objectInstance;
+        return $this->gamerInstance;
     }
 
     /**

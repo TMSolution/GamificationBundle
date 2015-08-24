@@ -5,12 +5,12 @@ namespace TMSolution\GamificationBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Objecttrophy
+ * Gamertrophy
  *
- * @ORM\Table(name="objecttrophy")
+ * @ORM\Table(name="gamertrophy")
  * @ORM\Entity
  */
-class Objecttrophy implements \JsonSerializable
+class Gamertrophy implements \JsonSerializable
 {
     /**
      * @var integer
@@ -29,14 +29,14 @@ class Objecttrophy implements \JsonSerializable
     protected $date;
 
     /**
-     * @var \TMSolution\GamificationBundle\Entity\Objectinstance
+     * @var \TMSolution\GamificationBundle\Entity\Gamerinstance
      *
-     * @ORM\ManyToOne(targetEntity="TMSolution\GamificationBundle\Entity\Objectinstance")
+     * @ORM\ManyToOne(targetEntity="TMSolution\GamificationBundle\Entity\Gamerinstance")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="object", referencedColumnName="id")
+     *   @ORM\JoinColumn(name="gamer", referencedColumnName="id")
      * })
      */
-    protected $object;
+    protected $gamer;
 
     /**
      * @var \TMSolution\GamificationBundle\Entity\Trophy
@@ -64,7 +64,7 @@ class Objecttrophy implements \JsonSerializable
      * Set date
      *
      * @param \DateTime $date
-     * @return Objecttrophy
+     * @return Gamertrophy
      */
     public function setDate($date)
     {
@@ -84,33 +84,33 @@ class Objecttrophy implements \JsonSerializable
     }
 
     /**
-     * Set object
+     * Set gamer
      *
-     * @param \TMSolution\GamificationBundle\Entity\Objectinstance $object
-     * @return Objecttrophy
+     * @param \TMSolution\GamificationBundle\Entity\Gamerinstance $gamer
+     * @return Gamertrophy
      */
-    public function setObject(\TMSolution\GamificationBundle\Entity\Objectinstance $object = null)
+    public function setGamer(\TMSolution\GamificationBundle\Entity\Gamerinstance $gamer = null)
     {
-        $this->object = $object;
+        $this->gamer = $gamer;
 
         return $this;
     }
 
     /**
-     * Get object
+     * Get gamer
      *
-     * @return \TMSolution\GamificationBundle\Entity\Objectinstance 
+     * @return \TMSolution\GamificationBundle\Entity\Gamerinstance 
      */
-    public function getObject()
+    public function getGamer()
     {
-        return $this->object;
+        return $this->gamer;
     }
 
     /**
      * Set trophy
      *
      * @param \TMSolution\GamificationBundle\Entity\Trophy $trophy
-     * @return Objecttrophy
+     * @return Gamertrophy
      */
     public function setTrophy(\TMSolution\GamificationBundle\Entity\Trophy $trophy = null)
     {
@@ -133,7 +133,7 @@ class Objecttrophy implements \JsonSerializable
         return [
             'id' =>$this->getId(),
             'date' => $this->getDate(),
-            'object' => $this->getObject(),
+            'gamer' => $this->getGamer(),
             'trophy' => $this->getTrophy()
         ];
     }
