@@ -181,6 +181,7 @@ class EventsService {
         return $count;
     }
 
+    //doubled with addGamertrophy
     /**
      * Creates an Gamertrophy with gamerInstance and trophy given.
      * 
