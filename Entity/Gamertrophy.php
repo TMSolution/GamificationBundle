@@ -89,10 +89,9 @@ class Gamertrophy implements \JsonSerializable
      * @param \TMSolution\GamificationBundle\Entity\Gamerinstance $gamer
      * @return Gamertrophy
      */
-    public function setGamerinstance(\TMSolution\GamificationBundle\Entity\Gamerinstance $gamer = null)
+    public function setGamerinstance(\TMSolution\GamificationBundle\Entity\Gamerinstance $gamer)
     {
-        $this->gamer = $gamer;
-
+        $this->gamerinstance = $gamer;
         return $this;
     }
 

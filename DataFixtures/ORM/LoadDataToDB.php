@@ -27,7 +27,7 @@ use TMSolution\GamificationBundle\Entity\Eventlog;
 use TMSolution\GamificationBundle\Entity\Gamertype;
 
 class LoadDataToDB extends AbstractFixture implements FixtureInterface {
-    
+
     protected static $kernel;
     protected static $container;
 
@@ -45,7 +45,7 @@ class LoadDataToDB extends AbstractFixture implements FixtureInterface {
         //Faker
         $faker = Factory::create();
 
-        
+
         //Context - sc
         $context = new Context();
         $context->setName($faker->word);
@@ -143,6 +143,8 @@ class LoadDataToDB extends AbstractFixture implements FixtureInterface {
                 ->setImage('Image');
         $manager->persist($trophy1);
         $manager->flush();
+        $this->addReference('trophyCykliczna', $trophy1);
+
 
 
         //Gamertrophy - ob
@@ -153,7 +155,7 @@ class LoadDataToDB extends AbstractFixture implements FixtureInterface {
         $manager->persist($gamerTrophy);
         $manager->flush();
 
-        
+
         //Rule - ob
         $rule = new Rule();
         $rule->setContext($this->getReference('context'))
@@ -164,5 +166,14 @@ class LoadDataToDB extends AbstractFixture implements FixtureInterface {
         $manager->persist($rule);
         $manager->flush();
 
+        $rule = new Rule();
+        $rule->setContext($this->getReference('context'))
+                ->setTrophy($this->getReference('trophyCykliczna'))
+                ->setEvent($this->getReference('event'))
+                ->setOperator('<')
+                ->setValue('10');
+        $manager->persist($rule);
+        $manager->flush();
     }
+
 }
