@@ -88,7 +88,7 @@ class EventServiceTest extends \PHPUnit_Framework_TestCase {
         $this->assertEquals($gamerTrophy, $foundGamerTrophy);
     }
 
-    //do poprawy - wytestowac szczegolowo - ma sprawdza ile obiketow zwrotkaa
+    //do poprawy - wytestowac szczegolowo - ma sprawdzac ile obiektow zwrotka
     public function testGetGamerTrophies() {
         $gamertrophy = $this->gamerTrophyModel->findAll();
         $this->assertNotNull($gamertrophy);

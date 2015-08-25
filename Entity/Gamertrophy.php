@@ -10,8 +10,8 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table(name="gamertrophy")
  * @ORM\Entity
  */
-class Gamertrophy implements \JsonSerializable
-{
+class Gamertrophy implements \JsonSerializable {
+
     /**
      * @var integer
      *
@@ -30,7 +30,7 @@ class Gamertrophy implements \JsonSerializable
 
     /**
      * @var \TMSolution\GamificationBundle\Entity\Gamerinstance
-     *
+     * 
      * @ORM\ManyToOne(targetEntity="TMSolution\GamificationBundle\Entity\Gamerinstance")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="gamerinstance", referencedColumnName="id")
@@ -48,15 +48,12 @@ class Gamertrophy implements \JsonSerializable
      */
     protected $trophy;
 
-
-
     /**
      * Get id
      *
      * @return integer 
      */
-    public function getId()
-    {
+    public function getId() {
         return $this->id;
     }
 
@@ -66,8 +63,7 @@ class Gamertrophy implements \JsonSerializable
      * @param \DateTime $date
      * @return Gamertrophy
      */
-    public function setDate($date)
-    {
+    public function setDate($date) {
         $this->date = $date;
 
         return $this;
@@ -78,8 +74,7 @@ class Gamertrophy implements \JsonSerializable
      *
      * @return \DateTime 
      */
-    public function getDate()
-    {
+    public function getDate() {
         return $this->date;
     }
 
@@ -89,8 +84,7 @@ class Gamertrophy implements \JsonSerializable
      * @param \TMSolution\GamificationBundle\Entity\Gamerinstance $gamer
      * @return Gamertrophy
      */
-    public function setGamerinstance(\TMSolution\GamificationBundle\Entity\Gamerinstance $gamer = null)
-    {
+    public function setGamerinstance(\TMSolution\GamificationBundle\Entity\Gamerinstance $gamer = null) {
         $this->gamer = $gamer;
 
         return $this;
@@ -101,8 +95,7 @@ class Gamertrophy implements \JsonSerializable
      *
      * @return \TMSolution\GamificationBundle\Entity\Gamerinstance 
      */
-    public function getGamerinstance()
-    {
+    public function getGamerinstance() {
         return $this->gamerinstance;
     }
 
@@ -112,8 +105,7 @@ class Gamertrophy implements \JsonSerializable
      * @param \TMSolution\GamificationBundle\Entity\Trophy $trophy
      * @return Gamertrophy
      */
-    public function setTrophy(\TMSolution\GamificationBundle\Entity\Trophy $trophy = null)
-    {
+    public function setTrophy(\TMSolution\GamificationBundle\Entity\Trophy $trophy = null) {
         $this->trophy = $trophy;
 
         return $this;
@@ -124,17 +116,17 @@ class Gamertrophy implements \JsonSerializable
      *
      * @return \TMSolution\GamificationBundle\Entity\Trophy 
      */
-    public function getTrophy()
-    {
+    public function getTrophy() {
         return $this->trophy;
     }
-    
+
     public function jsonSerialize() {
         return [
-            'id' =>$this->getId(),
+            'id' => $this->getId(),
             'date' => $this->getDate(),
             'gamer' => $this->getGamer(),
             'trophy' => $this->getTrophy()
         ];
     }
+
 }
