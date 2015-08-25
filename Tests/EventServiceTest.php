@@ -47,41 +47,41 @@ class EventServiceTest extends \PHPUnit_Framework_TestCase {
         return self::$kernel->getContainer()->get($serviceId);
     }
 
-    public function testGetGamerTrophiesMock() {
-        $mockgamertrophy = $this->getMockBuilder('TMSolution\GamificationBundle\Entity\Gamerinstance')
-                ->getMock();
-        $mockgamertrophy->method('setGameridentity')
-                ->willReturn(1);
-        $this->assertEquals(1, $mockgamertrophy->setGameridentity(1));
-    }
-
-    public function testSetGamertypeMock() {
-
-        $mockgamerinstance = $this->getMockBuilder('TMSolution\GamificationBundle\Entity\Gamerinstance')
-                ->getMock();
-        $mockgamertype = $this->getMockBuilder('TMSolution\GamificationBundle\Entity\Gamertype')
-                ->getMock();
-        $mockgamerinstance->method('setGamertype')
-                ->willReturn($mockgamertype);
-
-        $this->assertEquals($mockgamertype, $mockgamerinstance->setGamertype($mockgamertype));
-    }
-
-    public function testaddGamerTrophyMock() {
-        $mockgamertrophy = $this->getMockBuilder('TMSolution\GamificationBundle\Entity\Gamertrophy')
-                ->getMock();
-        $mockgamertrophy->method('setGamerinstance')
-                ->willReturn(1);
-        $mockgamertrophy->method('setTrophy')
-                ->willReturn(1);
-        $this->assertEquals(1, $mockgamertrophy->setGamerinstance());
-        $this->assertEquals(1, $mockgamertrophy->setTrophy());
-    }
+//    public function testGetGamerTrophiesMock() {
+//        $mockgamertrophy = $this->getMockBuilder('TMSolution\GamificationBundle\Entity\Gamerinstance')
+//                ->getMock();
+//        $mockgamertrophy->method('setGameridentity')
+//                ->willReturn(1);
+//        $this->assertEquals(1, $mockgamertrophy->setGameridentity(1));
+//    }
+//
+//    public function testSetGamertypeMock() {
+//
+//        $mockgamerinstance = $this->getMockBuilder('TMSolution\GamificationBundle\Entity\Gamerinstance')
+//                ->getMock();
+//        $mockgamertype = $this->getMockBuilder('TMSolution\GamificationBundle\Entity\Gamertype')
+//                ->getMock();
+//        $mockgamerinstance->method('setGamertype')
+//                ->willReturn($mockgamertype);
+//
+//        $this->assertEquals($mockgamertype, $mockgamerinstance->setGamertype($mockgamertype));
+//    }
+//
+//    public function testaddGamerTrophyMock() {
+//        $mockgamertrophy = $this->getMockBuilder('TMSolution\GamificationBundle\Entity\Gamertrophy')
+//                ->getMock();
+//        $mockgamertrophy->method('setGamerinstance')
+//                ->willReturn(1);
+//        $mockgamertrophy->method('setTrophy')
+//                ->willReturn(1);
+//        $this->assertEquals(1, $mockgamertrophy->getGamerinstance());
+//        $this->assertEquals(1, $mockgamertrophy->getTrophy());
+//    }
     
     public function testAddGamerTrophy() {
-        $gamerinstance = $this->gamerinstanceModel->findOneById(1);
+        $gamerInstance = $this->gamerinstanceModel->findOneById(1);
         $trophy = $this->trophyModel->findOneById(1);
-        $gamerTrophy = $this->eventsService->addGamerTrophy($gamerinstance, $trophy);
+        $gamerTrophy = $this->eventsService->addGamerTrophy($gamerInstance, $trophy);
         $query = $this->gamerTrophyModel->getManager()->createQuery('SELECT MAX(u.id) id FROM TMSolution\GamificationBundle\Entity\Gamertrophy u');
         $max = $query->getSingleResult();
         $foundGamerTrophy = $this->gamerTrophyModel->findOneById($max["id"]);
@@ -120,7 +120,7 @@ class EventServiceTest extends \PHPUnit_Framework_TestCase {
 
     public function testCountTrophies() {
         $gamerInstance = $this->gamerinstanceModel->findOneById(1);
-        $trophy = $this->gamerTrophyModel->findOneById(1);
+        $trophy = $this->trophyModel->findOneById(1);
         $count = $this->eventsService->countTrophies($gamerInstance, $trophy);
         $this->assertInternalType("int", $count);
     }

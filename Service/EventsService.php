@@ -81,15 +81,15 @@ class EventsService {
      * a single entry in the gamertrophy database table.
      * Additionally, it returns the object it has created, allowing for a more strict operation control.
      * 
-     * @param object $gamerInstance
-     * @param object $trophy
+     * @param Gamerinstance $gamerInstance
+     * @param Trophy $trophy
      * @return Gamertrophy $gamerTrophy
      */
-    public function addGamerTrophy($gamerType, $trophy) {
-        if ($gamerType && $trophy) {
+    public function addGamerTrophy(\TMSolution\GamificationBundle\Entity\Gamerinstance $gamerInstance, \TMSolution\GamificationBundle\Entity\Trophy $trophy) {
+        if ($gamerInstance && $trophy) {
             $gamerTrophy = $this->gamerTrophyModel->getEntity();
             $gamerTrophy->setDate(new \DateTime('NOW'))
-                    ->setGamerinstance($gamerType)
+                    ->setGamerinstance($gamerInstance)
                     ->setTrophy($trophy);
             $this->gamerTrophyModel->create($gamerTrophy, true);
             return $gamerTrophy;
@@ -102,11 +102,11 @@ class EventsService {
      * Otherwise, it returns all the trophies of that particular user.
      * The result is an array, which is the result obtained from the database.
      * 
-     * @param object $gamerInstance
-     * @param object $troptrophyCategory
+     * @param Gamerinstance $gamerInstance
+     * @param Trophycategory $troptrophyCategory
      * @return array $result
      */
-    public function getGamerTrophies($gamerInstance, $trophyCategory = null) {
+    public function getGamerTrophies(\TMSolution\GamificationBundle\Entity\Gamerinstance $gamerInstance, \TMSolution\GamificationBundle\Entity\Trophycategory $trophyCategory = null) {
         if ($trophyCategory != null) {
             $result = $this->gamerTrophyModel->findBy(['gamer' => $gamerInstance, 'trophy' => $trophyCategory]);
         } else {
@@ -118,11 +118,11 @@ class EventsService {
     /**
      * Checks rule and decides if a trophy can be given.
      * 
-     * @param object $gamerInstance
-     * @param object $trophy
+     * @param Gamerinstance $gamerInstance
+     * @param Trophy $trophy
      * @return Response
      */
-    public function checkRule($gamerInstance, $trophy) {
+    public function checkRule(\TMSolution\GamificationBundle\Entity\Gamerinstance $gamerInstance, \TMSolution\GamificationBundle\Entity\Trophy $trophy) {
 
         $gamerRule = $this->ruleModel->getRepository()->findOneBy(['trophy' => $trophy]);
         $contextId = $gamerRule->getContext()->getId();
@@ -171,11 +171,11 @@ class EventsService {
     /**
      * Counts trophies of the given type for a specified user.
      * 
-     * @param type $gamerInstance
-     * @param type $trophy
-     * @return type
+     * @param Gamerinstance $gamerInstance
+     * @param Trophy $trophy
+     * @return integer
      */
-    public function countTrophies($gamerInstance, $trophy) {
+    public function countTrophies(\TMSolution\GamificationBundle\Entity\Gamerinstance $gamerInstance, \TMSolution\GamificationBundle\Entity\Trophy $trophy) {
         $trophiesArray = $this->gamerTrophyModel->findBy(['gamerinstance' => $gamerInstance, 'trophy' => $trophy]);
         $count = count($trophiesArray);
         return $count;
@@ -184,11 +184,11 @@ class EventsService {
     /**
      * Creates an Gamertrophy with gamerInstance and trophy given.
      * 
-     * @param object $gamerInstance
-     * @param object $trophy
-     * @return object
+     * @param Gamerinstance $gamerInstance
+     * @param Trophy $trophy
+     * @return Gamertrophy
      */
-    public function createGamertrophy($gamerInstance, $trophy) {
+    public function createGamertrophy(\TMSolution\GamificationBundle\Entity\Gamerinstance $gamerInstance, \TMSolution\GamificationBundle\Entity\Trophy $trophy) {
         $gamerTrophy = new Gamertrophy();
         $gamerTrophy->setDate(new \DateTime('NOW'))
                 ->setGamerinstance($gamerInstance)
@@ -204,10 +204,10 @@ class EventsService {
      * The kind of trophy (here - cyclic) derives from it's id in the original test database.
      * This may change in the final version.
      * 
-     * @param object $gamerInstance
+     * @param Gamerinstance $gamerInstance
      * @return integer
      */
-    public function countCyclicTrophies($gamerInstance) {
+    public function countCyclicTrophies(\TMSolution\GamificationBundle\Entity\Gamerinstance $gamerInstance) {
         $cyclicTrophy = $this->trophyModel->findOneById(2);
         $cyclicTrophies = $this->countTrophies($gamerInstance, $cyclicTrophy);
         return $cyclicTrophies;
