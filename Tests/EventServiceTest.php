@@ -177,9 +177,7 @@ class EventServiceTest extends \PHPUnit_Framework_TestCase {
 
         //Make sure that the counter increased
         $eventCounter1 = $this->eventCounterModel->findOneBy(['gamerinstance' => $gamerInstance]);
-
         $counterAfter = $eventCounter1->getCounter();
-
         $this->assertEquals($counterBefore+1, $counterAfter);
 
     }
@@ -190,6 +188,7 @@ class EventServiceTest extends \PHPUnit_Framework_TestCase {
         $trophy = $gamertrophy->getTrophy();
         $rule = $this->eventsService->checkRule($gamer, $trophy);
         $this->assertNotNull($rule);
+        $this->assertEquals('Posiadasz już tą nagrodę jednorazową.', $rule->getContent());
     }
 
     //---------------------test methods from Model/Gamerinstance------------------------------
