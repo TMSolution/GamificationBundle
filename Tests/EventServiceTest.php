@@ -142,10 +142,18 @@ class EventServiceTest extends \PHPUnit_Framework_TestCase {
     }
 
     public function testCountTrophies() {
+        //Find trophies(of a certain type) for the specified user and make sure that the number is an integer, and not null
         $gamerInstance = $this->gamerinstanceModel->findOneById(1);
         $trophy = $this->trophyModel->findOneById(1);
         $count = $this->eventsService->countTrophies($gamerInstance, $trophy);
         $this->assertInternalType("int", $count);
+
+        //Add one more Gamertrophy for the user and count the quantity again
+        $this->eventsService->addGamerTrophy($gamerInstance, $trophy);
+        $countAgain = $this->eventsService->countTrophies($gamerInstance, $trophy);
+        
+        //Make sure that the number of the trophies of this type for the specified user has indeed increased
+        $this->assertEquals($count+1, $countAgain);
     }
 
     public function testRegister() {
