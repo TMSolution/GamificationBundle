@@ -23,6 +23,7 @@ class EventServiceTest extends \PHPUnit_Framework_TestCase {
     protected $gamertypeModel;
     protected $ruleModel;
     protected $trophyTypeModel;
+    protected $eventCounterModel;
 
     public static function setUpBeforeClass() {
 
@@ -43,6 +44,7 @@ class EventServiceTest extends \PHPUnit_Framework_TestCase {
         $this->gamertypeModel = $this->modelFactory->getModel('TMSolution\GamificationBundle\Entity\Gamertype');
         $this->ruleModel = $this->modelFactory->getModel('TMSolution\GamificationBundle\Entity\Rule');
         $this->trophyTypeModel = $this->modelFactory->getModel('TMSolution\GamificationBundle\Entity\Trophytype');
+        $this->eventCounterModel = $this->modelFactory->getModel('TMSolution\GamificationBundle\Entity\Eventcounter');
     }
 
     public function get($serviceId) {
@@ -151,20 +153,35 @@ class EventServiceTest extends \PHPUnit_Framework_TestCase {
         //Add one more Gamertrophy for the user and count the quantity again
         $this->eventsService->addGamerTrophy($gamerInstance, $trophy);
         $countAgain = $this->eventsService->countTrophies($gamerInstance, $trophy);
-        
+
         //Make sure that the number of the trophies of this type for the specified user has indeed increased
-        $this->assertEquals($count+1, $countAgain);
+        $this->assertEquals($count + 1, $countAgain);
     }
 
     public function testRegister() {
+
+        //Get appropriate Eventcategory, Gamerinstance and Gamertype
         $eventcategoryGamer = $this->gamerEventcategoryModel->findOneById(1);
         $eventcategoryId = $eventcategoryGamer->getId();
-        $gamerinstanceGamer = $this->gamerinstanceModel->findOneById(1);
-        $gameridentity = $gamerinstanceGamer->getGameridentity();
+        $gamerInstance = $this->gamerinstanceModel->findOneById(1);
+        $gameridentity = $gamerInstance->getGameridentity();
         $gamertype = $this->gamertypeModel->findOneById(1);
         $gamertypeId = $gamertype->getId();
-        $result = $this->eventsService->register($eventcategoryId, $gameridentity, $gamertypeId);
-        $this->assertNull($result);
+
+        //Check the Eventcounter for the appropriate user
+        $eventCounter = $this->eventCounterModel->findOneBy(['gamerinstance' => $gamerInstance]);
+        $counterBefore = $eventCounter->getCounter();
+
+        //Register a new event for the specified user
+        $this->eventsService->register($eventcategoryId, $gameridentity, $gamertypeId);
+
+        //Make sure that the counter increased
+        $eventCounter1 = $this->eventCounterModel->findOneBy(['gamerinstance' => $gamerInstance]);
+
+        $counterAfter = $eventCounter1->getCounter();
+
+        $this->assertEquals($counterBefore+1, $counterAfter);
+
     }
 
     public function testCheckRule() {

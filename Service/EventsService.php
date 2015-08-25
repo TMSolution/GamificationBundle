@@ -63,7 +63,7 @@ class EventsService {
                     ->setDate(new \DateTime('NOW'));
             $this->eventLogModel->create($eventLogEntity, true);
             try {
-                $eventCounterEntity = $this->eventCounterModel->findOneBy(['event' => $event, 'gamerInstance' => $gamerInstance]);
+                $eventCounterEntity = $this->eventCounterModel->findOneBy(['gamerinstance' => $gamerInstance, 'event' => $event]);
                 $eventCounterEntity->setCounter($eventCounterEntity->getCounter() + 1);
                 $this->eventCounterModel->update($eventCounterEntity, true);
             } catch (\Exception $e) {
