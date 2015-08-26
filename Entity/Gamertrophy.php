@@ -27,8 +27,7 @@ class Gamertrophy implements \JsonSerializable {
      * @ORM\Column(name="date", type="datetime", nullable=true)
      */
     protected $date;
-    
-   
+
     /**
      * @var integer
      * 
@@ -36,8 +35,7 @@ class Gamertrophy implements \JsonSerializable {
      * 
      */
     protected $position;
-    
-    
+
     /**
      * @var \TMSolution\GamificationBundle\Entity\Trophycategory
      * 
@@ -102,8 +100,7 @@ class Gamertrophy implements \JsonSerializable {
      * @param \TMSolution\GamificationBundle\Entity\Gamerinstance $gamer
      * @return Gamertrophy
      */
-    public function setGamerinstance(\TMSolution\GamificationBundle\Entity\Gamerinstance $gamer)
-    {
+    public function setGamerinstance(\TMSolution\GamificationBundle\Entity\Gamerinstance $gamer) {
         $this->gamerinstance = $gamer;
         return $this;
     }
@@ -147,15 +144,13 @@ class Gamertrophy implements \JsonSerializable {
         ];
     }
 
-
     /**
      * Set position
      *
      * @param integer $position
      * @return Gamertrophy
      */
-    public function setPosition($position)
-    {
+    public function setPosition($position) {
         $this->position = $position;
 
         return $this;
@@ -166,8 +161,7 @@ class Gamertrophy implements \JsonSerializable {
      *
      * @return integer 
      */
-    public function getPosition()
-    {
+    public function getPosition() {
         return $this->position;
     }
 
@@ -177,8 +171,7 @@ class Gamertrophy implements \JsonSerializable {
      * @param \TMSolution\GamificationBundle\Entity\Trophycategory $trophycategory
      * @return Gamertrophy
      */
-    public function setTrophycategory(\TMSolution\GamificationBundle\Entity\Trophycategory $trophycategory = null)
-    {
+    public function setTrophycategory(\TMSolution\GamificationBundle\Entity\Trophycategory $trophycategory = null) {
         $this->trophycategory = $trophycategory;
 
         return $this;
@@ -189,8 +182,8 @@ class Gamertrophy implements \JsonSerializable {
      *
      * @return \TMSolution\GamificationBundle\Entity\Trophycategory 
      */
-    public function getTrophycategory()
-    {
+    public function getTrophycategory() {
         return $this->trophycategory;
     }
+
 }
