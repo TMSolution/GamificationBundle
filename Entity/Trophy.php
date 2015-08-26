@@ -10,7 +10,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table(name="trophy")
  * @ORM\Entity
  */
-class Trophy /*implements \JsonSerializable*/ {
+class Trophy /* implements \JsonSerializable */ {
 
     /**
      * @var integer
@@ -34,6 +34,20 @@ class Trophy /*implements \JsonSerializable*/ {
      * @ORM\Column(name="image", type="string", length=255, nullable=true)
      */
     protected $image;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="date", type="datetime", nullable=true)
+     */
+    protected $date;
+    
+    /**
+     * @var string
+     * 
+     * @ORM\Column(name="description", type="string", nullable=true)
+     */
+    protected $description;
 
     /**
      * @var \TMSolution\GamificationBundle\Entity\Trophycategory
@@ -148,13 +162,58 @@ class Trophy /*implements \JsonSerializable*/ {
         return $this->trophytype;
     }
 
-   /* public function jsonSerialize() {
-        return [
-            'id' => $this->getId(),
-            'name' => $this->getName(),
-            'image' => $this->getImage(),
-            'trophycategory' => $this->getTrophycategory()
-        ];
-    }*/
+    /* public function jsonSerialize() {
+      return [
+      'id' => $this->getId(),
+      'name' => $this->getName(),
+      'image' => $this->getImage(),
+      'trophycategory' => $this->getTrophycategory()
+      ];
+      } */
 
+    /**
+     * Set date
+     *
+     * @param \DateTime $date
+     * @return Trophy
+     */
+    public function setDate($date)
+    {
+        $this->date = $date;
+
+        return $this;
+    }
+
+    /**
+     * Get date
+     *
+     * @return \DateTime 
+     */
+    public function getDate()
+    {
+        return $this->date;
+    }
+
+    /**
+     * Set description
+     *
+     * @param string $description
+     * @return Trophy
+     */
+    public function setDescription($description)
+    {
+        $this->description = $description;
+
+        return $this;
+    }
+
+    /**
+     * Get description
+     *
+     * @return string 
+     */
+    public function getDescription()
+    {
+        return $this->description;
+    }
 }
