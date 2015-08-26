@@ -76,7 +76,7 @@ class DefaultController extends Controller {
             'user_agent' => 'PHPSoapClient'
         ]);
 
-        $objSoapClient = new \SoapClient("http://localhost/ruletest/web/app_dev.php/ws/GamificationAPI?wsdl");
+        $objSoapClient = new \SoapClient("http://localhost/rulestest/rulestest/web/app_dev.php/ws/GamificationAPI?wsdl");
         try {
             $result = $objSoapClient->test(1);
         } catch (\Exception $ex) {
