@@ -28,7 +28,7 @@ class Gamertrophy implements \JsonSerializable {
      */
     protected $date;
     
-    //dopisane nowe----------------
+   
     /**
      * @var integer
      * 
@@ -37,7 +37,7 @@ class Gamertrophy implements \JsonSerializable {
      */
     protected $position;
     
-    //dopisane nowe--------------
+    
     /**
      * @ORM\ManyToOne(targetEntity="Trophycategory")
      * @ORM\JoinColumn(name="trophyCategory", referencedColumnName="id")
