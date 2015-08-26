@@ -10,10 +10,10 @@ services:
 #            - { name: kernel.event_listener, event: kernel.exception, method: onKernelException }           
             
 #listener response
-    kernel.listener.your_listener_response:
-        class: TMSolution\GamificationBundle\EventListener\GamificationResponseListener
-        tags:
-            - { name: kernel.event_listener, event: kernel.response, method: onKernelResponse }
+#    kernel.listener.your_listener_response:
+#        class: TMSolution\GamificationBundle\EventListener\GamificationResponseListener
+#        tags:
+#            - { name: kernel.event_listener, event: kernel.response, method: onKernelResponse }
 
 #    app.tokens.action_listener:
 #        class: TMSolution\GamificationBundle\EventListener\GamificationResponseListener

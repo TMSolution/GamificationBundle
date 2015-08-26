@@ -27,6 +27,22 @@ class Gamertrophy implements \JsonSerializable {
      * @ORM\Column(name="date", type="datetime", nullable=true)
      */
     protected $date;
+    
+    //dopisane nowe----------------
+    /**
+     * @var integer
+     * 
+     * @ORM\Column(name="position", type="integer", nullable=false)
+     * 
+     */
+    protected $position;
+    
+    //dopisane nowe--------------
+    /**
+     * @ORM\ManyToOne(targetEntity="Trophycategory")
+     * @ORM\JoinColumn(name="trophyCategory", referencedColumnName="id")
+     */
+    protected $trophycategory;
 
     /**
      * @var \TMSolution\GamificationBundle\Entity\Gamerinstance
@@ -129,4 +145,50 @@ class Gamertrophy implements \JsonSerializable {
         ];
     }
 
+
+    /**
+     * Set position
+     *
+     * @param integer $position
+     * @return Gamertrophy
+     */
+    public function setPosition($position)
+    {
+        $this->position = $position;
+
+        return $this;
+    }
+
+    /**
+     * Get position
+     *
+     * @return integer 
+     */
+    public function getPosition()
+    {
+        return $this->position;
+    }
+
+    /**
+     * Set trophycategory
+     *
+     * @param \TMSolution\GamificationBundle\Entity\Trophycategory $trophycategory
+     * @return Gamertrophy
+     */
+    public function setTrophycategory(\TMSolution\GamificationBundle\Entity\Trophycategory $trophycategory = null)
+    {
+        $this->trophycategory = $trophycategory;
+
+        return $this;
+    }
+
+    /**
+     * Get trophycategory
+     *
+     * @return \TMSolution\GamificationBundle\Entity\Trophycategory 
+     */
+    public function getTrophycategory()
+    {
+        return $this->trophycategory;
+    }
 }
