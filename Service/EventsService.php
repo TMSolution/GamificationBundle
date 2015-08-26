@@ -90,8 +90,7 @@ class EventsService {
             $gamerTrophy = $this->gamerTrophyModel->getEntity();
             $gamerTrophy->setDate(new \DateTime('NOW'))
                     ->setGamerinstance($gamerInstance)
-                    ->setTrophy($trophy)
-                    ->setPosition(1);
+                    ->setTrophy($trophy);
             $this->gamerTrophyModel->create($gamerTrophy, true);
             return $gamerTrophy;
         }
@@ -126,7 +125,6 @@ class EventsService {
     public function checkRule(\TMSolution\GamificationBundle\Entity\Gamerinstance $gamerInstance, \TMSolution\GamificationBundle\Entity\Trophy $trophy) {
 
         $gamerRule = $this->ruleModel->getRepository()->findOneBy(['trophy' => $trophy]);
-        $contextId = $gamerRule->getContext()->getId();
         $gamerContext = $this->contextModel->getRepository()->findOneBy(['id' => $gamerRule->getContext()->getId()]);
         $trophyCount = $this->countTrophies($gamerInstance, $trophy);
         $cyclicCount = $this->countCyclicTrophies($gamerInstance);
@@ -194,8 +192,7 @@ class EventsService {
         $gamerTrophy = new Gamertrophy();
         $gamerTrophy->setDate(new \DateTime('NOW'))
                 ->setGamerinstance($gamerInstance)
-                ->setTrophy($trophy)
-                ->setPosition(1);
+                ->setTrophy($trophy);
         $result = $this->gamerTrophyModel->create($gamerTrophy, true);
         return $result;
     }
@@ -214,7 +211,7 @@ class EventsService {
         $cyclicTrophy = $this->trophyModel->findOneById(2);
         $cyclicTrophies = $this->countTrophies($gamerInstance, $cyclicTrophy);
         return $cyclicTrophies;
-    }
+    } 
 
 }
 
