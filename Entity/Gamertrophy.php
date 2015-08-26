@@ -32,7 +32,7 @@ class Gamertrophy implements \JsonSerializable {
     /**
      * @var integer
      * 
-     * @ORM\Column(name="position", type="integer", nullable=false)
+     * @ORM\Column(name="position", type="integer", nullable=true)
      * 
      */
     protected $position;
