@@ -125,7 +125,6 @@ class EventsService {
     public function checkRule(\TMSolution\GamificationBundle\Entity\Gamerinstance $gamerInstance, \TMSolution\GamificationBundle\Entity\Trophy $trophy) {
 
         $gamerRule = $this->ruleModel->getRepository()->findOneBy(['trophy' => $trophy]);
-        $contextId = $gamerRule->getContext()->getId();
         $gamerContext = $this->contextModel->getRepository()->findOneBy(['id' => $gamerRule->getContext()->getId()]);
         $trophyCount = $this->countTrophies($gamerInstance, $trophy);
         $cyclicCount = $this->countCyclicTrophies($gamerInstance);
