@@ -40,7 +40,7 @@ class Gamertrophy implements \JsonSerializable {
     
     /**
      * @ORM\ManyToOne(targetEntity="Trophycategory")
-     * @ORM\JoinColumn(name="trophyCategory", referencedColumnName="id")
+     * @ORM\JoinColumn(name="trophycategory", referencedColumnName="id")
      */
     protected $trophycategory;
 
