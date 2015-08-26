@@ -25,7 +25,7 @@ class APIController extends Controller {
      */
     public function testAction($paramId) {
        
-        return "dfdfd";
+        return "testAction";
     }
 
     /**

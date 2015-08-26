@@ -76,21 +76,13 @@ class DefaultController extends Controller {
             'user_agent' => 'PHPSoapClient'
         ]);
 
-
-
+        $objSoapClient = new \SoapClient("http://localhost/ruletest/web/app_dev.php/ws/GamificationAPI?wsdl");
         try {
-
-            $result = $objSoapClient->__getFunctions();
-
-            $result2 = $objSoapClient->__soapCall('hello', ['paramId' => 1]);
-            // $result2 = $objSoapClient->hello(1);
-            // $result3 = $objSoapClient->checkGamerTrophy(1,1);
+            $result = $objSoapClient->test(1);
         } catch (\Exception $ex) {
-            $result2 = $ex->getMessage();
-            dump($objSoapClient->__getLastResponse());
+            die("exception");
         }
-
-        return new Response($result2);
+        return new Response($result);
     }
 
     // WARNING! The way the result is returned is for presentation purposes only and most probably will have to be updated.
