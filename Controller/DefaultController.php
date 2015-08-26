@@ -68,16 +68,13 @@ class DefaultController extends Controller {
     //obsolete - test method
     public function testSoapAction() {
 
-        $objSoapClient = new \SoapClient("http://localhost/rulestest/rulestest/web/app_dev.php/ws/GamificationAPI?wsdl");
+        $objSoapClient = new \SoapClient("http://localhost/ruletest/web/app_dev.php/ws/GamificationAPI?wsdl");
         try {
             $result = $objSoapClient->test(1);
-            $result2 = $objSoapClient->hello(1);
         } catch (\Exception $ex) {
-            die("hello");
+            die("exception");
         }
-        echo $result;
-        echo $result2;
-        die("Do widzenia");
+        return new Response($result);
     }
 
     // WARNING! The way the result is returned is for presentation purposes only and most probably will have to be updated.
