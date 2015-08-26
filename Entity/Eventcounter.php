@@ -36,7 +36,7 @@ class Eventcounter
      * @ORM\JoinColumn(name="gamerinstance", referencedColumnName="id")
      * })
      */
-    protected $gamerInstance;
+    protected $gamerinstance;
 
     /**
      * @var \TMSolution\GamificationBundle\Entity\Event
@@ -89,9 +89,9 @@ class Eventcounter
      * @param \TMSolution\GamificationBundle\Entity\Gamerinstance $gamerinstance
      * @return Eventcounter
      */
-    public function setGamerInstance(\TMSolution\GamificationBundle\Entity\Gamerinstance $gamerinstance = null)
+    public function setGamerinstance(\TMSolution\GamificationBundle\Entity\Gamerinstance $gamerinstance = null)
     {
-        $this->gamerInstance = $gamerinstance;
+        $this->gamerinstance = $gamerinstance;
 
         return $this;
     }
@@ -101,9 +101,9 @@ class Eventcounter
      *
      * @return \TMSolution\GamificationBundle\Entity\Gamerinstance 
      */
-    public function getGamerInstance()
+    public function getGamerinstance()
     {
-        return $this->gamerInstance;
+        return $this->gamerinstance;
     }
 
     /**

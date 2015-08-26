@@ -22,6 +22,8 @@ class EventServiceTest extends \PHPUnit_Framework_TestCase {
     protected $gamerEventcategoryModel;
     protected $gamertypeModel;
     protected $ruleModel;
+    protected $trophyTypeModel;
+    protected $eventCounterModel;
 
     public static function setUpBeforeClass() {
 
@@ -41,6 +43,8 @@ class EventServiceTest extends \PHPUnit_Framework_TestCase {
         $this->gamerEventcategoryModel = $this->modelFactory->getModel('TMSolution\GamificationBundle\Entity\Eventcategory');
         $this->gamertypeModel = $this->modelFactory->getModel('TMSolution\GamificationBundle\Entity\Gamertype');
         $this->ruleModel = $this->modelFactory->getModel('TMSolution\GamificationBundle\Entity\Rule');
+        $this->trophyTypeModel = $this->modelFactory->getModel('TMSolution\GamificationBundle\Entity\Trophytype');
+        $this->eventCounterModel = $this->modelFactory->getModel('TMSolution\GamificationBundle\Entity\Eventcounter');
     }
 
     public function get($serviceId) {
@@ -70,18 +74,18 @@ class EventServiceTest extends \PHPUnit_Framework_TestCase {
     public function testaddGamerTrophyMock() {
         $mockgamertrophy = $this->getMockBuilder('TMSolution\GamificationBundle\Entity\Gamertrophy')
                 ->getMock();
-        $mockgamertrophy->method('setGamerinstance')
+        $mockgamertrophy->method('getGamerinstance')
                 ->willReturn(1);
-        $mockgamertrophy->method('setTrophy')
+        $mockgamertrophy->method('getTrophy')
                 ->willReturn(1);
-        $this->assertEquals(1, $mockgamertrophy->setGamerinstance());
-        $this->assertEquals(1, $mockgamertrophy->setTrophy());
+        $this->assertEquals(1, $mockgamertrophy->getGamerinstance());
+        $this->assertEquals(1, $mockgamertrophy->getTrophy());
     }
-    
+
     public function testAddGamerTrophy() {
-        $gamerinstance = $this->gamerinstanceModel->findOneById(1);
+        $gamerInstance = $this->gamerinstanceModel->findOneById(1);
         $trophy = $this->trophyModel->findOneById(1);
-        $gamerTrophy = $this->eventsService->addGamerTrophy($gamerinstance, $trophy);
+        $gamerTrophy = $this->eventsService->addGamerTrophy($gamerInstance, $trophy);
         $query = $this->gamerTrophyModel->getManager()->createQuery('SELECT MAX(u.id) id FROM TMSolution\GamificationBundle\Entity\Gamertrophy u');
         $max = $query->getSingleResult();
         $foundGamerTrophy = $this->gamerTrophyModel->findOneById($max["id"]);
@@ -90,16 +94,37 @@ class EventServiceTest extends \PHPUnit_Framework_TestCase {
 
     //do poprawy - wytestowac szczegolowo - ma sprawdzac ile obiektow zwrotka
     public function testGetGamerTrophies() {
-        $gamertrophy = $this->gamerTrophyModel->findAll();
-        $this->assertNotNull($gamertrophy);
+        //Counting user's (id=1) trophies
+        $gamerInstance = $this->gamerinstanceModel->findOneById(1);
+        $beforeAddingTrophy = count($this->gamerTrophyModel->findBy(['gamerinstance' => $gamerInstance]));
+
+        //Adding one trophy for the user
+        $trophy = $this->trophyModel->findOneById(1);
+        $this->eventsService->addGamerTrophy($gamerInstance, $trophy);
+
+        //Finding all of the user's trophies - count should be bigger by 1
+        $afterAddingTrophy = count($this->gamerTrophyModel->findBy(['gamerinstance' => $gamerInstance]));
+
+        //Asserting that the second check is greater by 1
+        $this->assertEquals($beforeAddingTrophy + 1, $afterAddingTrophy);
     }
 
     //niekoniecznie typu "cyclic" - to zależy od ID w bazie 
     public function testCountCyclicTrophies() {
-        $cyclicTrophy = $this->trophyModel->findOneById(1);
+
+        //Check if the method can properly count trophies for the specified gamer
         $gamerInstance = $this->gamerinstanceModel->findOneById(1);
-        $countcyclicTrophies = $this->eventsService->countTrophies($gamerInstance, $cyclicTrophy);
-        $this->assertNotNull($countcyclicTrophies);
+        $countCyclicTrophies = $this->eventsService->countCyclicTrophies($gamerInstance);
+        $this->assertTrue(is_int($countCyclicTrophies));
+
+        //Add one additional cyclic trophy
+        $cyclicType = $this->trophyTypeModel->findOneById(2);
+        $cyclicTrophy = $this->trophyModel->findOneBy(['trophytype' => $cyclicType]);
+        $this->eventsService->addGamerTrophy($gamerInstance, $cyclicTrophy);
+
+        //Make sure that the number of trophies the method counts has increased by 1
+        $countCyclicAgain = $this->eventsService->countCyclicTrophies($gamerInstance);
+        $this->assertEquals($countCyclicTrophies + 1, $countCyclicAgain);
     }
 
     public function testCreateGamertrophy() {
@@ -110,7 +135,7 @@ class EventServiceTest extends \PHPUnit_Framework_TestCase {
         $gamerTrophy = $this->eventsService->createGamertrophy($gamerInstance, $trophy);
         if ($gamerTrophy != null) {
             $recordsAfter = $query->getSingleResult();
-            if($recordsAfter > $recordsBefore){
+            if ($recordsAfter > $recordsBefore) {
                 $this->assertTrue(true);
             }
         } else {
@@ -119,21 +144,42 @@ class EventServiceTest extends \PHPUnit_Framework_TestCase {
     }
 
     public function testCountTrophies() {
+        //Find trophies(of a certain type) for the specified user and make sure that the number is an integer, and not null
         $gamerInstance = $this->gamerinstanceModel->findOneById(1);
-        $trophy = $this->gamerTrophyModel->findOneById(1);
+        $trophy = $this->trophyModel->findOneById(1);
         $count = $this->eventsService->countTrophies($gamerInstance, $trophy);
         $this->assertInternalType("int", $count);
+
+        //Add one more Gamertrophy for the user and count the quantity again
+        $this->eventsService->addGamerTrophy($gamerInstance, $trophy);
+        $countAgain = $this->eventsService->countTrophies($gamerInstance, $trophy);
+
+        //Make sure that the number of the trophies of this type for the specified user has indeed increased
+        $this->assertEquals($count + 1, $countAgain);
     }
 
     public function testRegister() {
+
+        //Get appropriate Eventcategory, Gamerinstance and Gamertype
         $eventcategoryGamer = $this->gamerEventcategoryModel->findOneById(1);
         $eventcategoryId = $eventcategoryGamer->getId();
-        $gamerinstanceGamer = $this->gamerinstanceModel->findOneById(1);
-        $gameridentity = $gamerinstanceGamer->getGameridentity();
+        $gamerInstance = $this->gamerinstanceModel->findOneById(1);
+        $gameridentity = $gamerInstance->getGameridentity();
         $gamertype = $this->gamertypeModel->findOneById(1);
         $gamertypeId = $gamertype->getId();
-        $result = $this->eventsService->register($eventcategoryId, $gameridentity, $gamertypeId);
-        $this->assertNull($result);
+
+        //Check the Eventcounter for the appropriate user
+        $eventCounter = $this->eventCounterModel->findOneBy(['gamerinstance' => $gamerInstance]);
+        $counterBefore = $eventCounter->getCounter();
+
+        //Register a new event for the specified user
+        $this->eventsService->register($eventcategoryId, $gameridentity, $gamertypeId);
+
+        //Make sure that the counter increased
+        $eventCounter1 = $this->eventCounterModel->findOneBy(['gamerinstance' => $gamerInstance]);
+        $counterAfter = $eventCounter1->getCounter();
+        $this->assertEquals($counterBefore+1, $counterAfter);
+
     }
 
     public function testCheckRule() {
@@ -142,6 +188,7 @@ class EventServiceTest extends \PHPUnit_Framework_TestCase {
         $trophy = $gamertrophy->getTrophy();
         $rule = $this->eventsService->checkRule($gamer, $trophy);
         $this->assertNotNull($rule);
+        $this->assertEquals('Posiadasz już tą nagrodę jednorazową.', $rule->getContent());
     }
 
     //---------------------test methods from Model/Gamerinstance------------------------------
