@@ -39,6 +39,8 @@ class Gamertrophy implements \JsonSerializable {
     
     
     /**
+     * @var \TMSolution\GamificationBundle\Entity\Trophycategory
+     * 
      * @ORM\ManyToOne(targetEntity="Trophycategory")
      * @ORM\JoinColumn(name="trophycategory", referencedColumnName="id")
      */

@@ -146,12 +146,12 @@ class LoadDataToDB extends AbstractFixture implements FixtureInterface {
         $this->addReference('trophyCykliczna', $trophy1);
 
 
-
         //Gamertrophy - ob
         $gamerTrophy = new Gamertrophy();
         $gamerTrophy->setGamerinstance($this->getReference('gamerinstance'))
                 ->setTrophy($this->getReference('trophy'))
-                ->setDate(new \DateTime('NOW'));
+                ->setDate(new \DateTime('NOW'))
+                ->setTrophycategory($this->getReference('trophycategory'));
         $manager->persist($gamerTrophy);
         $manager->flush();
 
@@ -174,6 +174,16 @@ class LoadDataToDB extends AbstractFixture implements FixtureInterface {
                 ->setValue('10');
         $manager->persist($rule);
         $manager->flush();
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
     }
 
 }
