@@ -212,7 +212,7 @@ class EventsService {
         $cyclicTrophy = $this->trophyModel->findOneById(2);
         $cyclicTrophies = $this->countTrophies($gamerInstance, $cyclicTrophy);
         return $cyclicTrophies;
-    }
+    } 
 
 }
 
