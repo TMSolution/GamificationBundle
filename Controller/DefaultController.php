@@ -67,17 +67,30 @@ class DefaultController extends Controller {
 
     //obsolete - test method
     public function testSoapAction() {
+        ini_set("soap.wsdl_cache_enabled", "0");
+        $objSoapClient = new \SoapClient("http://127.0.0.1/rulestest/rulestest/web/app_dev.php/ws/GamificationAPI?wsdl", [
+            'trace' => true,
+            'cache_wsdl' => WSDL_CACHE_NONE,
+            'soap_version' => SOAP_1_1,
+            'exceptions' => true,
+            'user_agent' => 'PHPSoapClient'
+        ]);
 
-        $objSoapClient = new \SoapClient("http://localhost/rulestest/rulestest/web/app_dev.php/ws/GamificationAPI?wsdl");
+
+
         try {
-            $result = $objSoapClient->test(1);
-            $result2 = $objSoapClient->hello(1);
+
+            $result = $objSoapClient->__getFunctions();
+
+            $result2 = $objSoapClient->__soapCall('hello', ['paramId' => 1]);
+            // $result2 = $objSoapClient->hello(1);
+            // $result3 = $objSoapClient->checkGamerTrophy(1,1);
         } catch (\Exception $ex) {
-            die("hello");
+            $result2 = $ex->getMessage();
+            dump($objSoapClient->__getLastResponse());
         }
-        echo $result;
-        echo $result2;
-        die("Do widzenia");
+
+        return new Response($result2);
     }
 
     // WARNING! The way the result is returned is for presentation purposes only and most probably will have to be updated.
