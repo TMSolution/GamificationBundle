@@ -90,7 +90,8 @@ class EventsService {
             $gamerTrophy = $this->gamerTrophyModel->getEntity();
             $gamerTrophy->setDate(new \DateTime('NOW'))
                     ->setGamerinstance($gamerInstance)
-                    ->setTrophy($trophy);
+                    ->setTrophy($trophy)
+                    ->setPosition(1);
             $this->gamerTrophyModel->create($gamerTrophy, true);
             return $gamerTrophy;
         }
@@ -193,7 +194,8 @@ class EventsService {
         $gamerTrophy = new Gamertrophy();
         $gamerTrophy->setDate(new \DateTime('NOW'))
                 ->setGamerinstance($gamerInstance)
-                ->setTrophy($trophy);
+                ->setTrophy($trophy)
+                ->setPosition(1);
         $result = $this->gamerTrophyModel->create($gamerTrophy, true);
         return $result;
     }

@@ -151,7 +151,8 @@ class LoadDataToDB extends AbstractFixture implements FixtureInterface {
         $gamerTrophy->setGamerinstance($this->getReference('gamerinstance'))
                 ->setTrophy($this->getReference('trophy'))
                 ->setDate(new \DateTime('NOW'))
-                ->setTrophycategory($this->getReference('trophycategory'));
+                ->setTrophycategory($this->getReference('trophycategory'))
+                ->setPosition(1);
         $manager->persist($gamerTrophy);
         $manager->flush();
 
