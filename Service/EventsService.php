@@ -51,10 +51,10 @@ class EventsService {
      * 
      * @param integer $eventCategoryId
      * @param integer $gamerIdentity
-     * @param integer $classId
+     * @param integer $gamerTypeId
      */
-    public function register($eventCategoryId, $gamerIdentity, $classId) {
-        $gamerInstance = $this->gamerInstanceModel->getInstance($gamerIdentity, $classId);
+    public function register($eventCategoryId, $gamerIdentity, $gamerTypeId) {
+        $gamerInstance = $this->gamerInstanceModel->getInstance($gamerIdentity, $gamerTypeId);
         if ($gamerInstance) {
             $event = $this->eventModel->findOneById($eventCategoryId);
             $eventLogEntity = new Eventlog();
@@ -125,6 +125,7 @@ class EventsService {
     public function checkRule($gamerInstance, $trophy) {
 
         $gamerRule = $this->ruleModel->getRepository()->findOneBy(['trophy' => $trophy]);
+        $contextId = $gamerRule->getContext()->getId();
         $gamerContext = $this->contextModel->getRepository()->findOneBy(['id' => $gamerRule->getContext()->getId()]);
         $trophyCount = $this->countTrophies($gamerInstance, $trophy);
         $cyclicCount = $this->countCyclicTrophies($gamerInstance);
@@ -222,5 +223,5 @@ class EventsService {
 //test wsdl
 //--event = ma byc gamerid (czyli gamerinstanceid)
 //test dla modelu jako calosc - nie na poszczegolne metody, a takze by byl uniwersalny dla modelow inncyh  takze.
-//test jednostkowe symfony dla encji
-//testowanie googla - ksiazka na stanie firmy
+//??test jednostkowe symfony dla encji
+//--testowanie googla - ksiazka na stanie firmy
