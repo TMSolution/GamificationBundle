@@ -9,7 +9,7 @@
 /**
  * Description of CoreModel_Test2
  *
- * @author Lukasz
+ * @author Lukasz Sobieraj
  */
 
 namespace TMSolution\GamificationBundle\Tests;
@@ -107,7 +107,7 @@ class CoreModel_Test2 extends \PHPUnit_Framework_TestCase {
 
     public function testCoreModelHasOneById() {
         $context = $this->contextModel->hasOneById(1);
-        $this->assertTrue($context);
+        $this->assertTrue($context == true);
     }
 
     public function testCoreModelHasOneBy() {
@@ -118,12 +118,16 @@ class CoreModel_Test2 extends \PHPUnit_Framework_TestCase {
     public function testCoreModelFindBy() {
         $contextObj = new Context();
         $context = $this->contextModel->findBy(['id' => 1]);
+        $a = $context[0];
         $this->assertNotNull($context);
+        $this->assertTrue(is_object($a));
+        $this->assertTrue($a instanceof $contextObj);
     }
 
     public function testCoreModelFindAll() {
         $contextObj = new Context();
         $context = $this->contextModel->findAll();
+        dump($context);exit;
         $id = $context[0]->getId();
         $this->assertNotNull($context);
         $this->assertEquals(1, $id);
@@ -153,10 +157,9 @@ class CoreModel_Test2 extends \PHPUnit_Framework_TestCase {
 
     public function testCoreModelCheckMethod() {
         $contextObj = new Context();
-        $id = "Id()";
+        $id = "Id";
         $context = $this->contextModel->checkMethod($contextObj, $id);
-//        dump($test);
-//        exit;
+        $this->assertEquals("getId", $context);
     }
 
     //nie testowac
@@ -168,14 +171,16 @@ class CoreModel_Test2 extends \PHPUnit_Framework_TestCase {
 
     public function testCoreModelCheckMethodPrefix() {
 
-        $methodName = $this->contextModel->checkMethodPrefix('name');
+        //$methodName = $this->contextModel->checkMethodPrefix('name');
         //dump($methodName);exit;
     }
 
-    public function testCoreModelCheckMethodExist() {
+    public function testCoreModelChecktMethodExists() {
 
-        $context = $this->contextModel->checkMethodExist(getId());
-        dump($context);exit;
+        $context = $this->contextModel->checktMethodExists("getId");
+        $this->assertEquals("getId", $context);
     }
+    
+ 
 
 }
