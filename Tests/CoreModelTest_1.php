@@ -138,7 +138,7 @@ class CoreModelTest_1 extends \PHPUnit_Framework_TestCase {
         //Use the same functions with 2 elements in the array
         $dbTrophyType1 = $this->trophyTypeModel->findOneBy(['id'=> 6,'name' => $stringIdentifier]);
         $this->assertEquals($stringIdentifier, $dbTrophyType1->getName());
-        $this->assertFail
+        
         
     }
 
