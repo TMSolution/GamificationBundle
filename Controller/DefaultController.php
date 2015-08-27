@@ -67,8 +67,16 @@ class DefaultController extends Controller {
 
     //obsolete - test method
     public function testSoapAction() {
+        ini_set("soap.wsdl_cache_enabled", "0");
+        $objSoapClient = new \SoapClient("http://127.0.0.1/rulestest/rulestest/web/app_dev.php/ws/GamificationAPI?wsdl", [
+            'trace' => true,
+            'cache_wsdl' => WSDL_CACHE_NONE,
+            'soap_version' => SOAP_1_1,
+            'exceptions' => true,
+            'user_agent' => 'PHPSoapClient'
+        ]);
 
-        $objSoapClient = new \SoapClient("http://localhost/ruletest/web/app_dev.php/ws/GamificationAPI?wsdl");
+        $objSoapClient = new \SoapClient("http://localhost/rulestest/rulestest/web/app_dev.php/ws/GamificationAPI?wsdl");
         try {
             $result = $objSoapClient->test(1);
         } catch (\Exception $ex) {
