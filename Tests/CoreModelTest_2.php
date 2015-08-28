@@ -19,7 +19,7 @@ use TMSolution\GamificationBundle\Entity\Rule;
 //do testow wsdl - metody wykorzystywane przez wsdl
 use TMSolution\GamificationBundle\Controller\APIController;
 
-class CoreModel_Test2 extends \PHPUnit_Framework_TestCase {
+class CoreModelTest_2 extends \PHPUnit_Framework_TestCase {
 
     /**
      * 
@@ -143,14 +143,10 @@ class CoreModel_Test2 extends \PHPUnit_Framework_TestCase {
     public function testCoreModelRead() {
 
         $context = $this->contextModel->read();
-        //dump($context);exit;
         $this->assertTrue(is_array($context));
 
         $contextFalse = $this->contextModel->read();
-//        dump($contextFalse);exit;
-        $test = typeOf($contextFalse);
-        //dump($test);exit;
-//        die('ok');exit;
+
     }
 
     public function testCoreModelHasKey() {
