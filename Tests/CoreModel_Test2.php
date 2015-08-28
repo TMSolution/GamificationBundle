@@ -143,7 +143,7 @@ class CoreModel_Test2 extends \PHPUnit_Framework_TestCase {
 
         $array = ['id' => 1, 'name' => 'test'];
         $id = hasKey('id', $array);
-        $this->assertNotNull($id);
+        $this->assertNotNull($id); 
     }
 
     public function testCoreModelGetProperties() {
