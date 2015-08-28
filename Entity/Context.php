@@ -69,26 +69,26 @@ class Context
         return $this->name;
     }
 
-    /**
-     * Set rule
-     *
-     * @param \TMSolution\GamificationBundle\Entity\Rule $rule
-     * @return Context
-     */
-    public function setRule(\TMSolution\GamificationBundle\Entity\Rule $rule = null)
-    {
-        $this->rule = $rule;
-
-        return $this;
-    }
-
-    /**
-     * Get rule
-     *
-     * @return \TMSolution\GamificationBundle\Entity\Rule 
-     */
-    public function getRule()
-    {
-        return $this->rule;
-    }
+//    /**
+//     * Set rule
+//     *
+//     * @param \TMSolution\GamificationBundle\Entity\Rule $rule
+//     * @return Context
+//     */
+//    public function setRule(\TMSolution\GamificationBundle\Entity\Rule $rule = null)
+//    {
+//        $this->rule = $rule;
+//
+//        return $this;
+//    }
+//
+//    /**
+//     * Get rule
+//     *
+//     * @return \TMSolution\GamificationBundle\Entity\Rule 
+//     */
+//    public function getRule()
+//    {
+//        return $this->rule;
+//    }
 }

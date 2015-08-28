@@ -16,14 +16,15 @@ namespace TMSolution\GamificationBundle\Tests;
 
 use TMSolution\GamificationBundle\Entity\Context;
 use TMSolution\GamificationBundle\Entity\Rule;
+//do testow wsdl - metody wykorzystywane przez wsdl
+use TMSolution\GamificationBundle\Controller\APIController;
 
 class CoreModel_Test2 extends \PHPUnit_Framework_TestCase {
 
     /**
      * 
-     * createEntities()
      * findOneById()
-     * hasOneById
+     * hasOneById() - nie testowac
      * hasOneBy()
      * findBy()
      * findAll()
@@ -34,8 +35,8 @@ class CoreModel_Test2 extends \PHPUnit_Framework_TestCase {
      * getEntityName() - nie testowac
      * checkMethodPrefix() - do poprawy metoda
      * checktMethodExists()
+     * methods WSDL
      */
-    //put your code here
     protected static $kernel;
     protected static $container;
     protected $gamerinstanceModel;
@@ -82,68 +83,84 @@ class CoreModel_Test2 extends \PHPUnit_Framework_TestCase {
         return self::$kernel->getContainer()->get($serviceId);
     }
 
-    public function testCoreModelCreateEntities() {
-        $rule = new Rule();
-
-
-
-        $context = new Context();
-        $context->setName('test');
-        $context->setRule($rule);
-
-        //$entity = $this->contextModel->createEntities([$context], true);
-        //$this->assertNotNull($entity);
-    }
-
     public function testCoreModelFindOneById() {
+
         $contextObj = new Context();
-        $context = $this->contextModel->findOneById(1)->getId();
-        $this->assertEquals(1, $context);
+        $contextFull = $this->contextModel->findOneById(1);
+        $this->assertTrue($contextFull instanceof $contextObj);
 
 
-        $context = $this->contextModel->findOneById(1);
-        //$this->assertSame($contextObj, $context);
+        $contextId = $this->contextModel->findOneById(1)->getId();
+        $this->assertEquals(1, $contextId);
+
+        $this->setExpectedException('\Doctrine\ORM\EntityNotFoundException');
+        $contextFalse = $this->contextModel->findOneById(4);
     }
 
-    public function testCoreModelHasOneById() {
-        $context = $this->contextModel->hasOneById(1);
-        $this->assertTrue($context == true);
-    }
+    //metoda hasOneById() w swoim dzialaniu wykorzystuje metode getReference(), ktora przyjmujac argument sprawdza jego istnienie, gdy nie ma to go tworzy.
+    //powoduje to nie wykonanie negatywnego testu, gdyz wpisanie nieistniejacego id powoduje jego wytworzenie przez co test zawsze zwraca true
+//    public function testCoreModelHasOneById() {
+//        $context = $this->contextModel->hasOneById(9);
+//        //dump($context);exit;
+//        //$this->assertTrue($context);
+//    
+//    }
 
     public function testCoreModelHasOneBy() {
+
         $context = $this->contextModel->hasOneBy(['id' => 1]);
-        $this->assertTrue($context == true);
+        $this->assertTrue($context);
+
+        $contextFalse = $this->contextModel->hasOneBy(['id' => 3]);
+        $this->assertFalse($contextFalse);
     }
 
     public function testCoreModelFindBy() {
+
         $contextObj = new Context();
         $context = $this->contextModel->findBy(['id' => 1]);
-        $a = $context[0];
-        $this->assertNotNull($context);
-        $this->assertTrue(is_object($a));
-        $this->assertTrue($a instanceof $contextObj);
+        $this->assertTrue(is_array($context));
+
+        $object = $context[0];
+
+        $this->assertTrue(is_object($object));
+        $this->assertTrue($object instanceof $contextObj);
     }
 
     public function testCoreModelFindAll() {
+
         $contextObj = new Context();
         $context = $this->contextModel->findAll();
-        dump($context);exit;
         $id = $context[0]->getId();
         $this->assertNotNull($context);
         $this->assertEquals(1, $id);
+
+        $contextFalse = $context[3];
+        $this->assertNull($contextFalse);
     }
 
+    //metoda read( wymaga parametru typu array, jednak dziala bez) - do poprawy
     public function testCoreModelRead() {
 
         $context = $this->contextModel->read();
+        //dump($context);exit;
         $this->assertTrue(is_array($context));
+
+        $contextFalse = $this->contextModel->read();
+//        dump($contextFalse);exit;
+        $test = typeOf($contextFalse);
+        //dump($test);exit;
+//        die('ok');exit;
     }
 
     public function testCoreModelHasKey() {
 
-        $array = ['id' => 1, 'name' => 'test'];
-        $id = hasKey('id', $array);
-        $this->assertNotNull($id); 
+        $contextObj = $this->contextModel->findBy(['id' => 1]);
+        $context = $this->contextModel->hasKey(0, $contextObj);
+        $this->assertTrue(is_object($context));
+
+        $contextFalse = $this->contextModel->hasKey(1, $contextObj);
+        $this->assertFalse($contextFalse);
     }
 
     public function testCoreModelGetProperties() {
@@ -153,13 +170,24 @@ class CoreModel_Test2 extends \PHPUnit_Framework_TestCase {
         $name = $context[1];
         $this->assertEquals('id', $id);
         $this->assertEquals('name', $name);
+
+        $testFalse - $context[3];
+        $this->assertNull($testFalse);
     }
 
     public function testCoreModelCheckMethod() {
+
         $contextObj = new Context();
         $id = "Id";
         $context = $this->contextModel->checkMethod($contextObj, $id);
+        $contextMethod = $this->contextModel->findOneById(1)->$context();
+
         $this->assertEquals("getId", $context);
+        $this->assertEquals(1, $contextMethod);
+
+        $falseMethod = "Rule";
+        $contextFalse = $this->contextModel->checkMethod($contextObj, $falseMethod);
+        $this->assertNotEquals("getRule", $contextFalse);
     }
 
     //nie testowac
@@ -168,19 +196,31 @@ class CoreModel_Test2 extends \PHPUnit_Framework_TestCase {
 //        $context =  $this->contextModel->getEntityName();
 //        dump($context);exit;
 //    }
-
-    public function testCoreModelCheckMethodPrefix() {
-
-        //$methodName = $this->contextModel->checkMethodPrefix('name');
-        //dump($methodName);exit;
-    }
+    //metoda do poprawy - nie testowac
+//    public function testCoreModelCheckMethodPrefix() {
+//
+//        //$methodName = $this->contextModel->checkMethodPrefix('name');
+//        //dump($methodName);exit;
+//    }
 
     public function testCoreModelChecktMethodExists() {
 
         $context = $this->contextModel->checktMethodExists("getId");
         $this->assertEquals("getId", $context);
+
+        $contextFalse = $this->contextModel->checktMethodExists("getRule");
+        $this->assertFalse($contextFalse);
     }
-    
- 
+
+    //test wsdl
+    public function testWSDL_Method() {
+
+        $test = new APIController();
+        $result = $test->testAction(1);
+        $this->assertEquals(testAction, $result);
+
+        $result2 = $test->helloAction(1);
+        $this->assertEquals("jabłko i gruszka", $result2);
+    }
 
 }
