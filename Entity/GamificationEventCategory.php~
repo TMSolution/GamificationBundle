@@ -5,13 +5,13 @@ namespace TMSolution\GamificationBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Gamertype
+ * GamificationEventcategory
  *
- * @ORM\Table(name="gamertype")
+ * @ORM\Table(name="gamification_eventcategory")
  * @ORM\Entity
  */
-class Gamertype {
-
+class GamificationEventCategory
+{
     /**
      * @var integer
      *
@@ -28,12 +28,14 @@ class Gamertype {
      */
     protected $name;
 
+
     /**
      * Get id
      *
      * @return integer 
      */
-    public function getId() {
+    public function getId()
+    {
         return $this->id;
     }
 
@@ -41,9 +43,10 @@ class Gamertype {
      * Set name
      *
      * @param string $name
-     * @return Gamertype
+     * @return GamificationEventcategory
      */
-    public function setName($name) {
+    public function setName($name)
+    {
         $this->name = $name;
 
         return $this;
@@ -54,7 +57,21 @@ class Gamertype {
      *
      * @return string 
      */
-    public function getName() {
+    public function getName()
+    {
         return $this->name;
     }
+
+    /**
+     * __toString method
+     *
+     * return string
+     */
+    public function __toString()
+    {
+        return (string)$this->getName();
+    }
+
+
+
 }

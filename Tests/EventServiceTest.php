@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Test class for EventsService
+ * Test class for GamificationEventsService
  *
  * @author Damian Piela
  * @author Lukasz Sobieraj
@@ -9,7 +9,7 @@
 
 namespace TMSolution\GamificationBundle\Tests;
 
-class EventServiceTest extends \PHPUnit_Framework_TestCase {
+class GamificationEventServiceTest extends \PHPUnit_Framework_TestCase {
 
     protected static $kernel;
     protected static $container;
@@ -19,7 +19,7 @@ class EventServiceTest extends \PHPUnit_Framework_TestCase {
     protected $eventsService;
     protected $modelFactory;
     protected $gamificationModel;
-    protected $gamerEventcategoryModel;
+    protected $gamerGamificationEventcategoryModel;
     protected $gamertypeModel;
     protected $ruleModel;
     protected $trophyTypeModel;
@@ -38,13 +38,13 @@ class EventServiceTest extends \PHPUnit_Framework_TestCase {
         $this->gamerinstanceModel = $this->modelFactory->getModel('TMSolution\GamificationBundle\Entity\Gamerinstance');
         $this->trophyModel = $this->modelFactory->getModel('TMSolution\GamificationBundle\Entity\Trophy');
         $this->gamerTrophyModel = $this->modelFactory->getModel('TMSolution\GamificationBundle\Entity\Gamertrophy');
-        $this->gamerEventModel = $this->modelFactory->getModel('TMSolution\GamificationBundle\Entity\Event');
+        $this->gamerGamificationEventModel = $this->modelFactory->getModel('TMSolution\GamificationBundle\Entity\GamificationEvent');
         $this->eventsService = $this->get('gamification.events');
-        $this->gamerEventcategoryModel = $this->modelFactory->getModel('TMSolution\GamificationBundle\Entity\Eventcategory');
+        $this->gamerGamificationEventcategoryModel = $this->modelFactory->getModel('TMSolution\GamificationBundle\Entity\GamificationEventcategory');
         $this->gamertypeModel = $this->modelFactory->getModel('TMSolution\GamificationBundle\Entity\Gamertype');
         $this->ruleModel = $this->modelFactory->getModel('TMSolution\GamificationBundle\Entity\Rule');
-        $this->trophyTypeModel = $this->modelFactory->getModel('TMSolution\GamificationBundle\Entity\Trophytype');
-        $this->eventCounterModel = $this->modelFactory->getModel('TMSolution\GamificationBundle\Entity\Eventcounter');
+        $this->trophyTypeModel = $this->modelFactory->getModel('TMSolution\GamificationBundle\Entity\TrophyType');
+        $this->eventCounterModel = $this->modelFactory->getModel('TMSolution\GamificationBundle\Entity\GamificationEventcounter');
     }
 
     public function get($serviceId) {
@@ -119,7 +119,7 @@ class EventServiceTest extends \PHPUnit_Framework_TestCase {
 
         //Add one additional cyclic trophy
         $cyclicType = $this->trophyTypeModel->findOneById(2);
-        $cyclicTrophy = $this->trophyModel->findOneBy(['trophytype' => $cyclicType]);
+        $cyclicTrophy = $this->trophyModel->findOneBy(['trophyType' => $cyclicType]);
         $this->eventsService->addGamerTrophy($gamerInstance, $cyclicTrophy);
 
         //Make sure that the number of trophies the method counts has increased by 1
@@ -160,15 +160,15 @@ class EventServiceTest extends \PHPUnit_Framework_TestCase {
 
     public function testRegister() {
 
-        //Get appropriate Eventcategory, Gamerinstance and Gamertype
-        $eventcategoryGamer = $this->gamerEventcategoryModel->findOneById(1);
+        //Get appropriate GamificationEventcategory, Gamerinstance and Gamertype
+        $eventcategoryGamer = $this->gamerGamificationEventcategoryModel->findOneById(1);
         $eventcategoryId = $eventcategoryGamer->getId();
         $gamerInstance = $this->gamerinstanceModel->findOneById(1);
         $gameridentity = $gamerInstance->getGameridentity();
         $gamertype = $this->gamertypeModel->findOneById(1);
         $gamertypeId = $gamertype->getId();
 
-        //Check the Eventcounter for the appropriate user
+        //Check the GamificationEventcounter for the appropriate user
         $eventCounter = $this->eventCounterModel->findOneBy(['gamerinstance' => $gamerInstance]);
         $counterBefore = $eventCounter->getCounter();
 

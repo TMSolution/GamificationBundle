@@ -12,7 +12,7 @@ namespace TMSolution\GamificationBundle\Controller;
 use BeSimple\SoapBundle\ServiceDefinition\Annotation as Soap;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\DependencyInjection\ContainerAware;
-use TMSolution\GamificationBundle\Service\EventService;
+use TMSolution\GamificationBundle\Service\GamificationEventService;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 class APIController extends Controller {

@@ -2,23 +2,23 @@
 
 namespace TMSolution\GamificationBundle\Tests\Entity;
 
-use TMSolution\GamificationBundle\Entity\Trophytype;
+use TMSolution\GamificationBundle\Entity\TrophyType;
 
 /**
- * Description of TrophytypeTest
+ * Description of TrophyTypeTest
  *
  * @author Damian Piela <damian.piela@tmsolution.pl>
  */
-class TrophytypeTest extends \PHPUnit_Framework_TestCase {
+class TrophyTypeTest extends \PHPUnit_Framework_TestCase {
 
     public function testSetName() {
-        $tt = new Trophytype();
+        $tt = new TrophyType();
         $tt->setName('Type1');
         $this->assertEquals('Type1', $tt->getName());
     }
 
     public function testGetName() {
-        $tt = new Trophytype();
+        $tt = new TrophyType();
         $tt->setName('Type1');
         $this->assertEquals('Type1', $tt->getName());
     }

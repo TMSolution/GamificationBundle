@@ -8,7 +8,7 @@
 
 namespace TMSolution\GamificationBundle\Tests;
 
-use \TMSolution\GamificationBundle\Entity\Trophytype;
+use \TMSolution\GamificationBundle\Entity\TrophyType;
 use Doctrine\Common\Collections\ArrayCollection;
 
 class CoreModelTest_1 extends \PHPUnit_Framework_TestCase {
@@ -30,7 +30,7 @@ class CoreModelTest_1 extends \PHPUnit_Framework_TestCase {
     protected $eventsService;
     protected $modelFactory;
     protected $gamificationModel;
-    protected $gamerEventcategoryModel;
+    protected $gamerGamificationEventcategoryModel;
     protected $gamertypeModel;
     protected $ruleModel;
     protected $trophyTypeModel;
@@ -49,13 +49,13 @@ class CoreModelTest_1 extends \PHPUnit_Framework_TestCase {
         $this->gamerinstanceModel = $this->modelFactory->getModel('TMSolution\GamificationBundle\Entity\Gamerinstance');
         $this->trophyModel = $this->modelFactory->getModel('TMSolution\GamificationBundle\Entity\Trophy');
         $this->gamerTrophyModel = $this->modelFactory->getModel('TMSolution\GamificationBundle\Entity\Gamertrophy');
-        $this->gamerEventModel = $this->modelFactory->getModel('TMSolution\GamificationBundle\Entity\Event');
+        $this->gamerGamificationEventModel = $this->modelFactory->getModel('TMSolution\GamificationBundle\Entity\GamificationEvent');
         $this->eventsService = $this->get('gamification.events');
-        $this->gamerEventcategoryModel = $this->modelFactory->getModel('TMSolution\GamificationBundle\Entity\Eventcategory');
+        $this->gamerGamificationEventcategoryModel = $this->modelFactory->getModel('TMSolution\GamificationBundle\Entity\GamificationEventcategory');
         $this->gamertypeModel = $this->modelFactory->getModel('TMSolution\GamificationBundle\Entity\Gamertype');
         $this->ruleModel = $this->modelFactory->getModel('TMSolution\GamificationBundle\Entity\Rule');
-        $this->trophyTypeModel = $this->modelFactory->getModel('TMSolution\GamificationBundle\Entity\Trophytype');
-        $this->eventCounterModel = $this->modelFactory->getModel('TMSolution\GamificationBundle\Entity\Eventcounter');
+        $this->trophyTypeModel = $this->modelFactory->getModel('TMSolution\GamificationBundle\Entity\TrophyType');
+        $this->eventCounterModel = $this->modelFactory->getModel('TMSolution\GamificationBundle\Entity\GamificationEventcounter');
     }
 
     public function get($serviceId) {
@@ -67,7 +67,7 @@ class CoreModelTest_1 extends \PHPUnit_Framework_TestCase {
         $stringIdentifier = "aVeryUniqueName";
 
 //Create the appropriate entity object
-        $trophyType = new Trophytype();
+        $trophyType = new TrophyType();
         $trophyType->setName($stringIdentifier);
 
 //Use the tested Model's function to create the object
@@ -81,9 +81,9 @@ class CoreModelTest_1 extends \PHPUnit_Framework_TestCase {
     }
 
     public function testCoreModelDelete() {
-//Create a Trophytype object in the db, which can be easily identified
+//Create a TrophyType object in the db, which can be easily identified
         $stringIdentifier = "deleteTestIdentifier";
-        $trophyType = new Trophytype();
+        $trophyType = new TrophyType();
         $trophyType->setName($stringIdentifier);
         $this->trophyTypeModel->create($trophyType, true);
 
@@ -106,9 +106,9 @@ class CoreModelTest_1 extends \PHPUnit_Framework_TestCase {
     }
 
     public function testCoreModelUpdate() {
-        //Create a Trophytype object in the db, which can be easily identified
+        //Create a TrophyType object in the db, which can be easily identified
         $stringIdentifier = "updateTestIdentifier";
-        $trophyType = new Trophytype();
+        $trophyType = new TrophyType();
         $trophyType->setName($stringIdentifier);
         $this->trophyTypeModel->create($trophyType, true);
 
@@ -128,9 +128,9 @@ class CoreModelTest_1 extends \PHPUnit_Framework_TestCase {
 
     public function testCoreModelFindOneBy() {
 
-        //Create a Trophytype object in the db, which can be easily identified
+        //Create a TrophyType object in the db, which can be easily identified
         $stringIdentifier = "findOneByTestIdentifier";
-        $trophyType = new Trophytype();
+        $trophyType = new TrophyType();
         $trophyType->setName($stringIdentifier);
         $this->trophyTypeModel->create($trophyType, true);
 
@@ -145,9 +145,9 @@ class CoreModelTest_1 extends \PHPUnit_Framework_TestCase {
     }
 
     public function testCoreModelCheckPropertyByName() {
-        //Create a Trophytype object in the db, which can be easily identified
+        //Create a TrophyType object in the db, which can be easily identified
         $stringIdentifier = "checkPropertyByNameTestIdentifier";
-        $trophyType = new Trophytype();
+        $trophyType = new TrophyType();
         $trophyType->setName($stringIdentifier);
         $this->trophyTypeModel->create($trophyType, true);
 
@@ -168,12 +168,12 @@ class CoreModelTest_1 extends \PHPUnit_Framework_TestCase {
 
     public function testCoreModelCreateEntities() {
 
-        //Create two Trophytype objects in the db, which can be easily identified, using the createEntities method
+        //Create two TrophyType objects in the db, which can be easily identified, using the createEntities method
         $stringIdentifier = "createEntitiesTestIdentifier";
-        $trophyType = new Trophytype();
+        $trophyType = new TrophyType();
         $trophyType->setName($stringIdentifier);
         $stringIdentifier1 = $stringIdentifier . "1";
-        $trophyType1 = new Trophytype();
+        $trophyType1 = new TrophyType();
         $trophyType1->setName($stringIdentifier1);
         $this->trophyTypeModel->createEntities(new ArrayCollection([$trophyType, $trophyType1]), true);
 

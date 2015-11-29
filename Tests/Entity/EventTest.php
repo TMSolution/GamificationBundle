@@ -2,15 +2,15 @@
 
 namespace TMSolution\GamificationBundle\Tests;
 
-use TMSolution\GamificationBundle\Entity\Event;
-use TMSolution\GamificationBundle\Entity\Eventcategory;
+use TMSolution\GamificationBundle\Entity\GamificationEvent;
+use TMSolution\GamificationBundle\Entity\GamificationEventcategory;
 use ReflectionClass;
 
-class EventTest extends \PHPUnit_Framework_TestCase {
+class GamificationEventTest extends \PHPUnit_Framework_TestCase {
 
     public function testGetId() {
 
-        $event = new Event();
+        $event = new GamificationEvent();
         $class = new ReflectionClass($event);
         $property = $class->getProperty('id');
         $property->setAccessible(true);
@@ -20,16 +20,16 @@ class EventTest extends \PHPUnit_Framework_TestCase {
 
     public function testName() {
 
-        $name = new Event();
+        $name = new GamificationEvent();
         $nameGet = $name->setName('test')->getName();
         $this->assertTrue('test' == $nameGet);
     }
 
-    public function testEventcategoryid() {
+    public function testGamificationEventcategoryid() {
 
-        $eventcategoryid = new Event();
-        $id = new Eventcategory();
-        $eventcategoryidGet = $eventcategoryid->setEventcategoryid($id)->getEventcategoryid();
+        $eventcategoryid = new GamificationEvent();
+        $id = new GamificationEventcategory();
+        $eventcategoryidGet = $eventcategoryid->setGamificationEventcategoryid($id)->getGamificationEventcategoryid();
         $this->assertTrue($id == $eventcategoryidGet);
     }
 

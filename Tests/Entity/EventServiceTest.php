@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Description of EventServiceTest
+ * Description of GamificationEventServiceTest
  *
  * @author Lukasz
  */
@@ -9,10 +9,10 @@
 namespace TMSolution\GamificationBundle\Tests;
 
 use TMSolution\GamificationBundle\Entity\Gamerinstance;
-use TMSolution\GamificationBundle\Entity\Trophycategory;
+use TMSolution\GamificationBundle\Entity\TrophyCategory;
 use TMSolution\GamificationBundle\Entity\Trophy;
 
-class EventServiceTest extends \PHPUnit_Framework_TestCase {
+class GamificationEventServiceTest extends \PHPUnit_Framework_TestCase {
 
     public function testGetGamerTrophies() {
 

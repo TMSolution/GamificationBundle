@@ -7,14 +7,14 @@
  * @author Lukasz
  */
 
-namespace TMSolution\GamificationBundle\EventListener;
+namespace TMSolution\GamificationBundle\GamificationEventListener;
 
-use Symfony\Component\HttpKernel\Event\GetResponseForExceptionEvent;
+use Symfony\Component\HttpKernel\GamificationEvent\GetResponseForExceptionGamificationEvent;
 use Symfony\Component\HttpFoundation\Response;
 
 class GamificationExceptionListener {
 
-//    public function onKernelException(GetResponseForExceptionEvent $event) {
+//    public function onKernelException(GetResponseForExceptionGamificationEvent $event) {
 //        // We get the exception object from the received event
 //        $exception = $event->getException();
 //        $message = 'My Error says: ' . $exception->getMessage();

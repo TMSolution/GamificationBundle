@@ -3,8 +3,8 @@
 namespace TMSolution\GamificationBundle\Tests\Entity;
 
 use TMSolution\GamificationBundle\Entity\Trophy;
-use TMSolution\GamificationBundle\Entity\Trophycategory;
-use TMSolution\GamificationBundle\Entity\Trophytype;
+use TMSolution\GamificationBundle\Entity\TrophyCategory;
+use TMSolution\GamificationBundle\Entity\TrophyType;
 
 /**
  * Description of TrophyTest
@@ -37,32 +37,32 @@ class TrophyTest extends \PHPUnit_Framework_TestCase {
         $this->assertEquals('Serialized Image', $tr->getImage());
     }
 
-    public function testSetTrophycategory() {
-        $tc = new Trophycategory();
+    public function testSetTrophyCategory() {
+        $tc = new TrophyCategory();
         $tr = new Trophy();
-        $tr->setTrophycategory($tc);
-        $this->assertEquals($tc, $tr->getTrophycategory());
+        $tr->setTrophyCategory($tc);
+        $this->assertEquals($tc, $tr->getTrophyCategory());
     }
 
-    public function testGetTrophycategory() {
-        $tc = new Trophycategory();
+    public function testGetTrophyCategory() {
+        $tc = new TrophyCategory();
         $tr = new Trophy();
-        $tr->setTrophycategory($tc);
-        $this->assertSame($tc, $tr->getTrophycategory());
+        $tr->setTrophyCategory($tc);
+        $this->assertSame($tc, $tr->getTrophyCategory());
     }
 
-    public function testSetTrophytype() {
-        $tt = new Trophytype();
+    public function testSetTrophyType() {
+        $tt = new TrophyType();
         $tr = new Trophy();
-        $tr->setTrophytype($tt);
-        $this->assertEquals($tt, $tr->getTrophytype());
+        $tr->setTrophyType($tt);
+        $this->assertEquals($tt, $tr->getTrophyType());
     }
 
-    public function testGetTrophytype() {
-        $tt = new Trophytype();
+    public function testGetTrophyType() {
+        $tt = new TrophyType();
         $tr = new Trophy();
-        $tr->setTrophytype($tt);
-        $this->assertEquals($tt, $tr->getTrophytype());
+        $tr->setTrophyType($tt);
+        $this->assertEquals($tt, $tr->getTrophyType());
     }
 
 }

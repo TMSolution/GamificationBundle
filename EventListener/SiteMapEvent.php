@@ -1,10 +1,10 @@
 <?php
 
-namespace Acme\Bundle\ExampleBundle\Event;
+namespace Acme\Bundle\ExampleBundle\GamificationEvent;
 
-use Symfony\Component\EventDispatcher\Event;
+use Symfony\Component\GamificationEventDispatcher\GamificationEvent;
 
-class SitemapEvent extends Event {
+class SitemapGamificationEvent extends GamificationEvent {
 
     private $pages = array();
 

@@ -5,12 +5,12 @@ namespace TMSolution\GamificationBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Eventlog
+ * GamificationEventlog
  *
- * @ORM\Table(name="eventlog")
+ * @ORM\Table(name="gamification_eventlog")
  * @ORM\Entity
  */
-class Eventlog
+class GamificationEventLog
 {
     /**
      * @var integer
@@ -28,25 +28,21 @@ class Eventlog
      */
     protected $date;
 
-    /**
-     * @var \TMSolution\GamificationBundle\Entity\Gamerinstance
-     *
-     * @ORM\ManyToOne(targetEntity="TMSolution\GamificationBundle\Entity\Gamerinstance")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="gamerinstance", referencedColumnName="id")
-     * })
+   /**
+     * @ORM\ManyToOne(targetEntity="CCO\UserBundle\Entity\User")
+     * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
      */
-    protected $gamerInstance;
-
+     protected $user;
     /**
-     * @var \TMSolution\GamificationBundle\Entity\Event
+     * @var \TMSolution\GamificationBundle\Entity\GamificationEvent
      *
-     * @ORM\ManyToOne(targetEntity="TMSolution\GamificationBundle\Entity\Event")
+     * @ORM\ManyToOne(targetEntity="TMSolution\GamificationBundle\Entity\GamificationEvent")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="event", referencedColumnName="id")
      * })
      */
     protected $event;
+
 
 
 
@@ -64,7 +60,7 @@ class Eventlog
      * Set date
      *
      * @param \DateTime $date
-     * @return Eventlog
+     * @return GamificationEventlog
      */
     public function setDate($date)
     {
@@ -84,35 +80,35 @@ class Eventlog
     }
 
     /**
-     * Set gamerinstance
+     * Set user
      *
-     * @param \TMSolution\GamificationBundle\Entity\Gamerinstance $gamerinstance
-     * @return Eventlog
+     * @param \CCO\UserBundle\Entity\User $user
+     * @return GamificationEventlog
      */
-    public function setGamerInstance(\TMSolution\GamificationBundle\Entity\Gamerinstance $gamerinstance)
+    public function setUser(\CCO\UserBundle\Entity\User $user = null)
     {
-        $this->gamerInstance = $gamerinstance;
+        $this->user = $user;
 
         return $this;
     }
 
     /**
-     * Get gamerinstance
+     * Get user
      *
-     * @return \TMSolution\GamificationBundle\Entity\Gamerinstance 
+     * @return \CCO\UserBundle\Entity\User 
      */
-    public function getGamerInstance()
+    public function getUser()
     {
-        return $this->gamerInstance;
+        return $this->user;
     }
 
     /**
      * Set event
      *
-     * @param \TMSolution\GamificationBundle\Entity\Event $event
-     * @return Eventlog
+     * @param \TMSolution\GamificationBundle\Entity\GamificationEvent $event
+     * @return GamificationEventlog
      */
-    public function setEvent(\TMSolution\GamificationBundle\Entity\Event $event = null)
+    public function setGamificationEvent(\TMSolution\GamificationBundle\Entity\GamificationEvent $event = null)
     {
         $this->event = $event;
 
@@ -122,10 +118,22 @@ class Eventlog
     /**
      * Get event
      *
-     * @return \TMSolution\GamificationBundle\Entity\Event 
+     * @return \TMSolution\GamificationBundle\Entity\GamificationEvent 
      */
-    public function getEvent()
+    public function getGamificationEvent()
     {
         return $this->event;
     }
+    /**
+     * __toString method
+     *
+     * return string
+     */
+    public function __toString()
+    {
+        return (string)$this->getId();
+    }
+
+
+
 }

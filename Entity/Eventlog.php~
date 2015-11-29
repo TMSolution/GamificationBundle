@@ -1,0 +1,137 @@
+<?php
+
+namespace TMSolution\GamificationBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * Eventlog
+ *
+ * @ORM\Table(name="gamification_eventlog")
+ * @ORM\Entity
+ */
+class EventLog
+{
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="id", type="bigint")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     */
+    protected $id;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="date", type="datetime", nullable=true)
+     */
+    protected $date;
+
+   /**
+     * @ORM\ManyToOne(targetEntity="CCO\UserBundle\Entity\User")
+     * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
+     */
+     protected $user;
+    /**
+     * @var \TMSolution\GamificationBundle\Entity\Event
+     *
+     * @ORM\ManyToOne(targetEntity="TMSolution\GamificationBundle\Entity\Event")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="event", referencedColumnName="id")
+     * })
+     */
+    protected $event;
+
+
+
+
+    /**
+     * Get id
+     *
+     * @return integer 
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set date
+     *
+     * @param \DateTime $date
+     * @return Eventlog
+     */
+    public function setDate($date)
+    {
+        $this->date = $date;
+
+        return $this;
+    }
+
+    /**
+     * Get date
+     *
+     * @return \DateTime 
+     */
+    public function getDate()
+    {
+        return $this->date;
+    }
+
+    /**
+     * Set user
+     *
+     * @param \CCO\UserBundle\Entity\User $user
+     * @return Eventlog
+     */
+    public function setUser(\CCO\UserBundle\Entity\User $user = null)
+    {
+        $this->user = $user;
+
+        return $this;
+    }
+
+    /**
+     * Get user
+     *
+     * @return \CCO\UserBundle\Entity\User 
+     */
+    public function getUser()
+    {
+        return $this->user;
+    }
+
+    /**
+     * Set event
+     *
+     * @param \TMSolution\GamificationBundle\Entity\Event $event
+     * @return Eventlog
+     */
+    public function setEvent(\TMSolution\GamificationBundle\Entity\Event $event = null)
+    {
+        $this->event = $event;
+
+        return $this;
+    }
+
+    /**
+     * Get event
+     *
+     * @return \TMSolution\GamificationBundle\Entity\Event 
+     */
+    public function getEvent()
+    {
+        return $this->event;
+    }
+    /**
+     * __toString method
+     *
+     * return string
+     */
+    public function __toString()
+    {
+        return (string)$this->getId();
+    }
+
+}

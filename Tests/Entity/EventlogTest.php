@@ -2,16 +2,16 @@
 
 namespace TMSolution\GamificationBundle\Tests;
 
-use TMSolution\GamificationBundle\Entity\Eventlog;
-use TMSolution\GamificationBundle\Entity\Event;
+use TMSolution\GamificationBundle\Entity\GamificationEventlog;
+use TMSolution\GamificationBundle\Entity\GamificationEvent;
 use TMSolution\GamificationBundle\Entity\Gamerinstance;
 use ReflectionClass;
 
-class EventlogTest extends \PHPUnit_Framework_TestCase {
+class GamificationEventlogTest extends \PHPUnit_Framework_TestCase {
 
     public function testGetId() {
 
-        $eventlog = new Eventlog();
+        $eventlog = new GamificationEventlog();
         $class = new ReflectionClass($eventlog);
         $property = $class->getProperty('id');
         $property->setAccessible(true);
@@ -21,17 +21,17 @@ class EventlogTest extends \PHPUnit_Framework_TestCase {
 
     public function testGamerinstance() {
 
-        $gamerInstance = new Eventlog();
+        $gamerInstance = new GamificationEventlog();
         $gamerInst = new Gamerinstance();
         $gamerInstanceGet = $gamerInstance->setGamerInstance($gamerInst)->getGamerInstance();
         $this->assertTrue($gamerInst == $gamerInstanceGet);
     }
 
-    public function testEvent() {
+    public function testGamificationEvent() {
 
-        $eventlog = new Eventlog();
-        $event = new Event();
-        $eventGet = $eventlog->setEvent($event)->getEvent();
+        $eventlog = new GamificationEventlog();
+        $event = new GamificationEvent();
+        $eventGet = $eventlog->setGamificationEvent($event)->getGamificationEvent();
         $this->assertTrue($event == $eventGet);
     }
 

@@ -2,16 +2,16 @@
 
 namespace TMSolution\GamificationBundle\Tests;
 
-use TMSolution\GamificationBundle\Entity\Eventcounter;
+use TMSolution\GamificationBundle\Entity\GamificationEventcounter;
 use TMSolution\GamificationBundle\Entity\Gamerinstance;
-use TMSolution\GamificationBundle\Entity\Event;
+use TMSolution\GamificationBundle\Entity\GamificationEvent;
 use ReflectionClass;
 
-class EventcounterTest extends \PHPUnit_Framework_TestCase {
+class GamificationEventcounterTest extends \PHPUnit_Framework_TestCase {
 
     public function testGetId() {
 
-        $eventcounter = new Eventcounter();
+        $eventcounter = new GamificationEventcounter();
         $class = new ReflectionClass($eventcounter);
         $property = $class->getProperty('id');
         $property->setAccessible(true);
@@ -21,24 +21,24 @@ class EventcounterTest extends \PHPUnit_Framework_TestCase {
 
     public function testCounter() {
 
-        $counter = new Eventcounter();
+        $counter = new GamificationEventcounter();
         $counterGet = $counter->setCounter(4)->getCounter();
         $this->assertTrue(4 == $counterGet);
     }
 
     public function testGamerinstance() {
 
-        $gamerInstance = new Eventcounter();
+        $gamerInstance = new GamificationEventcounter();
         $gamerInst = new Gamerinstance();
         $gamerInstanceGet = $gamerInstance->setGamerInstance($gamerInst)->getGamerInstance();
         $this->assertTrue($gamerInst == $gamerInstanceGet);
     }
 
-    public function testEvent() {
+    public function testGamificationEvent() {
 
-        $event = new Eventcounter();
-        $ev = new Event();
-        $eventGet = $event->setEvent($ev)->getEvent();
+        $event = new GamificationEventcounter();
+        $ev = new GamificationEvent();
+        $eventGet = $event->setGamificationEvent($ev)->getGamificationEvent();
         $this->assertTrue($ev == $eventGet);
     }
 

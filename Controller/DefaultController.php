@@ -37,7 +37,7 @@ class DefaultController extends Controller {
                 ->findOneBy(['gameridentity' => $gamerInstanceId]);
         $trophyCategory = null;
         if ($trophyCategoryId == null) {
-            $trophyCategory = $this->get('model_factory')->getModel('TMSolution\GamificationBundle\Entity\Trophycategory')
+            $trophyCategory = $this->get('model_factory')->getModel('TMSolution\GamificationBundle\Entity\TrophyCategory')
                     ->findOneBy(['id' => $gamerInstanceId]);
         }
         $result = $this->get('gamification.events')->getGamerTrophies($gamerInstance, $trophyCategory);

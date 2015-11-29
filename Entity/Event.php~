@@ -1,0 +1,70 @@
+<?php
+
+namespace TMSolution\GamificationBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * Event
+ *
+ * @ORM\Table(name="gamification_event")
+ * @ORM\Entity
+ */
+class Event {
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="id", type="bigint")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     */
+    protected $id;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="name", type="string", length=255, nullable=true)
+     */
+    protected $name;
+    
+    /**
+     * @var string
+     * 
+     * @ORM\Column(name="date", type="datetime", nullable=true)
+     */
+    protected $date;
+    
+    /**
+     * @ORM\ManyToOne(targetEntity="CCO\UserBundle\Entity\User")
+     * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
+     */
+    protected $user;
+
+    /**
+     * @var \TMSolution\GamificationBundle\Entity\EventCategory
+     *
+     * @ORM\ManyToOne(targetEntity="TMSolution\GamificationBundle\Entity\EventCategory")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="eventcategory_id", referencedColumnName="id")
+     * })
+     */
+    protected $eventCategoryId;
+
+    /**
+     * 
+     * @ORM\OneToMany(targetEntity="Rule", mappedBy="event")
+     * 
+     */
+    protected $event;
+
+ 
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->event = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+}
+    

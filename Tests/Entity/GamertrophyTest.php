@@ -7,7 +7,7 @@ use TMSolution\GamificationBundle\Entity\Gamerinstance;
 use TMSolution\GamificationBundle\Entity\Gamertrophy;
 use ReflectionClass;
 
-class EventTest extends \PHPUnit_Framework_TestCase {
+class GamificationEventTest extends \PHPUnit_Framework_TestCase {
 
     public function testGetId() {
 

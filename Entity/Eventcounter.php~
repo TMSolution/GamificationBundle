@@ -7,10 +7,10 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Eventcounter
  *
- * @ORM\Table(name="eventcounter")
+ * @ORM\Table(name="gamification_eventcounter")
  * @ORM\Entity
  */
-class Eventcounter
+class EventCounter
 {
     /**
      * @var integer
@@ -28,15 +28,11 @@ class Eventcounter
      */
     protected $counter;
 
-   /**
-     * @var \TMSolution\GamificationBundle\Entity\Gamerinstance
-     *
-     * @ORM\ManyToOne(targetEntity="TMSolution\GamificationBundle\Entity\Gamerinstance")
-     * @ORM\JoinColumns({
-     * @ORM\JoinColumn(name="gamerinstance", referencedColumnName="id")
-     * })
+       /**
+     * @ORM\ManyToOne(targetEntity="CCO\UserBundle\Entity\User")
+     * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
      */
-    protected $gamerinstance;
+     protected $user;
 
     /**
      * @var \TMSolution\GamificationBundle\Entity\Event
@@ -49,6 +45,8 @@ class Eventcounter
     protected $event;
 
 
+
+   
 
     /**
      * Get id
@@ -84,26 +82,26 @@ class Eventcounter
     }
 
     /**
-     * Set gamerinstance
+     * Set user
      *
-     * @param \TMSolution\GamificationBundle\Entity\Gamerinstance $gamerinstance
+     * @param \CCO\UserBundle\Entity\User $user
      * @return Eventcounter
      */
-    public function setGamerinstance(\TMSolution\GamificationBundle\Entity\Gamerinstance $gamerinstance = null)
+    public function setUser(\CCO\UserBundle\Entity\User $user = null)
     {
-        $this->gamerinstance = $gamerinstance;
+        $this->user = $user;
 
         return $this;
     }
 
     /**
-     * Get gamerinstance
+     * Get user
      *
-     * @return \TMSolution\GamificationBundle\Entity\Gamerinstance 
+     * @return \CCO\UserBundle\Entity\User 
      */
-    public function getGamerinstance()
+    public function getUser()
     {
-        return $this->gamerinstance;
+        return $this->user;
     }
 
     /**
@@ -128,4 +126,14 @@ class Eventcounter
     {
         return $this->event;
     }
+    /**
+     * __toString method
+     *
+     * return string
+     */
+    public function __toString()
+    {
+        return (string)$this->getId();
+    }
+
 }

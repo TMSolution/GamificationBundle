@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Context
  *
- * @ORM\Table()
+ * @ORM\Table(name="gamification_context")
  * @ORM\Entity
  */
 class Context
@@ -69,26 +69,18 @@ class Context
         return $this->name;
     }
 
-//    /**
-//     * Set rule
-//     *
-//     * @param \TMSolution\GamificationBundle\Entity\Rule $rule
-//     * @return Context
-//     */
-//    public function setRule(\TMSolution\GamificationBundle\Entity\Rule $rule = null)
-//    {
-//        $this->rule = $rule;
-//
-//        return $this;
-//    }
-//
-//    /**
-//     * Get rule
-//     *
-//     * @return \TMSolution\GamificationBundle\Entity\Rule 
-//     */
-//    public function getRule()
-//    {
-//        return $this->rule;
-//    }
+    /**
+     * __toString method
+     *
+     * return string
+     */
+    public function __toString()
+    {
+        return (string)$this->getName();
+    }
+
+
+
+
+
 }

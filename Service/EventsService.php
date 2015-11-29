@@ -1,7 +1,7 @@
 <?php
 
 /**
- * EventService service
+ * GamificationEventService service
  *
  * @author Damian Piela <damian.piela@tmsolution.pl>
  * @author Lukasz Sobieraj <lukasz.sobieraj@tmsolution.pl>
@@ -10,14 +10,14 @@
 
 namespace TMSolution\GamificationBundle\Service;
 
-use TMSolution\GamificationBundle\Entity\Eventlog;
-use TMSolution\GamificationBundle\Entity\Eventcounter;
+use TMSolution\GamificationBundle\Entity\GamificationEventlog;
+use TMSolution\GamificationBundle\Entity\GamificationEventcounter;
 use TMSolution\GamificationBundle\Entity\Gamertrophy;
 use Hoa\Ruler\Ruler;
 use Hoa\Ruler\Context;
 use Symfony\Component\HttpFoundation\Response;
 
-class EventsService {
+class GamificationEventsService {
 
     protected $container;
     protected $model;
@@ -34,9 +34,9 @@ class EventsService {
         $this->container = $container;
         $this->model = $this->container->get('model_factory');
         $this->gamerInstanceModel = $this->model->getModel('TMSolution\GamificationBundle\Entity\Gamerinstance');
-        $this->eventModel = $this->model->getModel('TMSolution\GamificationBundle\Entity\Event');
-        $this->eventLogModel = $this->model->getModel('TMSolution\GamificationBundle\Entity\Eventlog');
-        $this->eventCounterModel = $this->model->getModel('TMSolution\GamificationBundle\Entity\Eventcounter');
+        $this->eventModel = $this->model->getModel('TMSolution\GamificationBundle\Entity\GamificationEvent');
+        $this->eventLogModel = $this->model->getModel('TMSolution\GamificationBundle\Entity\GamificationEventlog');
+        $this->eventCounterModel = $this->model->getModel('TMSolution\GamificationBundle\Entity\GamificationEventcounter');
         $this->gamerTrophyModel = $this->model->getModel('TMSolution\GamificationBundle\Entity\Gamertrophy');
         $this->ruleModel = $this->model->getModel('TMSolution\GamificationBundle\Entity\Rule');
         $this->contextModel = $this->model->getModel('TMSolution\GamificationBundle\Entity\Context');
@@ -57,8 +57,8 @@ class EventsService {
         $gamerInstance = $this->gamerInstanceModel->getInstance($gamerIdentity, $gamerTypeId);
         if ($gamerInstance) {
             $event = $this->eventModel->findOneById($eventCategoryId);
-            $eventLogEntity = new Eventlog();
-            $eventLogEntity->setEvent($event)
+            $eventLogEntity = new GamificationEventlog();
+            $eventLogEntity->setGamificationEvent($event)
                     ->setGamerInstance($gamerInstance)
                     ->setDate(new \DateTime('NOW'));
             $this->eventLogModel->create($eventLogEntity, true);
@@ -67,8 +67,8 @@ class EventsService {
                 $eventCounterEntity->setCounter($eventCounterEntity->getCounter() + 1);
                 $this->eventCounterModel->update($eventCounterEntity, true);
             } catch (\Exception $e) {
-                $eventCounterEntity = new Eventcounter();
-                $eventCounterEntity->setEvent($event);
+                $eventCounterEntity = new GamificationEventcounter();
+                $eventCounterEntity->setGamificationEvent($event);
                 $eventCounterEntity->setGamerInstance($gamerInstance);
                 $eventCounterEntity->setCounter($eventCounterEntity->getCounter() + 1);
                 $this->eventCounterModel->update($eventCounterEntity, true);
@@ -103,10 +103,10 @@ class EventsService {
      * The result is an array, which is the result obtained from the database.
      * 
      * @param Gamerinstance $gamerInstance
-     * @param Trophycategory $troptrophyCategory
+     * @param TrophyCategory $troptrophyCategory
      * @return array $result
      */
-    public function getGamerTrophies(\TMSolution\GamificationBundle\Entity\Gamerinstance $gamerInstance, \TMSolution\GamificationBundle\Entity\Trophycategory $trophyCategory = null) {
+    public function getGamerTrophies(\TMSolution\GamificationBundle\Entity\Gamerinstance $gamerInstance, \TMSolution\GamificationBundle\Entity\TrophyCategory $trophyCategory = null) {
         if ($trophyCategory != null) {
             $result = $this->gamerTrophyModel->findBy(['gamer' => $gamerInstance, 'trophy' => $trophyCategory]);
         } else {
@@ -129,7 +129,7 @@ class EventsService {
         $trophyCount = $this->countTrophies($gamerInstance, $trophy);
         $cyclicCount = $this->countCyclicTrophies($gamerInstance);
         $assertion = $this->assertion($gamerContext->getName(), $gamerRule->getOperator(), $gamerRule->getValue(), $cyclicCount);
-        if ($trophy->getTrophytype()->getId() == 1/* Jednorazowa */) {
+        if ($trophy->getTrophyType()->getId() == 1/* Jednorazowa */) {
             if (($assertion == true) && ($trophyCount == 0)) {
                 $gamerTrophy = $this->createGamertrophy($gamerInstance, $trophy);
                 $this->gamerTrophyModel->create($gamerTrophy, true);
@@ -139,7 +139,7 @@ class EventsService {
             } else {
                 return new Response('Nagroda jednorazowa nie przyznana');
             }
-        } elseif ($trophy->getTrophytype()->getId() == 2/* Cykliczna */) {
+        } elseif ($trophy->getTrophyType()->getId() == 2/* Cykliczna */) {
             if ($assertion == true) {
                 $gamerTrophy = $this->createGamertrophy($gamerInstance, $trophy);
                 $this->gamerTrophyModel->create($gamerTrophy, true);

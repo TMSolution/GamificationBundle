@@ -5,12 +5,12 @@ namespace TMSolution\GamificationBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Trophytype
+ * TrophyCategory
  *
- * @ORM\Table(name="trophytype")
+ * @ORM\Table(name="gamification_trophyCategory")
  * @ORM\Entity
  */
-class Trophytype{
+class TrophyCategory {
 
     /**
      * @var integer
@@ -28,12 +28,16 @@ class Trophytype{
      */
     protected $name;
 
+
+
+
     /**
      * Get id
      *
      * @return integer 
      */
-    public function getId() {
+    public function getId()
+    {
         return $this->id;
     }
 
@@ -41,9 +45,10 @@ class Trophytype{
      * Set name
      *
      * @param string $name
-     * @return Trophytype
+     * @return TrophyCategory
      */
-    public function setName($name) {
+    public function setName($name)
+    {
         $this->name = $name;
 
         return $this;
@@ -54,7 +59,20 @@ class Trophytype{
      *
      * @return string 
      */
-    public function getName() {
+    public function getName()
+    {
         return $this->name;
     }
+    /**
+     * __toString method
+     *
+     * return string
+     */
+    public function __toString()
+    {
+        return (string)$this->getName();
+    }
+
+
+
 }

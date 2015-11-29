@@ -18,7 +18,7 @@ class GamificationTestCaseTest extends \PHPUnit_Framework_TestCase {
     protected $eventsService;
     protected $modelFactory;
     protected $gamificationModel;
-    protected $gamerEventcategoryModel;
+    protected $gamerGamificationEventcategoryModel;
     protected $gamertypeModel;
     protected $ruleModel;
     protected $eventModel;
@@ -36,9 +36,9 @@ class GamificationTestCaseTest extends \PHPUnit_Framework_TestCase {
         $this->gamerinstanceModel = $this->modelFactory->getModel('TMSolution\GamificationBundle\Entity\Gamerinstance');
         $this->trophyModel = $this->modelFactory->getModel('TMSolution\GamificationBundle\Entity\Trophy');
         $this->gamerTrophyModel = $this->modelFactory->getModel('TMSolution\GamificationBundle\Entity\Gamertrophy');
-        $this->eventModel = $this->modelFactory->getModel('TMSolution\GamificationBundle\Entity\Event');
+        $this->eventModel = $this->modelFactory->getModel('TMSolution\GamificationBundle\Entity\GamificationEvent');
         $this->eventsService = $this->get('gamification.events');
-        $this->gamerEventcategoryModel = $this->modelFactory->getModel('TMSolution\GamificationBundle\Entity\Eventcategory');
+        $this->gamerGamificationEventcategoryModel = $this->modelFactory->getModel('TMSolution\GamificationBundle\Entity\GamificationEventcategory');
         $this->gamertypeModel = $this->modelFactory->getModel('TMSolution\GamificationBundle\Entity\Gamertype');
         $this->ruleModel = $this->modelFactory->getModel('TMSolution\GamificationBundle\Entity\Rule');
     }
@@ -52,12 +52,12 @@ class GamificationTestCaseTest extends \PHPUnit_Framework_TestCase {
         $gamerInstanceId = 1;
         $gamerInstance = $this->gamerinstanceModel->findOneById($gamerInstanceId);
 
-        // 2.       Determine which Event was evoked.
+        // 2.       Determine which GamificationEvent was evoked.
         $eventInstanceId = 1;
         $eventInstance = $this->eventModel->findOneById($eventInstanceId);
 
         // 3.       Use the register() method, which registers an event for the appropriate user.
-        $this->eventsService->register($eventInstance->getEventcategoryid(), $gamerInstance->getGameridentity(), $gamerInstance->getGamertype());
+        $this->eventsService->register($eventInstance->getGamificationEventcategoryid(), $gamerInstance->getGameridentity(), $gamerInstance->getGamertype());
 
         // 4.       Using the checkRule() method, check if the rule is true.
         $trophy = $this->trophyModel->findOneById(2);

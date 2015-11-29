@@ -14,16 +14,16 @@ use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 use TMSolution\GamificationBundle\Entity\Context;
-use TMSolution\GamificationBundle\Entity\Trophytype;
+use TMSolution\GamificationBundle\Entity\TrophyType;
 use TMSolution\GamificationBundle\Entity\Trophy;
-use TMSolution\GamificationBundle\Entity\Trophycategory;
+use TMSolution\GamificationBundle\Entity\TrophyCategory;
 use TMSolution\GamificationBundle\Entity\Gamerinstance;
 use TMSolution\GamificationBundle\Entity\Gamertrophy;
 use TMSolution\GamificationBundle\Entity\Rule;
-use TMSolution\GamificationBundle\Entity\Event;
-use TMSolution\GamificationBundle\Entity\Eventcategory;
-use TMSolution\GamificationBundle\Entity\Eventcounter;
-use TMSolution\GamificationBundle\Entity\Eventlog;
+use TMSolution\GamificationBundle\Entity\GamificationEvent;
+use TMSolution\GamificationBundle\Entity\GamificationEventcategory;
+use TMSolution\GamificationBundle\Entity\GamificationEventcounter;
+use TMSolution\GamificationBundle\Entity\GamificationEventlog;
 use TMSolution\GamificationBundle\Entity\Gamertype;
 
 class LoadDataToDB extends AbstractFixture implements FixtureInterface {
@@ -62,37 +62,37 @@ class LoadDataToDB extends AbstractFixture implements FixtureInterface {
         $this->addReference('gamertype', $gamerType);
 
 
-        //Trophytype - sc
-        $trophyType = new Trophytype();
+        //TrophyType - sc
+        $trophyType = new TrophyType();
         $trophyType->setName('Jednorazowa');
-        $trophyType1 = new Trophytype();
+        $trophyType1 = new TrophyType();
         $trophyType1->setName('Cykliczna');
         $manager->persist($trophyType);
         $manager->persist($trophyType1);
         $manager->flush();
-        $this->addReference('trophytypeJednorazowa', $trophyType);
-        $this->addReference('trophytypeCykliczna', $trophyType1);
+        $this->addReference('trophyTypeJednorazowa', $trophyType);
+        $this->addReference('trophyTypeCykliczna', $trophyType1);
 
 
-        //Trophycategory - sc
-        $trophyCategory = new Trophycategory();
+        //TrophyCategory - sc
+        $trophyCategory = new TrophyCategory();
         $trophyCategory->setName('Kategoria testowa');
         $manager->persist($trophyCategory);
         $manager->flush();
-        $this->addReference('trophycategory', $trophyCategory);
+        $this->addReference('trophyCategory', $trophyCategory);
 
 
-        //Eventcategory - sc
-        $eventcategory = new Eventcategory();
+        //GamificationEventcategory - sc
+        $eventcategory = new GamificationEventcategory();
         $eventcategory->setName($faker->name);
         $manager->persist($eventcategory);
         $manager->flush();
         $this->addReference('eventcategory', $eventcategory);
 
 
-        //Event - ob
-        $event = new Event();
-        $event->setEventcategoryid($this->getReference('eventcategory'))
+        //GamificationEvent - ob
+        $event = new GamificationEvent();
+        $event->setGamificationEventcategoryid($this->getReference('eventcategory'))
                 ->setName('evnetName');
         $manager->persist($event);
         $manager->flush();
@@ -108,19 +108,19 @@ class LoadDataToDB extends AbstractFixture implements FixtureInterface {
         $this->addReference('gamerinstance', $gamerInstance);
 
 
-        //Eventcounter - ob
-        $eventCounter = new Eventcounter();
+        //GamificationEventcounter - ob
+        $eventCounter = new GamificationEventcounter();
         $eventCounter->setGamerInstance($this->getReference('gamerinstance'))
-                ->setEvent($this->getReference('event'))
+                ->setGamificationEvent($this->getReference('event'))
                 ->setCounter(1);
         $manager->persist($eventCounter);
         $manager->flush();
 
 
-        //Eventlog - ob
-        $eventLog = new Eventlog();
+        //GamificationEventlog - ob
+        $eventLog = new GamificationEventlog();
         $eventLog->setGamerInstance($this->getReference('gamerinstance'))
-                ->setEvent($this->getReference('event'))
+                ->setGamificationEvent($this->getReference('event'))
                 ->setDate(new \DateTime('NOW'));
         $manager->persist($eventLog);
         $manager->flush();
@@ -128,18 +128,18 @@ class LoadDataToDB extends AbstractFixture implements FixtureInterface {
 
         //Trophy - ob
         $trophy = new Trophy();
-        $trophy->setTrophycategory($this->getReference('trophycategory'))
-                ->setTrophytype($this->getReference('trophytypeJednorazowa'))
-                ->setName('TrophytypeName')
+        $trophy->setTrophyCategory($this->getReference('trophyCategory'))
+                ->setTrophyType($this->getReference('trophyTypeJednorazowa'))
+                ->setName('TrophyTypeName')
                 ->setImage('Image');
         $manager->persist($trophy);
         $manager->flush();
         $this->addReference('trophy', $trophy);
 
         $trophy1 = new Trophy();
-        $trophy1->setTrophycategory($this->getReference('trophycategory'))
-                ->setTrophytype($this->getReference('trophytypeCykliczna'))
-                ->setName('TrophytypeName')
+        $trophy1->setTrophyCategory($this->getReference('trophyCategory'))
+                ->setTrophyType($this->getReference('trophyTypeCykliczna'))
+                ->setName('TrophyTypeName')
                 ->setImage('Image');
         $manager->persist($trophy1);
         $manager->flush();
@@ -151,7 +151,7 @@ class LoadDataToDB extends AbstractFixture implements FixtureInterface {
         $gamerTrophy->setGamerinstance($this->getReference('gamerinstance'))
                 ->setTrophy($this->getReference('trophy'))
                 ->setDate(new \DateTime('NOW'))
-                ->setTrophycategory($this->getReference('trophycategory'))
+                ->setTrophyCategory($this->getReference('trophyCategory'))
                 ->setPosition(1);
         $manager->persist($gamerTrophy);
         $manager->flush();
@@ -161,7 +161,7 @@ class LoadDataToDB extends AbstractFixture implements FixtureInterface {
         $rule = new Rule();
         $rule->setContext($this->getReference('context'))
                 ->setTrophy($this->getReference('trophy'))
-                ->setEvent($this->getReference('event'))
+                ->setGamificationEvent($this->getReference('event'))
                 ->setOperator('<')
                 ->setValue('10');
         $manager->persist($rule);
@@ -170,7 +170,7 @@ class LoadDataToDB extends AbstractFixture implements FixtureInterface {
         $rule = new Rule();
         $rule->setContext($this->getReference('context'))
                 ->setTrophy($this->getReference('trophyCykliczna'))
-                ->setEvent($this->getReference('event'))
+                ->setGamificationEvent($this->getReference('event'))
                 ->setOperator('<')
                 ->setValue('10');
         $manager->persist($rule);

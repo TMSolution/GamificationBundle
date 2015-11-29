@@ -12,9 +12,9 @@
  * @author Lukasz
  */
 
-namespace TMSolution\GamificationBundle\EventListener;
+namespace TMSolution\GamificationBundle\GamificationEventListener;
 
-use Symfony\Component\HttpKernel\Event\FilterResponseEvent;
+use Symfony\Component\HttpKernel\GamificationEvent\FilterResponseGamificationEvent;
 
 
 
@@ -22,18 +22,18 @@ class GamificationResponseListener {
 
     //put your code here
 
-    public function onKernelResponse(FilterResponseEvent $event) {
+    public function onKernelResponse(FilterResponseGamificationEvent $event) {
 
        //\Doctrine\Common\Util\Debug::dump( $event);
         echo "jestem listenerem";
     }
 
-//    public function afterKernelResponse(FilterResponseEvent $event) {
+//    public function afterKernelResponse(FilterResponseGamificationEvent $event) {
 //
 //        echo "jestem listenerem po evencie";
 //    }
 
-//    public function onKernelController(FilterControllerEvent $event) {
+//    public function onKernelController(FilterControllerGamificationEvent $event) {
 //        // ...
 //
 //        if ($controller[0] instanceof TokenAuthenticatedController) {
@@ -47,7 +47,7 @@ class GamificationResponseListener {
 //        }
 //    }
 
-//    public function onKernelResponse(FilterResponseEvent $event) {
+//    public function onKernelResponse(FilterResponseGamificationEvent $event) {
 //        // check to see if onKernelController marked this as a token "auth'ed" request
 //        if (!$token = $event->getRequest()->attributes->get('auth_token')) {
 //            return;

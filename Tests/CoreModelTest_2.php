@@ -45,7 +45,7 @@ class CoreModelTest_2 extends \PHPUnit_Framework_TestCase {
     protected $eventsService;
     protected $modelFactory;
     protected $gamificationModel;
-    protected $gamerEventcategoryModel;
+    protected $gamerGamificationEventcategoryModel;
     protected $gamertypeModel;
     protected $ruleModel;
     protected $trophyTypeModel;
@@ -69,13 +69,13 @@ class CoreModelTest_2 extends \PHPUnit_Framework_TestCase {
         $this->gamerinstanceModel = $this->modelFactory->getModel('TMSolution\GamificationBundle\Entity\Gamerinstance');
         $this->trophyModel = $this->modelFactory->getModel('TMSolution\GamificationBundle\Entity\Trophy');
         $this->gamerTrophyModel = $this->modelFactory->getModel('TMSolution\GamificationBundle\Entity\Gamertrophy');
-        $this->gamerEventModel = $this->modelFactory->getModel('TMSolution\GamificationBundle\Entity\Event');
+        $this->gamerGamificationEventModel = $this->modelFactory->getModel('TMSolution\GamificationBundle\Entity\GamificationEvent');
         $this->eventsService = $this->get('gamification.events');
-        $this->gamerEventcategoryModel = $this->modelFactory->getModel('TMSolution\GamificationBundle\Entity\Eventcategory');
+        $this->gamerGamificationEventcategoryModel = $this->modelFactory->getModel('TMSolution\GamificationBundle\Entity\GamificationEventcategory');
         $this->gamertypeModel = $this->modelFactory->getModel('TMSolution\GamificationBundle\Entity\Gamertype');
         $this->ruleModel = $this->modelFactory->getModel('TMSolution\GamificationBundle\Entity\Rule');
-        $this->trophyTypeModel = $this->modelFactory->getModel('TMSolution\GamificationBundle\Entity\Trophytype');
-        $this->eventCounterModel = $this->modelFactory->getModel('TMSolution\GamificationBundle\Entity\Eventcounter');
+        $this->trophyTypeModel = $this->modelFactory->getModel('TMSolution\GamificationBundle\Entity\TrophyType');
+        $this->eventCounterModel = $this->modelFactory->getModel('TMSolution\GamificationBundle\Entity\GamificationEventcounter');
         $this->contextModel = $this->modelFactory->getModel('TMSolution\GamificationBundle\Entity\Context');
     }
 

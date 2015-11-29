@@ -5,12 +5,12 @@ namespace TMSolution\GamificationBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Eventcategory
+ * GamificationEventcategory
  *
- * @ORM\Table(name="eventcategory")
+ * @ORM\Table(name="gamification_eventcategory")
  * @ORM\Entity
  */
-class Eventcategory
+class GamificationEventCategory
 {
     /**
      * @var integer
@@ -43,7 +43,7 @@ class Eventcategory
      * Set name
      *
      * @param string $name
-     * @return Eventcategory
+     * @return GamificationEventcategory
      */
     public function setName($name)
     {
@@ -61,4 +61,19 @@ class Eventcategory
     {
         return $this->name;
     }
+
+    /**
+     * __toString method
+     *
+     * return string
+     */
+    public function __toString()
+    {
+        return (string)$this->getName();
+    }
+
+
+
+
+
 }

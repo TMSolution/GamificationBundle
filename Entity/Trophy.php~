@@ -60,14 +60,14 @@ class Trophy /* implements \JsonSerializable */ {
     protected $trophyCategory;
 
     /**
-     * @var \TMSolution\GamificationBundle\Entity\TrophyType
+     * @var \TMSolution\GamificationBundle\Entity\Trophytype
      *
-     * @ORM\ManyToOne(targetEntity="TMSolution\GamificationBundle\Entity\TrophyType")
+     * @ORM\ManyToOne(targetEntity="TMSolution\GamificationBundle\Entity\Trophytype")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="trophyType", referencedColumnName="id")
+     *   @ORM\JoinColumn(name="trophytype", referencedColumnName="id")
      * })
      */
-    protected $trophyType;
+    protected $trophytype;
 
     
 
@@ -197,26 +197,26 @@ class Trophy /* implements \JsonSerializable */ {
     }
 
     /**
-     * Set trophyType
+     * Set trophytype
      *
-     * @param \TMSolution\GamificationBundle\Entity\TrophyType $trophyType
+     * @param \TMSolution\GamificationBundle\Entity\Trophytype $trophytype
      * @return Trophy
      */
-    public function setTrophyType(\TMSolution\GamificationBundle\Entity\TrophyType $trophyType = null)
+    public function setTrophytype(\TMSolution\GamificationBundle\Entity\Trophytype $trophytype = null)
     {
-        $this->trophyType = $trophyType;
+        $this->trophytype = $trophytype;
 
         return $this;
     }
 
     /**
-     * Get trophyType
+     * Get trophytype
      *
-     * @return \TMSolution\GamificationBundle\Entity\TrophyType 
+     * @return \TMSolution\GamificationBundle\Entity\Trophytype 
      */
-    public function getTrophyType()
+    public function getTrophytype()
     {
-        return $this->trophyType;
+        return $this->trophytype;
     }
     /**
      * __toString method
@@ -227,7 +227,5 @@ class Trophy /* implements \JsonSerializable */ {
     {
         return (string)$this->getName();
     }
-
-
 
 }

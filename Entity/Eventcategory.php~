@@ -5,36 +5,29 @@ namespace TMSolution\GamificationBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Context
+ * Eventcategory
  *
- * @ORM\Table(name="gamification_context")
+ * @ORM\Table(name="gamification_eventcategory")
  * @ORM\Entity
  */
-class Context
+class EventCategory
 {
     /**
      * @var integer
      *
-     * @ORM\Column(name="id", type="integer")
+     * @ORM\Column(name="id", type="bigint")
      * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
+     * @ORM\GeneratedValue(strategy="IDENTITY")
      */
     protected $id;
-    
+
     /**
-     * @var string 
-     * 
-     * @ORM\COlumn(name="name", type="string", nullable = false, length = 50)
+     * @var string
+     *
+     * @ORM\Column(name="name", type="string", length=255, nullable=true)
      */
     protected $name;
-    
-//    /**
-//     * @ORM\ManyToOne(targetEntity="Rule", inversedBy="context")
-//     *
-//     * 
-//     */
-//     
-//    protected $rule;
+
 
     /**
      * Get id
@@ -50,7 +43,7 @@ class Context
      * Set name
      *
      * @param string $name
-     * @return Context
+     * @return Eventcategory
      */
     public function setName($name)
     {
@@ -78,7 +71,5 @@ class Context
     {
         return (string)$this->getName();
     }
-
-
 
 }
