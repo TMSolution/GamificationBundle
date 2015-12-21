@@ -29,7 +29,7 @@ class GamificationEventLog
     protected $date;
 
    /**
-     * @ORM\ManyToOne(targetEntity="CCO\UserBundle\Entity\User")
+     * @ORM\ManyToOne(targetEntity="CCO\UserBundle\Entity\User",inversedBy="gamificationEventLogs")
      * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
      */
      protected $user;
