@@ -183,7 +183,7 @@ class Rule {
      *
      * @param \TMSolution\GamificationBundle\Entity\GamificationEvent $gamificationEvent
      */
-    public function removegamificationEvent(\TMSolution\GamificationBundle\Entity\GamificationEvent $gamificationEvent) {
+    public function removeGamificationEvent(\TMSolution\GamificationBundle\Entity\GamificationEvent $gamificationEvent) {
         $this->gamificationEvents->removeElement($gamificationEvent);
     }
 
@@ -256,28 +256,6 @@ class Rule {
 
 
 
-    /**
-     * Set event
-     *
-     * @param \TMSolution\GamificationBundle\Entity\GamificationEvent $event
-     * @return Rule
-     */
-    public function setEvent(\TMSolution\GamificationBundle\Entity\GamificationEvent $event = null)
-    {
-        $this->event = $event;
-
-        return $this;
-    }
-
-    /**
-     * Get event
-     *
-     * @return \TMSolution\GamificationBundle\Entity\GamificationEvent 
-     */
-    public function getEvent()
-    {
-        return $this->event;
-    }
 
 
 
