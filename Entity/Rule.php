@@ -61,14 +61,12 @@ class Rule {
      */
     protected $value;
     
+    
     /**
-     * 
-     * @ORM\ManyToOne(targetEntity="GamificationEvent", inversedBy="id")
-     * @ORM\JoinColumn(name="event", referencedColumnName="id")
+     * @ORM\ManyToMany(targetEntity="GamificationEvent", mappedBy="rules")
      */
-    protected $event;
     
-    
+    protected $gamificationEvents;
     
     
 
@@ -164,6 +162,53 @@ class Rule {
     public function getContext() {
         return $this->context;
     }
+    
+    
+    
+    
+    /**
+     * Add GamificationEvent
+     *
+     * @param \TMSolution\GamificationBundle\Entity\GamificationEvent $gamificationEvent
+     * @return Rule
+     */
+    public function addGamificationEvent(\TMSolution\GamificationBundle\Entity\GamificationEvent $gamificationEvent) {
+        $this->gamificationEvents[] = $gamificationEvent;
+
+        return $this;
+    }
+
+    /**
+     * Remove GamificationEvent
+     *
+     * @param \TMSolution\GamificationBundle\Entity\GamificationEvent $gamificationEvent
+     */
+    public function removegamificationEvent(\TMSolution\GamificationBundle\Entity\GamificationEvent $gamificationEvent) {
+        $this->gamificationEvents->removeElement($gamificationEvent);
+    }
+
+    /**
+     * Get GamificationEvent
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getGamificationEvents() {
+        return $this->gamificationEvents;
+    }
+   
+     /**
+     * Set GamificationEvents
+     *
+     * @return Rule
+     */
+    public function setGamificationEvents($gamificationEvents) {
+        $this->gamificationEvents=$gamificationEvents;
+        return $this;
+    }
+    
+    
+    
+    
 
     /**
      * Set value
@@ -190,62 +235,13 @@ class Rule {
      * Constructor
      */
     public function __construct() {
-        $this->contexts = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->gamificationEvents = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
-    /**
-     * Add contexts
-     *
-     * @param \TMSolution\GamificationBundle\Entity\Context $contexts
-     * @return Rule
-     */
-    public function addContext(\TMSolution\GamificationBundle\Entity\Context $contexts) {
-        $this->contexts[] = $contexts;
-
-        return $this;
-    }
-
-    /**
-     * Remove contexts
-     *
-     * @param \TMSolution\GamificationBundle\Entity\Context $contexts
-     */
-    public function removeContext(\TMSolution\GamificationBundle\Entity\Context $contexts) {
-        $this->contexts->removeElement($contexts);
-    }
-
-    /**
-     * Get contexts
-     *
-     * @return \Doctrine\Common\Collections\Collection 
-     */
-    public function getContexts() {
-        return $this->contexts;
-    }
+   
 
 
-    /**
-     * Set event
-     *
-     * @param \TMSolution\GamificationBundle\Entity\GamificationEvent $event
-     * @return Rule
-     */
-    public function setGamificationEvent(\TMSolution\GamificationBundle\Entity\GamificationEvent $event = null)
-    {
-        $this->event = $event;
-
-        return $this;
-    }
-
-    /**
-     * Get event
-     *
-     * @return \TMSolution\GamificationBundle\Entity\GamificationEvent 
-     */
-    public function getGamificationEvent()
-    {
-        return $this->event;
-    }
+  
 
     /**
      * __toString method
@@ -282,5 +278,7 @@ class Rule {
     {
         return $this->event;
     }
+
+
 
 }

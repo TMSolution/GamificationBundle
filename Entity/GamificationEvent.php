@@ -46,31 +46,31 @@ class GamificationEvent {
      *
      * @ORM\ManyToOne(targetEntity="TMSolution\GamificationBundle\Entity\GamificationEventCategory")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="eventcategory_id", referencedColumnName="id")
+     *   @ORM\JoinColumn(name="gamification_eventcategory_id", referencedColumnName="id")
      * })
      */
-    protected $eventCategoryId;
+    protected $gamificationEventCategory;
 
+    
     /**
-     * 
-     * @ORM\OneToMany(targetEntity="Rule", mappedBy="event")
-     * 
+     * @ORM\ManyToMany(targetEntity="Rule", inversedBy="gamificationEvents")
+     * @ORM\JoinTable(name="rule_has_gamifiaction_event")
      */
-    protected $event;
+    protected $rules;
 
- 
+
     /**
      * Constructor
      */
     public function __construct()
     {
-        $this->event = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->rules = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -81,6 +81,7 @@ class GamificationEvent {
      * Set name
      *
      * @param string $name
+     *
      * @return GamificationEvent
      */
     public function setName($name)
@@ -93,7 +94,7 @@ class GamificationEvent {
     /**
      * Get name
      *
-     * @return string 
+     * @return string
      */
     public function getName()
     {
@@ -104,6 +105,7 @@ class GamificationEvent {
      * Set date
      *
      * @param \DateTime $date
+     *
      * @return GamificationEvent
      */
     public function setDate($date)
@@ -116,7 +118,7 @@ class GamificationEvent {
     /**
      * Get date
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getDate()
     {
@@ -127,6 +129,7 @@ class GamificationEvent {
      * Set user
      *
      * @param \CCO\UserBundle\Entity\User $user
+     *
      * @return GamificationEvent
      */
     public function setUser(\CCO\UserBundle\Entity\User $user = null)
@@ -139,7 +142,7 @@ class GamificationEvent {
     /**
      * Get user
      *
-     * @return \CCO\UserBundle\Entity\User 
+     * @return \CCO\UserBundle\Entity\User
      */
     public function getUser()
     {
@@ -147,59 +150,61 @@ class GamificationEvent {
     }
 
     /**
-     * Set eventCategoryId
+     * Set gamificationEventCategory
      *
-     * @param \TMSolution\GamificationBundle\Entity\GamificationEventCategory $eventCategoryId
+     * @param \TMSolution\GamificationBundle\Entity\GamificationEventCategory $gamificationEventCategory
+     *
      * @return GamificationEvent
      */
-    public function setGamificationEventCategoryId(\TMSolution\GamificationBundle\Entity\GamificationEventCategory $eventCategoryId = null)
+    public function setGamificationEventCategory(\TMSolution\GamificationBundle\Entity\GamificationEventCategory $gamificationEventCategory = null)
     {
-        $this->eventCategoryId = $eventCategoryId;
+        $this->gamificationEventCategory = $gamificationEventCategory;
 
         return $this;
     }
 
     /**
-     * Get eventCategoryId
+     * Get gamificationEventCategory
      *
-     * @return \TMSolution\GamificationBundle\Entity\GamificationEventCategory 
+     * @return \TMSolution\GamificationBundle\Entity\GamificationEventCategory
      */
-    public function getGamificationEventCategoryId()
+    public function getGamificationEventCategory()
     {
-        return $this->eventCategoryId;
+        return $this->gamificationEventCategory;
     }
 
     /**
-     * Add event
+     * Add rule
      *
-     * @param \TMSolution\GamificationBundle\Entity\Rule $event
+     * @param \TMSolution\GamificationBundle\Entity\Rule $rule
+     *
      * @return GamificationEvent
      */
-    public function addGamificationEvent(\TMSolution\GamificationBundle\Entity\Rule $event)
+    public function addRule(\TMSolution\GamificationBundle\Entity\Rule $rule)
     {
-        $this->event[] = $event;
+        $this->rules[] = $rule;
 
         return $this;
     }
 
     /**
-     * Remove event
+     * Remove rule
      *
-     * @param \TMSolution\GamificationBundle\Entity\Rule $event
+     * @param \TMSolution\GamificationBundle\Entity\Rule $rule
      */
-    public function removeGamificationEvent(\TMSolution\GamificationBundle\Entity\Rule $event)
+    public function removeRule(\TMSolution\GamificationBundle\Entity\Rule $rule)
     {
-        $this->event->removeElement($event);
+        $this->rules->removeElement($rule);
     }
 
     /**
-     * Get event
+     * Get rules
      *
-     * @return \Doctrine\Common\Collections\Collection 
+     * @return \Doctrine\Common\Collections\Collection
      */
-    public function getGamificationEvent()
+    public function getRules()
     {
-        return $this->event;
+        return $this->rules;
     }
     /**
      * __toString method
@@ -209,63 +214,6 @@ class GamificationEvent {
     public function __toString()
     {
         return (string)$this->getName();
-    }
-
-
-    /**
-     * Set eventCategoryId
-     *
-     * @param \TMSolution\GamificationBundle\Entity\GamificationEventCategory $eventCategoryId
-     * @return GamificationEvent
-     */
-    public function setEventCategoryId(\TMSolution\GamificationBundle\Entity\GamificationEventCategory $eventCategoryId = null)
-    {
-        $this->eventCategoryId = $eventCategoryId;
-
-        return $this;
-    }
-
-    /**
-     * Get eventCategoryId
-     *
-     * @return \TMSolution\GamificationBundle\Entity\GamificationEventCategory 
-     */
-    public function getEventCategoryId()
-    {
-        return $this->eventCategoryId;
-    }
-
-    /**
-     * Add event
-     *
-     * @param \TMSolution\GamificationBundle\Entity\Rule $event
-     * @return GamificationEvent
-     */
-    public function addEvent(\TMSolution\GamificationBundle\Entity\Rule $event)
-    {
-        $this->event[] = $event;
-
-        return $this;
-    }
-
-    /**
-     * Remove event
-     *
-     * @param \TMSolution\GamificationBundle\Entity\Rule $event
-     */
-    public function removeEvent(\TMSolution\GamificationBundle\Entity\Rule $event)
-    {
-        $this->event->removeElement($event);
-    }
-
-    /**
-     * Get event
-     *
-     * @return \Doctrine\Common\Collections\Collection 
-     */
-    public function getEvent()
-    {
-        return $this->event;
     }
 
 }
