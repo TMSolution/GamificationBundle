@@ -46,7 +46,7 @@ class GamerTrophy
     protected $trophyCategory;
 
     /**
-     * @ORM\ManyToOne(targetEntity="CCO\UserBundle\Entity\User")
+     * @ORM\ManyToOne(targetEntity="CCO\UserBundle\Entity\User",inversedBy="gamerTrophies")
      * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
      */
     protected $user;
