@@ -48,6 +48,13 @@ class Trophy /* implements \JsonSerializable */ {
      * @ORM\Column(name="description", type="string", nullable=true)
      */
     protected $description;
+    
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="position", type="integer", nullable=true)
+     */
+    protected $position;
 
     /**
      * @var \TMSolution\GamificationBundle\Entity\TrophyCategory
@@ -218,6 +225,24 @@ class Trophy /* implements \JsonSerializable */ {
     {
         return $this->trophyType;
     }
+    
+    public function setPosition($position)
+    {
+        $this->position = $position;
+
+        return $this;
+    }
+
+    /**
+     * Get position
+     *
+     * @return string 
+     */
+    public function getPosition()
+    {
+        return $this->position;
+    }
+    
     /**
      * __toString method
      *
