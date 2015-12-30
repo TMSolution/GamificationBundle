@@ -34,6 +34,13 @@ class Trophy /* implements \JsonSerializable */ {
      * @ORM\Column(name="image", type="string", length=255, nullable=true)
      */
     protected $image;
+    
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="icon", type="string", length=255, nullable=true)
+     */
+    protected $icon;
 
     /**
      * @var \DateTime
@@ -48,6 +55,13 @@ class Trophy /* implements \JsonSerializable */ {
      * @ORM\Column(name="description", type="string", nullable=true)
      */
     protected $description;
+    
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="position", type="integer", nullable=true)
+     */
+    protected $position;
 
     /**
      * @var \TMSolution\GamificationBundle\Entity\TrophyCategory
@@ -218,6 +232,34 @@ class Trophy /* implements \JsonSerializable */ {
     {
         return $this->trophyType;
     }
+    
+    public function setPosition($position)
+    {
+        $this->position = $position;
+
+        return $this;
+    }
+
+    public function getPosition()
+    {
+        return $this->position;
+    }
+    
+    
+    
+    public function setIcon($icon)
+    {
+        $this->icon = $icon;
+
+        return $this;
+    }
+
+    public function getIcon()
+    {
+        return $this->icon;
+    }
+    
+    
     /**
      * __toString method
      *
