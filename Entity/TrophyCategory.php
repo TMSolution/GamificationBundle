@@ -10,7 +10,8 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table(name="gamification_trophyCategory")
  * @ORM\Entity
  */
-class TrophyCategory {
+class TrophyCategory
+{
 
     /**
      * @var integer
@@ -28,8 +29,26 @@ class TrophyCategory {
      */
     protected $name;
 
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="background_color", type="string", length=255, nullable=true)
+     */
+    protected $backgroundColor;
 
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="background_icon_color", type="string", length=255, nullable=true)
+     */
+    protected $backgroundIconColor;
 
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="icon_color", type="string", length=255, nullable=true)
+     */
+    protected $iconColor;
 
     /**
      * Get id
@@ -63,6 +82,7 @@ class TrophyCategory {
     {
         return $this->name;
     }
+
     /**
      * __toString method
      *
@@ -70,9 +90,43 @@ class TrophyCategory {
      */
     public function __toString()
     {
-        return (string)$this->getName();
+        return (string) $this->getName();
     }
 
+    public function setBackgroundColor($backgroundColor)
+    {
+        $this->backgroundColor = $backgroundColor;
 
+        return $this;
+    }
+
+    public function getBackgroundColor()
+    {
+        return $this->backgroundColor;
+    }
+    
+    public function setBackgroundIconColor($backgroundIconColor)
+    {
+        $this->backgroundIconColor = $backgroundIconColor;
+
+        return $this;
+    }
+
+    public function getBackgroundIconColor()
+    {
+        return $this->backgroundIconColor;
+    }
+    
+    public function setIconColor($iconColor)
+    {
+        $this->iIconColor = $iconColor;
+
+        return $this;
+    }
+
+    public function getIconColor()
+    {
+        return $this->iconColor;
+    }
 
 }
