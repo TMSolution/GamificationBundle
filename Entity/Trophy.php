@@ -259,6 +259,15 @@ class Trophy /* implements \JsonSerializable */ {
         return $this->icon;
     }
     
+    /**
+     * Get position
+     *
+     * @return string 
+     */
+    public function getPosition()
+    {
+        return $this->position;
+    }
     
     /**
      * __toString method
