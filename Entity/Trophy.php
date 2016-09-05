@@ -28,20 +28,7 @@ class Trophy /* implements \JsonSerializable */ {
      */
     protected $name;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="image", type="string", length=255, nullable=true)
-     */
-    protected $image;
-    
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="icon", type="string", length=255, nullable=true)
-     */
-    protected $icon;
-
+   
     /**
      * @var \DateTime
      *
