@@ -105,28 +105,7 @@ class Trophy /* implements \JsonSerializable */ {
         return $this->name;
     }
 
-    /**
-     * Set image
-     *
-     * @param string $image
-     * @return Trophy
-     */
-    public function setImage($image)
-    {
-        $this->image = $image;
-
-        return $this;
-    }
-
-    /**
-     * Get image
-     *
-     * @return string 
-     */
-    public function getImage()
-    {
-        return $this->image;
-    }
+   
 
     /**
      * Set date
@@ -240,22 +219,6 @@ class Trophy /* implements \JsonSerializable */ {
 
         return $this;
     }
-
-    public function getIcon()
-    {
-        return $this->icon;
-    }
- 
-    /**
-     * __toString method
-     *
-     * return string
-     */
-    public function __toString()
-    {
-        return (string)$this->getName();
-    }
-
 
 
 }
