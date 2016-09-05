@@ -12,6 +12,7 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class GamificationEventCategory
 {
+
     /**
      * @var integer
      *
@@ -27,7 +28,6 @@ class GamificationEventCategory
      * @ORM\Column(name="name", type="string", length=255, nullable=true)
      */
     protected $name;
-
 
     /**
      * Get id
@@ -69,11 +69,7 @@ class GamificationEventCategory
      */
     public function __toString()
     {
-        return (string)$this->getName();
+        return (string) $this->getName();
     }
-
-
-
-
 
 }

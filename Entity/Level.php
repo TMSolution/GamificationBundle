@@ -10,7 +10,8 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table(name="gamification_level")
  * @ORM\Entity
  */
-class Level{
+class Level
+{
 
     /**
      * @var integer
@@ -27,7 +28,7 @@ class Level{
      * @ORM\Column(name="name", type="string", length=255, nullable=false)
      */
     protected $name;
-    
+
     /**
      * @var integer
      *
@@ -40,7 +41,8 @@ class Level{
      *
      * @return integer 
      */
-    public function getId() {
+    public function getId()
+    {
         return $this->id;
     }
 
@@ -50,7 +52,8 @@ class Level{
      * @param string $name
      * @return TrophyType
      */
-    public function setName($name) {
+    public function setName($name)
+    {
         $this->name = $name;
 
         return $this;
@@ -61,17 +64,19 @@ class Level{
      *
      * @return string 
      */
-    public function getName() {
+    public function getName()
+    {
         return $this->name;
     }
-    
+
     /**
      * Set points
      *
      * @param string $points
      * @return TrophyType
      */
-    public function setPoints($points) {
+    public function setPoints($points)
+    {
         $this->points = $points;
 
         return $this;
@@ -82,7 +87,8 @@ class Level{
      *
      * @return string 
      */
-    public function getPoints() {
+    public function getPoints()
+    {
         return $this->points;
     }
 
@@ -93,11 +99,7 @@ class Level{
      */
     public function __toString()
     {
-        return (string)$this->getName();
+        return (string) $this->getName();
     }
-
-
-
-
 
 }

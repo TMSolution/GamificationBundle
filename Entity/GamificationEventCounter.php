@@ -12,6 +12,7 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class GamificationEventCounter
 {
+
     /**
      * @var integer
      *
@@ -28,11 +29,11 @@ class GamificationEventCounter
      */
     protected $counter;
 
-       /**
-     * @ORM\ManyToOne(targetEntity="CCO\UserBundle\Entity\User")
-     * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
+    /**
+     * @ORM\ManyToOne(targetEntity="TMSolution\GamificationBundle\Model\GamerInstanceInterface")
+     * @ORM\JoinColumn(name="gamer_instance_id", referencedColumnName="id")
      */
-     protected $user;
+    protected $gamerInstance;
 
     /**
      * @var \TMSolution\GamificationBundle\Entity\GamificationEvent
@@ -43,10 +44,6 @@ class GamificationEventCounter
      * })
      */
     protected $event;
-
-
-
-   
 
     /**
      * Get id
@@ -81,27 +78,16 @@ class GamificationEventCounter
         return $this->counter;
     }
 
-    /**
-     * Set user
-     *
-     * @param \CCO\UserBundle\Entity\User $user
-     * @return GamificationEventcounter
-     */
-    public function setUser(\CCO\UserBundle\Entity\User $user = null)
+    public function setGamerInstance($gamerInstance = null)
     {
-        $this->user = $user;
+        $this->gamerInstance = $gamerInstance;
 
         return $this;
     }
 
-    /**
-     * Get user
-     *
-     * @return \CCO\UserBundle\Entity\User 
-     */
-    public function getUser()
+    public function getGamerInstance()
     {
-        return $this->user;
+        return $this->gamerInstance;
     }
 
     /**
@@ -126,6 +112,7 @@ class GamificationEventCounter
     {
         return $this->event;
     }
+
     /**
      * __toString method
      *
@@ -133,11 +120,8 @@ class GamificationEventCounter
      */
     public function __toString()
     {
-        return (string)$this->getId();
+        return (string) $this->getId();
     }
-
-
-
 
     /**
      * Set event

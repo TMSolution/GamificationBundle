@@ -104,7 +104,7 @@ class TrophyCategory
     {
         return $this->backgroundColor;
     }
-    
+
     public function setBackgroundIconColor($backgroundIconColor)
     {
         $this->backgroundIconColor = $backgroundIconColor;
@@ -116,7 +116,7 @@ class TrophyCategory
     {
         return $this->backgroundIconColor;
     }
-    
+
     public function setIconColor($iconColor)
     {
         $this->iIconColor = $iconColor;

@@ -2,9 +2,13 @@ services:
     gamification.events:
         class: TMSolution\GamificationBundle\Service\GamificationEventsService
         arguments: [@service_container]
+    
+    gamification.pusher:
+        class: TMSolution\GamificationBundle\Service\GamificationPusherService
+        arguments: [@service_container]
         tags:
             - { name: gos_web_socket.periodic }
-
+    
 #listener exception      
 #    kernel.listener.your_listener_name:
 #        class: TMSolution\GamificationBundle\GamificationEventListener\GamificationExceptionListener

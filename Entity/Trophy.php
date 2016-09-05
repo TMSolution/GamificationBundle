@@ -10,7 +10,8 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table(name="gamification_trophy")
  * @ORM\Entity
  */
-class Trophy /* implements \JsonSerializable */ {
+class Trophy /* implements \JsonSerializable */
+{
 
     /**
      * @var integer
@@ -34,14 +35,14 @@ class Trophy /* implements \JsonSerializable */ {
      * @ORM\Column(name="date", type="datetime", nullable=true)
      */
     protected $date;
-    
+
     /**
      * @var string
      * 
      * @ORM\Column(name="description", type="string", nullable=true)
      */
     protected $description;
-    
+
     /**
      * @var integer
      *
@@ -68,8 +69,6 @@ class Trophy /* implements \JsonSerializable */ {
      * })
      */
     protected $trophyType;
-
-    
 
     /**
      * Get id
@@ -104,7 +103,6 @@ class Trophy /* implements \JsonSerializable */ {
         return $this->name;
     }
 
-    
     /**
      * Set date
      *
@@ -196,7 +194,7 @@ class Trophy /* implements \JsonSerializable */ {
     {
         return $this->trophyType;
     }
-    
+
     public function setPosition($position)
     {
         $this->position = $position;
@@ -208,10 +206,7 @@ class Trophy /* implements \JsonSerializable */ {
     {
         return $this->position;
     }
-    
-    
 
- 
     /**
      * __toString method
      *
@@ -219,9 +214,7 @@ class Trophy /* implements \JsonSerializable */ {
      */
     public function __toString()
     {
-        return (string)$this->getName();
+        return (string) $this->getName();
     }
-
-
 
 }

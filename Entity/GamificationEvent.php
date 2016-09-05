@@ -10,7 +10,8 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table(name="gamification_event")
  * @ORM\Entity
  */
-class GamificationEvent {
+class GamificationEvent
+{
 
     /**
      * @var integer
@@ -27,19 +28,19 @@ class GamificationEvent {
      * @ORM\Column(name="name", type="string", length=255, nullable=true)
      */
     protected $name;
-    
+
     /**
      * @var string
      * 
      * @ORM\Column(name="date", type="datetime", nullable=true)
      */
     protected $date;
-    
+
     /**
-     * @ORM\ManyToOne(targetEntity="CCO\UserBundle\Entity\User",inversedBy="gamificationEvents")
-     * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
+     * @ORM\ManyToOne(targetEntity="TMSolution\GamificationBundle\Model\GamerInstanceInterface",inversedBy="gamificationEvents")
+     * @ORM\JoinColumn(name="gamer_instance_id", referencedColumnName="id")
      */
-    protected $user;
+    protected $gamerInstance;
 
     /**
      * @var \TMSolution\GamificationBundle\Entity\GamificationEventCategory
@@ -51,13 +52,11 @@ class GamificationEvent {
      */
     protected $gamificationEventCategory;
 
-    
     /**
      * @ORM\ManyToMany(targetEntity="Rule", inversedBy="gamificationEvents")
      * @ORM\JoinTable(name="rule_has_gamifiaction_event")
      */
     protected $rules;
-
 
     /**
      * Constructor
@@ -125,28 +124,16 @@ class GamificationEvent {
         return $this->date;
     }
 
-    /**
-     * Set user
-     *
-     * @param \CCO\UserBundle\Entity\User $user
-     *
-     * @return GamificationEvent
-     */
-    public function setUser(\CCO\UserBundle\Entity\User $user = null)
+    public function setGamerInstance($gamerInstance = null)
     {
-        $this->user = $user;
+        $this->gamerInstance = $gamerInstance;
 
         return $this;
     }
 
-    /**
-     * Get user
-     *
-     * @return \CCO\UserBundle\Entity\User
-     */
-    public function getUser()
+    public function getGamerInstance()
     {
-        return $this->user;
+        return $this->gamerInstance;
     }
 
     /**
@@ -206,6 +193,7 @@ class GamificationEvent {
     {
         return $this->rules;
     }
+
     /**
      * __toString method
      *
@@ -213,7 +201,7 @@ class GamificationEvent {
      */
     public function __toString()
     {
-        return (string)$this->getName();
+        return (string) $this->getName();
     }
 
 }

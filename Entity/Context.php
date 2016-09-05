@@ -12,6 +12,7 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Context
 {
+
     /**
      * @var integer
      *
@@ -20,14 +21,14 @@ class Context
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     protected $id;
-    
+
     /**
      * @var string 
      * 
      * @ORM\COlumn(name="name", type="string", nullable = false, length = 50)
      */
     protected $name;
-    
+
 //    /**
 //     * @ORM\ManyToOne(targetEntity="Rule", inversedBy="context")
 //     *
@@ -76,11 +77,7 @@ class Context
      */
     public function __toString()
     {
-        return (string)$this->getName();
+        return (string) $this->getName();
     }
-
-
-
-
 
 }

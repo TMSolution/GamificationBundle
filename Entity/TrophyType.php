@@ -10,7 +10,8 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table(name="gamification_trophyType")
  * @ORM\Entity
  */
-class TrophyType{
+class TrophyType
+{
 
     /**
      * @var integer
@@ -33,7 +34,8 @@ class TrophyType{
      *
      * @return integer 
      */
-    public function getId() {
+    public function getId()
+    {
         return $this->id;
     }
 
@@ -43,7 +45,8 @@ class TrophyType{
      * @param string $name
      * @return TrophyType
      */
-    public function setName($name) {
+    public function setName($name)
+    {
         $this->name = $name;
 
         return $this;
@@ -54,7 +57,8 @@ class TrophyType{
      *
      * @return string 
      */
-    public function getName() {
+    public function getName()
+    {
         return $this->name;
     }
 
@@ -65,11 +69,7 @@ class TrophyType{
      */
     public function __toString()
     {
-        return (string)$this->getName();
+        return (string) $this->getName();
     }
-
-
-
-
 
 }

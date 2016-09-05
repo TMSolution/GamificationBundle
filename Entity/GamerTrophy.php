@@ -10,7 +10,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table(name="gamification_gamertrophy")
  * @ORM\Entity
  */
-class GamerTrophy 
+class GamerTrophy
 {
 
     /**
@@ -46,10 +46,10 @@ class GamerTrophy
     protected $trophyCategory;
 
     /**
-     * @ORM\ManyToOne(targetEntity="CCO\UserBundle\Entity\User",inversedBy="gamerTrophies")
-     * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
+     * @ORM\ManyToOne(targetEntity="TMSolution\GamificationBundle\Model\GamerInstanceInterface",inversedBy="gamerTrophies")
+     * @ORM\JoinColumn(name="gamer_instance_id", referencedColumnName="id")
      */
-    protected $user;
+    protected $gamerInstance;
 
     /**
      * @var \TMSolution\GamificationBundle\Entity\Trophy
@@ -60,11 +60,6 @@ class GamerTrophy
      * })
      */
     protected $trophy;
-
-    
-
-
-
 
     /**
      * Get id
@@ -145,27 +140,16 @@ class GamerTrophy
         return $this->trophyCategory;
     }
 
-    /**
-     * Set user
-     *
-     * @param \CCO\UserBundle\Entity\User $user
-     * @return GamerTrophy
-     */
-    public function setUser(\CCO\UserBundle\Entity\User $user = null)
+    public function setGamerInstance($gamerInstance = null)
     {
-        $this->user = $user;
+        $this->gamerInstance = $gamerInstance;
 
         return $this;
     }
 
-    /**
-     * Get user
-     *
-     * @return \CCO\UserBundle\Entity\User 
-     */
-    public function getUser()
+    public function getGamerInstance()
     {
-        return $this->user;
+        return $this->gamerInstance;
     }
 
     /**
@@ -190,6 +174,7 @@ class GamerTrophy
     {
         return $this->trophy;
     }
+
     /**
      * __toString method
      *
@@ -197,9 +182,7 @@ class GamerTrophy
      */
     public function __toString()
     {
-        return (string)$this->getId();
+        return (string) $this->getId();
     }
-
-
 
 }

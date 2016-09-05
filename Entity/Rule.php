@@ -10,7 +10,8 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table(name="gamification_rule")
  * @ORM\Entity
  */
-class Rule {
+class Rule
+{
 
     /**
      * @var integer
@@ -21,14 +22,12 @@ class Rule {
      */
     protected $id;
 
-     /*
+    /*
      * @ORM\Column(name="name", type="string", length=50, nullable=false)
      * 
      */
     protected $name;
-    
-   
-    
+
     /**
      * 
      * @ORM\ManyToOne(targetEntity="Context")
@@ -46,7 +45,6 @@ class Rule {
      */
     protected $trophy;
 
-
     /**
      * @var string
      *
@@ -60,22 +58,19 @@ class Rule {
      * @ORM\Column(name="value", type="string", length=255, nullable=false)
      */
     protected $value;
-    
-    
+
     /**
      * @ORM\ManyToMany(targetEntity="GamificationEvent", mappedBy="rules")
      */
-    
     protected $gamificationEvents;
-    
-    
 
     /**
      * Get id
      *
      * @return integer 
      */
-    public function getId() {
+    public function getId()
+    {
         return $this->id;
     }
 
@@ -85,7 +80,8 @@ class Rule {
      * @param string $name
      * @return Rule
      */
-    public function setName($name) {
+    public function setName($name)
+    {
         $this->name = $name;
 
         return $this;
@@ -96,7 +92,8 @@ class Rule {
      *
      * @return string 
      */
-    public function getName() {
+    public function getName()
+    {
         return $this->name;
     }
 
@@ -106,7 +103,8 @@ class Rule {
      * @param \TMSolution\GamificationBundle\Entity\Trophy $trophy
      * @return Rule
      */
-    public function setTrophy(\TMSolution\GamificationBundle\Entity\Trophy $trophy = null) {
+    public function setTrophy(\TMSolution\GamificationBundle\Entity\Trophy $trophy = null)
+    {
         $this->trophy = $trophy;
 
         return $this;
@@ -117,7 +115,8 @@ class Rule {
      *
      * @return \TMSolution\GamificationBundle\Entity\Trophy 
      */
-    public function getTrophy() {
+    public function getTrophy()
+    {
         return $this->trophy;
     }
 
@@ -127,7 +126,8 @@ class Rule {
      * @param string $operator
      * @return Rule
      */
-    public function setOperator($operator) {
+    public function setOperator($operator)
+    {
         $this->operator = $operator;
 
         return $this;
@@ -138,7 +138,8 @@ class Rule {
      *
      * @return string 
      */
-    public function getOperator() {
+    public function getOperator()
+    {
         return $this->operator;
     }
 
@@ -148,7 +149,8 @@ class Rule {
      * @param string $context
      * @return Rule
      */
-    public function setContext($context) {
+    public function setContext($context)
+    {
         $this->context = $context;
 
         return $this;
@@ -159,20 +161,19 @@ class Rule {
      *
      * @return string 
      */
-    public function getContext() {
+    public function getContext()
+    {
         return $this->context;
     }
-    
-    
-    
-    
+
     /**
      * Add GamificationEvent
      *
      * @param \TMSolution\GamificationBundle\Entity\GamificationEvent $gamificationEvent
      * @return Rule
      */
-    public function addGamificationEvent(\TMSolution\GamificationBundle\Entity\GamificationEvent $gamificationEvent) {
+    public function addGamificationEvent(\TMSolution\GamificationBundle\Entity\GamificationEvent $gamificationEvent)
+    {
         $this->gamificationEvents[] = $gamificationEvent;
 
         return $this;
@@ -183,7 +184,8 @@ class Rule {
      *
      * @param \TMSolution\GamificationBundle\Entity\GamificationEvent $gamificationEvent
      */
-    public function removeGamificationEvent(\TMSolution\GamificationBundle\Entity\GamificationEvent $gamificationEvent) {
+    public function removeGamificationEvent(\TMSolution\GamificationBundle\Entity\GamificationEvent $gamificationEvent)
+    {
         $this->gamificationEvents->removeElement($gamificationEvent);
     }
 
@@ -192,23 +194,21 @@ class Rule {
      *
      * @return \Doctrine\Common\Collections\Collection 
      */
-    public function getGamificationEvents() {
+    public function getGamificationEvents()
+    {
         return $this->gamificationEvents;
     }
-   
-     /**
+
+    /**
      * Set GamificationEvents
      *
      * @return Rule
      */
-    public function setGamificationEvents($gamificationEvents) {
-        $this->gamificationEvents=$gamificationEvents;
+    public function setGamificationEvents($gamificationEvents)
+    {
+        $this->gamificationEvents = $gamificationEvents;
         return $this;
     }
-    
-    
-    
-    
 
     /**
      * Set value
@@ -216,7 +216,8 @@ class Rule {
      * @param string $value
      * @return Rule
      */
-    public function setValue($value) {
+    public function setValue($value)
+    {
         $this->value = $value;
 
         return $this;
@@ -227,21 +228,18 @@ class Rule {
      *
      * @return string 
      */
-    public function getValue() {
+    public function getValue()
+    {
         return $this->value;
     }
 
     /**
      * Constructor
      */
-    public function __construct() {
+    public function __construct()
+    {
         $this->gamificationEvents = new \Doctrine\Common\Collections\ArrayCollection();
     }
-
-   
-
-
-  
 
     /**
      * __toString method
@@ -250,13 +248,7 @@ class Rule {
      */
     public function __toString()
     {
-        return (string)$this->getId();
+        return (string) $this->getId();
     }
-
-
-
-
-
-
 
 }
