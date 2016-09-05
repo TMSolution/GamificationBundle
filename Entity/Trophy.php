@@ -28,7 +28,6 @@ class Trophy /* implements \JsonSerializable */ {
      */
     protected $name;
 
-   
     /**
      * @var \DateTime
      *
@@ -105,8 +104,7 @@ class Trophy /* implements \JsonSerializable */ {
         return $this->name;
     }
 
-   
-
+    
     /**
      * Set date
      *
@@ -212,13 +210,18 @@ class Trophy /* implements \JsonSerializable */ {
     }
     
     
-    
-    public function setIcon($icon)
-    {
-        $this->icon = $icon;
 
-        return $this;
+ 
+    /**
+     * __toString method
+     *
+     * return string
+     */
+    public function __toString()
+    {
+        return (string)$this->getName();
     }
+
 
 
 }
