@@ -8,22 +8,14 @@ services:
         arguments: [@service_container]
         tags:
             - { name: gos_web_socket.periodic }
+            - { name: gos_web_socket.topic }
     
-#listener exception      
-#    kernel.listener.your_listener_name:
-#        class: TMSolution\GamificationBundle\GamificationEventListener\GamificationExceptionListener
-#        tags:
-#            - { name: kernel.event_listener, event: kernel.exception, method: onKernelException }           
-            
-#listener response
-#    kernel.listener.your_listener_response:
-#        class: TMSolution\GamificationBundle\GamificationEventListener\GamificationResponseListener
-#        tags:
-#            - { name: kernel.event_listener, event: kernel.response, method: onKernelResponse }
 
-#    app.tokens.action_listener:
-#        class: TMSolution\GamificationBundle\GamificationEventListener\GamificationResponseListener
-#        arguments: ["%tokens%"]
-#        tags:
-#            - { name: kernel.event_listener, event: kernel.controller, method: onKernelController }
-#            - { name: kernel.event_listener, event: kernel.response, method: onKernelResponse }
+
+
+    event_listener_supervisor_jobmarketad_before_list:
+        class: 'TMSolution\GamificationBundle\Model\GamerTrophy'
+        arguments: ["@service_container", "TMSolution\GamificationBundle\Entity\GamerTrophy"]
+        tags:
+         - { name: kernel.event_listener, event: supervisor.jobmarketad.before.list, method: test }
+

@@ -16,9 +16,8 @@ use TMSolution\GamificationBundle\Entity\Gamertrophy;
 use Hoa\Ruler\Ruler;
 use Hoa\Ruler\Context;
 use Symfony\Component\HttpFoundation\Response;
-use Gos\Bundle\WebSocketBundle\Periodic\PeriodicInterface;
 
-class GamificationEventsService implements PeriodicInterface
+class GamificationEventsService
 {
 
     protected $container;
@@ -46,15 +45,7 @@ class GamificationEventsService implements PeriodicInterface
         $this->trophyModel = $this->model->getModel('TMSolution\GamificationBundle\Entity\Trophy');
     }
 
-    public function tick()
-    {
-        echo "Executed once every 5 seconds" . PHP_EOL;
-    }
-
-    public function getTimeout()
-    {
-        return 3;
-    }
+  
 
     /**
      * The method registers events in the database. 

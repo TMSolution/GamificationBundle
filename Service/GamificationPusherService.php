@@ -1,7 +1,7 @@
 <?php
 
 /**
- * GamificationEventService service
+ * GamificationPusherService service
  *
  * @author Damian Piela <damian.piela@tmsolution.pl>
  * @author Lukasz Sobieraj <lukasz.sobieraj@tmsolution.pl>
@@ -38,7 +38,7 @@ class GamificationPusherService implements TopicInterface, PushableTopicInterfac
 
     public function getTimeout()
     {
-        return 5;
+        return 10;
     }
 
     /**
@@ -107,18 +107,13 @@ class GamificationPusherService implements TopicInterface, PushableTopicInterfac
      */
     public function onPublish(ConnectionInterface $connection, Topic $topic, WampRequest $request, $event, array $exclude, array $eligible)
     {
-
-
-
-
-
+        
         $this->message = $event['msg'];
         $topic->broadcast([
             'msg' => $event['msg']
         ]);
     }
-    
-    
+
     public function onPush(Topic $topic, WampRequest $request, $data, $provider)
     {
         
@@ -130,7 +125,7 @@ class GamificationPusherService implements TopicInterface, PushableTopicInterfac
      */
     public function getName()
     {
-        return 'acme.topic';
+        return 'gamification.pusher';
     }
 
 }
