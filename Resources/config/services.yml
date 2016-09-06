@@ -17,5 +17,5 @@ services:
         class: 'TMSolution\GamificationBundle\Model\GamerTrophy'
         arguments: ["@service_container", "TMSolution\GamificationBundle\Entity\GamerTrophy"]
         tags:
-         - { name: kernel.event_listener, event: supervisor.jobmarketad.before.list, method: test }
+         - { name: kernel.event_listener, event: supervisor.jobmarketad.after.list, method: addGamerTrophy }
 

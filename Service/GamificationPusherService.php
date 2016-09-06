@@ -51,12 +51,15 @@ class GamificationPusherService implements TopicInterface, PushableTopicInterfac
      */
     public function onSubscribe(ConnectionInterface $connection, Topic $topic, WampRequest $request)
     {
+//           
+           echo "subscribe". PHP_EOL;
+           
 //           $logger = $this->get('logger');
 //           $logger->info('I just got the logger');
 //           $logger->error('An error occurred');
-        // $user = $this->clientManipulator->getClient($connection);
+         //$user = $this->clientManipulator->getClient($connection);
 
-        foreach ($topic as $client) {
+       /* foreach ($topic as $client) {
             //Do stuff ...
 
             $client->event($topic->getId(), ['msg' => 'lol']);
@@ -66,7 +69,7 @@ class GamificationPusherService implements TopicInterface, PushableTopicInterfac
         //this will broadcast the message to ALL subscribers of this topic.
         $topic->broadcast(['msg' => $connection->resourceId . " has joined " . $topic->getId()]);
 
-        /** @var ConnectionPeriodicTimer $topicTimer */
+         @var ConnectionPeriodicTimer $topicTimer 
         $topicTimer = $connection->PeriodicTimer;
 
         //Add periodic timer
@@ -77,7 +80,7 @@ class GamificationPusherService implements TopicInterface, PushableTopicInterfac
         //exist
         $topicTimer->isPeriodicTimerActive('hello'); //true or false
         //Remove periodic timer
-        $topicTimer->cancelPeriodicTimer('hello');
+        $topicTimer->cancelPeriodicTimer('hello');*/
     }
 
     /**
@@ -91,7 +94,7 @@ class GamificationPusherService implements TopicInterface, PushableTopicInterfac
     public function onUnSubscribe(ConnectionInterface $connection, Topic $topic, WampRequest $request)
     {
         //this will broadcast the message to ALL subscribers of this topic.
-        $topic->broadcast(['msg' => $connection->resourceId . " has left " . $topic->getId()]);
+       // $topic->broadcast(['msg' => $connection->resourceId . " has left " . $topic->getId()]);
     }
 
     /**
@@ -108,15 +111,18 @@ class GamificationPusherService implements TopicInterface, PushableTopicInterfac
     public function onPublish(ConnectionInterface $connection, Topic $topic, WampRequest $request, $event, array $exclude, array $eligible)
     {
         
-        $this->message = $event['msg'];
-        $topic->broadcast([
-            'msg' => $event['msg']
-        ]);
+        echo "publish". PHP_EOL;
+        
+        //dump($connection);
+        //$user = $this->clientStorage->getClient($connection->WAMP->clientStorageId);
+        //$gamerInstanceId=$event['gamerInstanceId'];
+        /*$this->message = $event['msg'];*/
+        $topic->broadcast(['sss'=>'asd']);
     }
 
     public function onPush(Topic $topic, WampRequest $request, $data, $provider)
     {
-        
+        // NOT WORKING ON WAMP PUSHER
     }
 
     /**
