@@ -30,22 +30,17 @@ class GamerTrophy extends BaseModel
                     ->setTrophyCategory($trophy->getTrophyCategory())
                     ->setPosition($trophy->getPosition());
             $this->create($gamerTrophy, true);
-            
-            $this->pushGamerTrophy($trophy,$gamerInstance);
+
+            $this->pushGamerTrophy($trophy, $gamerInstance);
             return $gamerTrophy;
         }
     }
 
-    protected function pushGamerTrophy($trophy,$gamerInstance)
+    protected function pushGamerTrophy($trophy, $gamerInstance)
     {
         $pusher = $this->container->get('gos_web_socket.wamp.pusher');
-                        //push(data, route_name, route_arguments)
-        $pusher->push(["name" => $trophy->getName(),"description" => $trophy->getDescription(), "gamerInstanceId" => $gamerInstance->getId()], 'gamification_pusher', []);
-       
-        
-        
-        
+        $data = [ "name" => $trophy->getName(), "description" => $trophy->getDescription(), "gamerInstanceId" => $gamerInstance->getId()];
+        $pusher->push($data, 'gamification_pusher', []);
     }
-
 
 }

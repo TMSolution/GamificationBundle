@@ -113,6 +113,12 @@ class GamificationPusherService implements TopicInterface, PushableTopicInterfac
         
         echo "publish". PHP_EOL;
         
+        foreach ($topic as $client) {
+            //Do stuff ...
+            dump($client);
+            //$client->event($topic->getId(), ['msg' => 'lol']);
+        }
+        
         //dump($connection);
         //$user = $this->clientStorage->getClient($connection->WAMP->clientStorageId);
         //$gamerInstanceId=$event['gamerInstanceId'];

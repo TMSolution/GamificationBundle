@@ -70,33 +70,7 @@ class Trophy /* implements \JsonSerializable */
      */
     protected $trophyType;
 
-    /**
-     * @var integer
-     *
-     * @ORM\Column(name="level1", type="integer", nullable=false)
-     */
-    protected $level1;
-
-    /**
-     * @var integer
-     *
-     * @ORM\Column(name="level2", type="integer", nullable=false)
-     */
-    protected $level2;
-
-    /**
-     * @var integer
-     *
-     * @ORM\Column(name="level3", type="integer", nullable=false)
-     */
-    protected $level3;
-
-    /**
-     * @var integer
-     *
-     * @ORM\Column(name="level4", type="integer", nullable=false)
-     */
-    protected $level4;
+   
 
     /**
      * Get id
@@ -235,53 +209,7 @@ class Trophy /* implements \JsonSerializable */
         return $this->position;
     }
 
-    public function setLevel1($level1)
-    {
-        $this->level1 = $level1;
-
-        return $this;
-    }
-
-    public function getLevel1()
-    {
-        return $this->level1;
-    }
-
-    public function setLevel2($level2)
-    {
-        $this->level2 = $level2;
-
-        return $this;
-    }
-
-    public function getLevel2()
-    {
-        return $this->level2;
-    }
-
-    public function setLevel3($level3)
-    {
-        $this->level3 = $level3;
-
-        return $this;
-    }
-
-    public function getLevel3()
-    {
-        return $this->level3;
-    }
-
-    public function setLevel4($level4)
-    {
-        $this->level4 = $level4;
-
-        return $this;
-    }
-
-    public function getLevel4()
-    {
-        return $this->level4;
-    }
+   
 
     /**
      * __toString method
