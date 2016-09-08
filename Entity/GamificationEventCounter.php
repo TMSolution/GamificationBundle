@@ -90,28 +90,7 @@ class GamificationEventCounter
         return $this->gamerInstance;
     }
 
-    /**
-     * Set event
-     *
-     * @param \TMSolution\GamificationBundle\Entity\GamificationEvent $event
-     * @return GamificationEventcounter
-     */
-    public function setGamificationEvent(\TMSolution\GamificationBundle\Entity\GamificationEvent $event = null)
-    {
-        $this->event = $event;
-
-        return $this;
-    }
-
-    /**
-     * Get event
-     *
-     * @return \TMSolution\GamificationBundle\Entity\GamificationEvent 
-     */
-    public function getGamificationEvent()
-    {
-        return $this->event;
-    }
+   
 
     /**
      * __toString method

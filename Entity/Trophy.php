@@ -10,7 +10,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table(name="gamification_trophy")
  * @ORM\Entity
  */
-class Trophy /* implements \JsonSerializable */
+class Trophy
 {
 
     /**
@@ -42,6 +42,13 @@ class Trophy /* implements \JsonSerializable */
      * @ORM\Column(name="description", type="string", nullable=true)
      */
     protected $description;
+    
+    /**
+     * @var string
+     * 
+     * @ORM\Column(name="prefixClass", type="string", nullable=true)
+     */
+    protected $prefixClass;
 
     /**
      * @var integer
@@ -70,7 +77,15 @@ class Trophy /* implements \JsonSerializable */
      */
     protected $trophyType;
 
-   
+    /**
+     * @ORM\OneToMany(targetEntity="TrophyConfiguration", mappedBy="trophy")
+     */
+    protected $configurations;
+
+    public function __construct()
+    {
+        $this->configurations = new \Doctrine\Common\Collections\ArrayCollection();
+    }
 
     /**
      * Get id
@@ -140,6 +155,8 @@ class Trophy /* implements \JsonSerializable */
 
         return $this;
     }
+    
+    
 
     /**
      * Get description
@@ -209,7 +226,39 @@ class Trophy /* implements \JsonSerializable */
         return $this->position;
     }
 
-   
+    /**
+     * Add configuration
+     *
+     * @param \TMSolution\GamificationBundle\Entity\TrophyConfiguration $configuration
+     *
+     * @return CallCenter
+     */
+    public function addConfiguration(\TMSolution\GamificationBundle\Entity\TrophyConfiguration $configuration)
+    {
+        $this->configurations[] = $configuration;
+
+        return $this;
+    }
+
+    /**
+     * Remove configuration
+     *
+     * @param \TMSolution\GamificationBundle\Entity\TrophyConfiguration $configuration
+     */
+    public function removeConfiguration(\TMSolution\GamificationBundle\Entity\TrophyConfiguration $configuration)
+    {
+        $this->configurations->removeElement($configuration);
+    }
+
+    /**
+     * Get configurations
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getConfigurations()
+    {
+        return $this->configurations;
+    }
 
     /**
      * __toString method
@@ -219,6 +268,31 @@ class Trophy /* implements \JsonSerializable */
     public function __toString()
     {
         return (string) $this->getName();
+    }
+    
+    /**
+     * Set prefixClass
+     *
+     * @param string $prefixClass
+     * @return Trophy
+     */
+    public function setPrefixClass($prefixClass)
+    {
+        $this->prefixClass = $prefixClass;
+
+        return $this;
+    }
+    
+    
+
+    /**
+     * Get prefixClass
+     *
+     * @return string 
+     */
+    public function getPrefixClass()
+    {
+        return $this->prefixClass;
     }
 
 }

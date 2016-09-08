@@ -60,6 +60,16 @@ class GamerTrophy
      * })
      */
     protected $trophy;
+    
+    /**
+     * @var \TMSolution\GamificationBundle\Entity\TrophyConfiguration
+     *
+     * @ORM\ManyToOne(targetEntity="TMSolution\GamificationBundle\Entity\TrophyConfiguration")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="trophy_configuration", referencedColumnName="id")
+     * })
+     */
+    protected $trophyConfiguration;
 
     /**
      * Get id
@@ -173,6 +183,29 @@ class GamerTrophy
     public function getTrophy()
     {
         return $this->trophy;
+    }
+    
+    /**
+     * Set trophyConfiguration
+     *
+     * @param integer $trophyConfiguration
+     * @return GamerTrophy
+     */
+    public function setTrophyConfiguration($trophyConfiguration)
+    {
+        $this->trophyConfiguration = $trophyConfiguration;
+
+        return $this;
+    }
+
+    /**
+     * Get trophyConfiguration
+     *
+     * @return integer 
+     */
+    public function getTrophyConfiguration()
+    {
+        return $this->trophyConfiguration;
     }
 
     /**

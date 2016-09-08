@@ -6,9 +6,8 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * TrophyType
- *
+ * @ORM\Entity(repositoryClass="TMSolution\GamificationBundle\Repository\LevelRepository")
  * @ORM\Table(name="gamification_level")
- * @ORM\Entity
  */
 class Level
 {

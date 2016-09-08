@@ -13,6 +13,7 @@ namespace TMSolution\GamificationBundle\Service;
 use Gos\Bundle\WebSocketBundle\Periodic\PeriodicInterface;
 use Gos\Bundle\WebSocketBundle\Topic\PushableTopicInterface;
 use Gos\Bundle\WebSocketBundle\Topic\TopicInterface;
+use Gos\Bundle\WebSocketBundle\Client\ClientManipulatorInterface;
 use Ratchet\ConnectionInterface;
 use Ratchet\Wamp\Topic;
 use Gos\Bundle\WebSocketBundle\Router\WampRequest;
@@ -20,11 +21,13 @@ use Gos\Bundle\WebSocketBundle\Router\WampRequest;
 class GamificationPusherService implements TopicInterface, PushableTopicInterface, PeriodicInterface
 {
 
+    protected $clientManipulator;
     protected $container;
     protected $model;
 
-    public function __construct($container)
+    public function __construct(ClientManipulatorInterface $clientManipulator, $container)
     {
+        $this->clientManipulator = $clientManipulator;
         $this->container = $container;
         $this->model = $this->container->get('model_factory');
         $this->gamerTrophyModel = $this->model->getModel('TMSolution\GamificationBundle\Entity\GamerTrophy');
@@ -52,35 +55,36 @@ class GamificationPusherService implements TopicInterface, PushableTopicInterfac
     public function onSubscribe(ConnectionInterface $connection, Topic $topic, WampRequest $request)
     {
 //           
-           echo "subscribe". PHP_EOL;
-           
+        $user = $this->clientManipulator->getClient($connection);
+        echo "subscribe" . PHP_EOL;
+        //dump($user);
 //           $logger = $this->get('logger');
 //           $logger->info('I just got the logger');
 //           $logger->error('An error occurred');
-         //$user = $this->clientManipulator->getClient($connection);
+        //$user = $this->clientManipulator->getClient($connection);
 
-       /* foreach ($topic as $client) {
-            //Do stuff ...
+        /* foreach ($topic as $client) {
+          //Do stuff ...
 
-            $client->event($topic->getId(), ['msg' => 'lol']);
-        }
+          $client->event($topic->getId(), ['msg' => 'lol']);
+          }
 
-        // dump($user);
-        //this will broadcast the message to ALL subscribers of this topic.
-        $topic->broadcast(['msg' => $connection->resourceId . " has joined " . $topic->getId()]);
+          // dump($user);
+          //this will broadcast the message to ALL subscribers of this topic.
+          $topic->broadcast(['msg' => $connection->resourceId . " has joined " . $topic->getId()]);
 
-         @var ConnectionPeriodicTimer $topicTimer 
-        $topicTimer = $connection->PeriodicTimer;
+          @var ConnectionPeriodicTimer $topicTimer
+          $topicTimer = $connection->PeriodicTimer;
 
-        //Add periodic timer
-        $topicTimer->addPeriodicTimer('hello', 2, function() use ($topic, $connection) {
-            $connection->event($topic->getId(), ['msg' => 'hello world']);
-        });
+          //Add periodic timer
+          $topicTimer->addPeriodicTimer('hello', 2, function() use ($topic, $connection) {
+          $connection->event($topic->getId(), ['msg' => 'hello world']);
+          });
 
-        //exist
-        $topicTimer->isPeriodicTimerActive('hello'); //true or false
-        //Remove periodic timer
-        $topicTimer->cancelPeriodicTimer('hello');*/
+          //exist
+          $topicTimer->isPeriodicTimerActive('hello'); //true or false
+          //Remove periodic timer
+          $topicTimer->cancelPeriodicTimer('hello'); */
     }
 
     /**
@@ -94,7 +98,7 @@ class GamificationPusherService implements TopicInterface, PushableTopicInterfac
     public function onUnSubscribe(ConnectionInterface $connection, Topic $topic, WampRequest $request)
     {
         //this will broadcast the message to ALL subscribers of this topic.
-       // $topic->broadcast(['msg' => $connection->resourceId . " has left " . $topic->getId()]);
+        // $topic->broadcast(['msg' => $connection->resourceId . " has left " . $topic->getId()]);
     }
 
     /**
@@ -110,20 +114,32 @@ class GamificationPusherService implements TopicInterface, PushableTopicInterfac
      */
     public function onPublish(ConnectionInterface $connection, Topic $topic, WampRequest $request, $event, array $exclude, array $eligible)
     {
-        
-        echo "publish". PHP_EOL;
-        
-        foreach ($topic as $client) {
-            //Do stuff ...
-            dump($client);
-            //$client->event($topic->getId(), ['msg' => 'lol']);
+
+        if (!is_array($event)) {
+            $event = json_decode($event, true);
         }
-        
-        //dump($connection);
-        //$user = $this->clientStorage->getClient($connection->WAMP->clientStorageId);
-        //$gamerInstanceId=$event['gamerInstanceId'];
-        /*$this->message = $event['msg'];*/
-        $topic->broadcast(['sss'=>'asd']);
+
+        echo "publish " . count($topic) . " " . PHP_EOL;
+
+        if (array_key_exists('gamerInstanceId', $event) && $event['gamerInstanceId']) {
+            echo $event['gamerInstanceId'] . PHP_EOL;
+            $gamerInstance = $this->getUserById($event['gamerInstanceId']);
+            // echo $gamerInstance->getUserName() . PHP_EOL;
+            $user = $this->clientManipulator->findByUsername($topic, $gamerInstance->getUserName());
+
+            $data = [
+                "name" => $event["name"],
+                "description" => $event["description"],
+                "level" => $event["level"],
+                "points" => $event["points"],
+                "currentPoints" => $event["currentPoints"],
+                "prefixClass" => $event["prefixClass"]
+            ];
+
+            //if (false !== $user) {
+            $topic->broadcast($data, array()/* , array($user['connection']->WAMP->sessionId) */);
+            //}
+        }
     }
 
     public function onPush(Topic $topic, WampRequest $request, $data, $provider)
@@ -131,13 +147,19 @@ class GamificationPusherService implements TopicInterface, PushableTopicInterfac
         // NOT WORKING ON WAMP PUSHER
     }
 
-    /**
-     * Like RPC is will use to prefix the channel
-     * @return string
-     */
     public function getName()
     {
         return 'gamification.pusher';
+    }
+
+    protected function getUserById($gamerInstanceId)
+    {
+        $userModel = $this->container->get('model_factory')->getModel('CCO\UserBundle\Entity\User');
+        $user = $userModel->findOneById($gamerInstanceId);
+        if (false !== $user) {
+            return $user;
+        }
+        return false;
     }
 
 }

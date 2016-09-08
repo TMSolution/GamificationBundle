@@ -5,17 +5,17 @@ services:
     
     gamification.pusher:
         class: TMSolution\GamificationBundle\Service\GamificationPusherService
-        arguments: [@service_container]
+        arguments: [@gos_web_socket.websocket.client_manipulator,@service_container]
         tags:
             - { name: gos_web_socket.periodic }
             - { name: gos_web_socket.topic }
     
 
 
-
+    #events
     event_listener_supervisor_jobmarketad_before_list:
         class: 'TMSolution\GamificationBundle\Model\GamerTrophy'
-        arguments: ["@service_container", "TMSolution\GamificationBundle\Entity\GamerTrophy"]
+        arguments: ["@service_container", "TMSolution\GamificationBundle\Entity\GamerTrophy", "supervisor.jobmarketad.after.list"]
         tags:
-         - { name: kernel.event_listener, event: supervisor.jobmarketad.after.list, method: addGamerTrophy }
+         - { name: kernel.event_listener, event: supervisor.jobmarketad.after.list, method: register }
 

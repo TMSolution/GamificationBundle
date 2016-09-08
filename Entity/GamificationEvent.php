@@ -36,11 +36,7 @@ class GamificationEvent
      */
     protected $date;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="TMSolution\GamificationBundle\Model\GamerInstanceInterface",inversedBy="gamificationEvents")
-     * @ORM\JoinColumn(name="gamer_instance_id", referencedColumnName="id")
-     */
-    protected $gamerInstance;
+
 
     /**
      * @var \TMSolution\GamificationBundle\Entity\GamificationEventCategory
@@ -53,17 +49,17 @@ class GamificationEvent
     protected $gamificationEventCategory;
 
     /**
-     * @ORM\ManyToMany(targetEntity="Rule", inversedBy="gamificationEvents")
-     * @ORM\JoinTable(name="rule_has_gamifiaction_event")
+     * @ORM\ManyToMany(targetEntity="Trophy", inversedBy="gamificationEvents")
+     * @ORM\JoinTable(name="trophy_has_gamifiaction_event")
      */
-    protected $rules;
+    protected $trophies;
 
     /**
      * Constructor
      */
     public function __construct()
     {
-        $this->rules = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->trophies = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     /**
@@ -124,17 +120,7 @@ class GamificationEvent
         return $this->date;
     }
 
-    public function setGamerInstance($gamerInstance = null)
-    {
-        $this->gamerInstance = $gamerInstance;
-
-        return $this;
-    }
-
-    public function getGamerInstance()
-    {
-        return $this->gamerInstance;
-    }
+    
 
     /**
      * Set gamificationEventCategory
@@ -161,37 +147,37 @@ class GamificationEvent
     }
 
     /**
-     * Add rule
+     * Add trophy
      *
-     * @param \TMSolution\GamificationBundle\Entity\Rule $rule
+     * @param \TMSolution\GamificationBundle\Entity\Trophy $trophy
      *
      * @return GamificationEvent
      */
-    public function addRule(\TMSolution\GamificationBundle\Entity\Rule $rule)
+    public function addTrophy(\TMSolution\GamificationBundle\Entity\Trophy $trophy)
     {
-        $this->rules[] = $rule;
+        $this->trophies[] = $trophy;
 
         return $this;
     }
 
     /**
-     * Remove rule
+     * Remove trophy
      *
-     * @param \TMSolution\GamificationBundle\Entity\Rule $rule
+     * @param \TMSolution\GamificationBundle\Entity\Trophy $trophy
      */
-    public function removeRule(\TMSolution\GamificationBundle\Entity\Rule $rule)
+    public function removeTrophy(\TMSolution\GamificationBundle\Entity\Trophy $trophy)
     {
-        $this->rules->removeElement($rule);
+        $this->trophies->removeElement($trophy);
     }
 
     /**
-     * Get rules
+     * Get trophies
      *
      * @return \Doctrine\Common\Collections\Collection
      */
-    public function getRules()
+    public function getTrophies()
     {
-        return $this->rules;
+        return $this->trophies;
     }
 
     /**
