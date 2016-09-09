@@ -3,8 +3,7 @@
 /**
  * Gamerinstance, business logic for the service.
  *
- * @author Damian Piela
- * @author Lukasz Sobieraj
+ * @author Jacek Łoziński
  */
 
 namespace TMSolution\GamificationBundle\Model;
@@ -68,11 +67,6 @@ class GamerTrophy extends BaseModel
         try {
             $event = $eventModel->findOneBy(['name' => $this->eventName]);
         } catch (\Exception $e) {
-//            $event = $eventModel->getEntity();
-//            $event->setGamificationEventCategory($eventCategory);
-//            $event->setName($this->eventName);
-//            $event->setDate(new \DateTime('now'));
-//            $eventModel->create($event, true);
             return false;
         }
         return $event;
