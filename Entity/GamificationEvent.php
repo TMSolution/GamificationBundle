@@ -49,7 +49,7 @@ class GamificationEvent
     protected $gamificationEventCategory;
 
     /**
-     * @ORM\ManyToMany(targetEntity="Trophy", inversedBy="gamificationEvents")
+     * @ORM\ManyToMany(targetEntity="Trophy")
      * @ORM\JoinTable(name="trophy_has_gamifiaction_event")
      */
     protected $trophies;
